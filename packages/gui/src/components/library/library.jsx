@@ -14,7 +14,8 @@ import Separator from "../tw-extension-separator/separator.jsx";
 import RemovedTrademarks from "../tw-removed-trademarks/removed-trademarks.jsx";
 import NoFaceSensing from "../amp-no-face-sensing/no-face-sensing.jsx";
 import { APP_NAME } from "@ampmod/branding";
-import Clippy from "../../containers/amp-clippy.jsx"; // ADDED THIS LINE
+import Clippy from "../../containers/amp-clippy.jsx";
+import { lsNamespace } from "../../lib/amp-localstorage-namespace.js";
 
 import styles from "./library.css";
 
@@ -109,7 +110,7 @@ class LibraryComponent extends React.Component {
         return data;
     }
     getFavoriteStorageKey() {
-        return `amp:library-favorites:${this.props.id}`;
+        return `${lsNamespace}library-favorites:${this.props.id}`;
     }
     handleFavorite(id) {
         const data = this.getFilteredData()[id];

@@ -208,7 +208,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             "process.env.ampmod_version": JSON.stringify(
                 monorepoPackageJson.version
             ),
-            "process.env.ampmod_is_canary": process.env.BUILD_MODE === "canary",
+            "process.env.ampmod_mode": JSON.stringify(process.env.BUILD_MODE),
+            "process.env.ampmod_lab_experiment_name": JSON.stringify(
+                process.env.LAB_EXPERIMENT_NAME || "default"
+            ),
+            "process.env.ampmod_lab_experiment_name_full": JSON.stringify(
+                process.env.LAB_EXPERIMENT_NAME_FULL || "AmpMod Lab"
+            ),
             "process.env.ampmod_is_cbp": IS_CBP_BUILD,
         }),
         new CopyWebpackPlugin({
@@ -301,7 +307,13 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ["editor"],
                 template: "src/playground/index.ejs",
-                filename: IS_CBP_BUILD ? "editor/index.html" : "editor.html",
+                // In lab, editor is the default page
+                filename:
+                    process.env.BUILD_MODE === "lab"
+                        ? "index.html"
+                        : IS_CBP_BUILD
+                          ? "editor/index.html"
+                          : "editor.html",
                 title: `${APP_NAME} - ${APP_SLOGAN}`,
                 isEditor: true,
                 ...htmlWebpackPluginCommon,
@@ -331,14 +343,18 @@ module.exports = [
                 title: `Embedded Project - ${APP_NAME}`,
                 ...htmlWebpackPluginCommon,
             }),
-            new HtmlWebpackPlugin({
-                chunks: ["home"],
-                template: "src/playground/simple.ejs",
-                filename: "index.html",
-                title: `${APP_NAME} - ${APP_SLOGAN}`,
-                description: APP_DESCRIPTION,
-                ...htmlWebpackPluginCommon,
-            }),
+            ...(process.env.BUILD_MODE !== "lab"
+                ? [
+                      new HtmlWebpackPlugin({
+                          chunks: ["home"],
+                          template: "src/playground/simple.ejs",
+                          filename: "index.html",
+                          title: `${APP_NAME} - ${APP_SLOGAN}`,
+                          description: APP_DESCRIPTION,
+                          ...htmlWebpackPluginCommon,
+                      }),
+                  ]
+                : []),
             new HtmlWebpackPlugin({
                 chunks: ["newcompiler"],
                 template: "src/playground/simple.ejs",

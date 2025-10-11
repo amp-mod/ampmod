@@ -38,6 +38,7 @@ import GUIComponent from "../components/gui/gui.jsx";
 import { setIsScratchDesktop } from "../lib/isScratchDesktop.js";
 import TWFullScreenResizerHOC from "../lib/tw-fullscreen-resizer-hoc.jsx";
 import TWThemeManagerHOC from "./tw-theme-manager-hoc.jsx";
+import { lsNamespace } from "../lib/amp-localstorage-namespace.js";
 
 const { RequestMetadata, setMetadata, unsetMetadata } = storage.scratchFetch;
 
@@ -58,13 +59,7 @@ class GUI extends React.Component {
         this.props.onVmInit(this.props.vm);
         setProjectIdMetadata(this.props.projectId);
         // Show welcome modal on first launch if not closed
-        if (
-            !localStorage.getItem(
-                process.env.ampmod_is_canary
-                    ? "canary:welcome-closed"
-                    : "amp:welcome-closed"
-            )
-        ) {
+        if (!localStorage.getItem(`${lsNamespace}welcome-closed`)) {
             if (
                 !this.props.welcomeModalVisible &&
                 this.props.onOpenWelcomeModal
@@ -212,12 +207,7 @@ const mapDispatchToProps = dispatch => ({
     onRequestCloseCostumeLibrary: () => dispatch(closeCostumeLibrary()),
     onRequestCloseTelemetryModal: () => dispatch(closeTelemetryModal()),
     onRequestCloseWelcomeModal: () => {
-        localStorage.setItem(
-            process.env.ampmod_is_canary
-                ? "canary:welcome-closed"
-                : "amp:welcome-closed",
-            "true"
-        );
+        localStorage.setItem(`${lsNamespace}welcome-closed`, "true");
         dispatch(closeWelcomeModal());
     },
     onOpenWelcomeModal: () =>

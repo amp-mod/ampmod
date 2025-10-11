@@ -55,7 +55,7 @@ const Footer = () => {
                             APP_VERSION: process.env.ampmod_version,
                         }}
                     />
-                    {process.env.ampmod_is_canary && (
+                    {process.env.ampmod_mode === "canary" && (
                         <>
                             <span className={styles.separator}></span>
                             <FormattedMessage
@@ -209,7 +209,7 @@ const Footer = () => {
                                 />
                             </a>
                         )}
-                        {(!process.env.ampmod_is_canary && (
+                        {(!process.env.ampmod_mode === "canary" && (
                             <a href="https://ampmod.codeberg.page/canary/">
                                 <FormattedMessage
                                     defaultMessage="Canary Build"

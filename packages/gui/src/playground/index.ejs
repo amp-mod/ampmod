@@ -229,7 +229,7 @@
         <div class="progress-bar-fake">
           <div class="progress-bar-fake-inner"></div>
         </div>
-        <% if (process.env.ampmod_is_canary) { %>
+        <% if (process.env.ampmod_mode === "canary") { %>
           <div class="splash-canary-title">This is a canary build. Please expect bugs.</div>
         <% } %>
         <div class="splash-taking-too-long" hidden>
@@ -256,7 +256,7 @@
         'use strict';
 
         var theme = '';
-        var canary = <%= process.env.ampmod_is_canary %>;
+        var canary = <%= process.env.ampmod_mode === "canary" %>;
         var accent = canary ? '#FF4C4C' : '#59C059';
 
         const showTooLongMessage = setTimeout(function () {
@@ -350,7 +350,7 @@
             if (!confirm('Your backpack and restore points will be deleted. Continue?')) {
               return;
             }
-            <% if (process.env.ampmod_is_canary) { %>
+            <% if (process.env.ampmod_mode === "canary") { %>
                   const storagePrefix = 'canary:';
                   const databasePrefix = 'Canary';
             <% } else { %>

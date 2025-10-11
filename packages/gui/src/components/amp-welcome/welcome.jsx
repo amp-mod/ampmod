@@ -58,13 +58,34 @@ const Welcome = ({ intl, isRtl, onContinue }) => {
                                         values={{ APP_NAME }}
                                     />
                                 </p>
-                                {process.env.ampmod_is_canary && (
+                                {process.env.ampmod_mode === "canary" && (
                                     <p>
                                         <FormattedMessage
                                             id="amp.welcome.canary"
                                             defaultMessage="You are using a canary build of {APP_NAME}. This build may be unstable and contain bugs. Please report any issues you encounter."
                                             description="Welcome modal canary build message"
                                             values={{ APP_NAME }}
+                                        />
+                                    </p>
+                                )}
+                                {process.env.ampmod_mode === "lab" && (
+                                    <p>
+                                        <FormattedMessage
+                                            id="amp.welcome.lab"
+                                            defaultMessage="{APP_NAME} is experimenting with new features in {APP_NAME} Lab. Projects created here may not currently be compatible with the official {APP_NAME} release. Feedback is welcome on the {forumsLink}."
+                                            description="Welcome modal lab build message"
+                                            values={{
+                                                APP_NAME,
+                                                forumsLink: (
+                                                    <a
+                                                        href="https://ampmod.flarum.cloud"
+                                                        target="_blank"
+                                                        rel="noreferrer noopener"
+                                                    >
+                                                        AmpMod Forums
+                                                    </a>
+                                                ),
+                                            }}
                                         />
                                     </p>
                                 )}

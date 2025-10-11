@@ -106,7 +106,7 @@ const fetchLibrary = async () => {
 const parseExtLocalStorage = async () => {
     const raw =
         localStorage[
-            `${process.env.ampmod_is_canary ? "canary" : "amp"}:saved-custom-extensions`
+            `${process.env.ampmod_mode === "canary" ? "canary" : "amp"}:saved-custom-extensions`
         ];
 
     if (!raw) return [];
