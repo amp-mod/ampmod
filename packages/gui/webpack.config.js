@@ -34,10 +34,12 @@ if (process.env.ENABLE_SERVICE_WORKER) {
     );
 }
 
+const IS_CBP_BUILD = Boolean(process.env.IS_CBP_BUILD);
 const htmlWebpackPluginCommon = {
     root: root,
     meta: JSON.parse(process.env.EXTRA_META || "{}"),
     APP_NAME,
+    isCbp: process.env.IS_CBP_BUILD || false,
     minify:
         process.env.NODE_ENV === "production"
             ? {
