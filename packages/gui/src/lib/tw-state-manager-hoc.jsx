@@ -87,7 +87,11 @@ class HashRouter extends Router {
 class FileHashRouter extends HashRouter {
     constructor(callbacks) {
         super(callbacks);
-        this.rootPath = `${location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1)}`;
+        this.rootPath =
+            `${location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1)}`.replace(
+                /(editor|player|fullscreen)\/?$/,
+                ""
+            );
         this.playerPath =
             process.env.ampmod_mode === "lab"
                 ? this.rootPath
