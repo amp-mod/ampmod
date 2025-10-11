@@ -92,16 +92,16 @@ class FileHashRouter extends HashRouter {
             process.env.ampmod_mode === "lab"
                 ? this.rootPath
                 : process.env.ampmod_is_cbp
-                  ? `${this.rootPath}editor`
+                  ? `${this.rootPath}editor/`
                   : `${this.rootPath}editor.html`;
         this.editorPath =
             process.env.ampmod_mode === "lab"
                 ? this.rootPath
                 : process.env.ampmod_is_cbp
-                  ? `${this.rootPath}editor`
+                  ? `${this.rootPath}editor/`
                   : `${this.rootPath}editor.html`;
         this.fullscreenPath = process.env.ampmod_is_cbp
-            ? `${this.rootPath}fullscreen`
+            ? `${this.rootPath}fullscreen/`
             : `${this.rootPath}fullscreen.html`;
     }
 
