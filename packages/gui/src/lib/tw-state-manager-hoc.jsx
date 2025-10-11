@@ -87,26 +87,19 @@ class HashRouter extends Router {
 class FileHashRouter extends HashRouter {
     constructor(callbacks) {
         super(callbacks);
-        this.rootPath =
-            `${location.pathname.substring(0, location.pathname.lastIndexOf("/") + 1)}`.replace(
-                /(editor|player|fullscreen)\/?$/,
-                ""
-            );
+        this.rootPath = location.pathname.substring(
+            0,
+            location.pathname.lastIndexOf("/") + 1
+        );
         this.playerPath =
             process.env.ampmod_mode === "lab"
                 ? this.rootPath
-                : process.env.ampmod_is_cbp
-                  ? `${this.rootPath}editor/`
-                  : `${this.rootPath}editor.html`;
+                : `${this.rootPath}editor.html`;
         this.editorPath =
             process.env.ampmod_mode === "lab"
                 ? this.rootPath
-                : process.env.ampmod_is_cbp
-                  ? `${this.rootPath}editor/`
-                  : `${this.rootPath}editor.html`;
-        this.fullscreenPath = process.env.ampmod_is_cbp
-            ? `${this.rootPath}fullscreen/`
-            : `${this.rootPath}fullscreen.html`;
+                : `${this.rootPath}editor.html`;
+        this.fullscreenPath = `${this.rootPath}fullscreen.html`;
     }
 
     onpathchange() {
