@@ -11,6 +11,8 @@ import { persistTheme } from "../../lib/themes/themePersistance.js";
 import errorIcon from "./tw-error.svg";
 import styles from "./settings-menu.css";
 
+import { lsNamespace } from "../../lib/amp-localstorage-namespace.js";
+
 const eraseData = async () => {
     if (
         confirm(
@@ -18,10 +20,8 @@ const eraseData = async () => {
             "This will irreversably reset all your local data, including the Restore Points and backpack. Are you sure you want to continue?\n\nIf a project is currently open, save it before continuing. Erasing data will reload the page."
         )
     ) {
-        const prefix =
-            process.env.ampmod_mode === "canary" ? "canary:" : "amp:";
         const keysToRemove = Object.keys(localStorage).filter(key =>
-            key.startsWith(prefix)
+            key.startsWith(lsNamespace)
         );
         keysToRemove.forEach(key => {
             localStorage.removeItem(key);
