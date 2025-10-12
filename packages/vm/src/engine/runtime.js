@@ -452,6 +452,11 @@ class Runtime extends EventEmitter {
          */
         this.platform = Object.assign({}, platform);
 
+        /**
+         * amp: A boolean indicating whether the project can step or not.
+         */
+        this.isPaused = false;
+
         this._initScratchLink();
 
         this.resetRunId();
@@ -756,6 +761,22 @@ class Runtime extends EventEmitter {
      */
     static get PROJECT_CHANGED() {
         return "PROJECT_CHANGED";
+    }
+
+    /**
+     * Event name for project being paused.
+     * @const {string}
+     */
+    static get PROJECT_PAUSE() {
+        return "PROJECT_PAUSE";
+    }
+
+    /**
+     * Event name for project being unpaused.
+     * @const {string}
+     */
+    static get PROJECT_UNPAUSE() {
+        return "PROJECT_UNPAUSE";
     }
 
     /**
@@ -2705,6 +2726,9 @@ class Runtime extends EventEmitter {
      * Stop "everything."
      */
     _stopAll() {
+        // amp: Clean up pause state.
+        this.isPaused = false;
+
         // Emit stop event to allow blocks to clean up any state.
         this.emit(Runtime.PROJECT_STOP_ALL);
 
@@ -2776,6 +2800,10 @@ class Runtime extends EventEmitter {
      * inactive threads after each iteration.
      */
     _step() {
+        if (this.isPaused) {
+            return;
+        }
+
         if (this.interpolationEnabled) {
             interpolate.setupInitialState(this);
         }
@@ -2796,6 +2824,7 @@ class Runtime extends EventEmitter {
             if (!Object.prototype.hasOwnProperty.call(this._hats, hatType))
                 continue;
             const hat = this._hats[hatType];
+            // amp: if paused, don't start hats
             if (hat.edgeActivated) {
                 this.startHats(hatType);
             }

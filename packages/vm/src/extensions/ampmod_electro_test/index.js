@@ -85,6 +85,12 @@ class ElectroTestBlocks {
                     text: ["test", "without", "inline", "inputs"],
                     inlineInputs: false,
                 },
+                {
+                    blockType: BlockType.COMMAND,
+                    isTerminal: true,
+                    opcode: "pause",
+                    text: "enable pause",
+                },
             ],
         };
     }
@@ -112,6 +118,10 @@ class ElectroTestBlocks {
 
     scbb() {
         alert("switch like a snitch");
+    }
+
+    pause() {
+        this.runtime.isPaused = true;
     }
 }
 
