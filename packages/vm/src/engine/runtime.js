@@ -2824,7 +2824,6 @@ class Runtime extends EventEmitter {
             if (!Object.prototype.hasOwnProperty.call(this._hats, hatType))
                 continue;
             const hat = this._hats[hatType];
-            // amp: if paused, don't start hats
             if (hat.edgeActivated) {
                 this.startHats(hatType);
             }
