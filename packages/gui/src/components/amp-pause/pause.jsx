@@ -10,7 +10,12 @@ const PauseComponent = function (props) {
     const { paused, className, onClick, title, ...componentProps } = props;
     return (
         <img
-            className={classNames(className, styles.greenFlag)}
+            className={classNames(
+                className,
+                styles.greenFlag,
+                // For Scratch Addons compatibility
+                "pause-btn"
+            )}
             draggable={false}
             src={paused ? playIcon : pauseIcon}
             title={title}
