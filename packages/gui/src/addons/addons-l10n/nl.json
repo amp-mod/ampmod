@@ -78,8 +78,6 @@
     "debugger/tab-performance": "Prestaties",
     "debugger/unknown-sprite": "(onbekende sprite)",
     "debugger/unpause": "Hervatten",
-    "pause/pause": "Pauzeren",
-    "pause/play": "Hervatten",
     "clones/clones": "klonen: {cloneCount}",
     "color-picker/hex": "hex-kleur",
     "delete-others/confirmTitle": "Anderen verwijderen",

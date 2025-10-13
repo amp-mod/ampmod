@@ -54,7 +54,6 @@
     "debugger/@settings-name-log_clone_create": "Логировать создания клонов",
     "debugger/@settings-name-log_failed_clone_creation": "Заносить в журнал моменты превышения лимита клонов",
     "debugger/@settings-name-log_greenflag": "Логировать нажатия на зелёный флажок",
-    "pause/@name": "Кнопка паузы",
     "mute-project/@description": "Клавиша Ctrl + Клик по зелёному флагу чтобы выключить/включить звук проекта.",
     "mute-project/@info-macOS": "В macOS используйте клавишу Cmd вместо клавиши Ctrl.",
     "mute-project/@name": "Беззвучный режим проектов",

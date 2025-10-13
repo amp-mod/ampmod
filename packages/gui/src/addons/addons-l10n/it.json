@@ -82,8 +82,6 @@
     "debugger/tab-threads": "Thread",
     "debugger/unknown-sprite": "(sprite sconosciuto)",
     "debugger/unpause": "Riprendi",
-    "pause/pause": "Pausa",
-    "pause/play": "Riprendi",
     "clones/clones": "cloni: {cloneCount}",
     "color-picker/hex": "colore esadecimale",
     "delete-others/confirmTitle": "Cancella Altre",

@@ -85,7 +85,6 @@
     "debugger/tab-performance": "Leistung",
     "debugger/unknown-sprite": "(unbekannte Figur)",
     "debugger/unpause": "Fortsetzen",
-    "pause/play": "Fortfahren",
     "clones/clones": "Klone: {cloneCount}",
     "color-picker/hex": "Hexadezimal-Farbe",
     "delete-others/confirmTitle": "Andere löschen",

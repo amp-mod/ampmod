@@ -83,7 +83,6 @@
     "debugger/thread": "Поток {id}",
     "debugger/unknown-sprite": "(неизвестный спрайт)",
     "debugger/unpause": "Продолжить",
-    "pause/pause": "Пауза",
     "clones/clones": "клонов: {cloneCount}",
     "color-picker/hex": "цвет hex",
     "delete-others/confirmTitle": "Удалить Другие",

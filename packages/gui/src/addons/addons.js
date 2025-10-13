@@ -15,7 +15,6 @@ const addons = [
     'asset-conflict-dialog',
     'drag-drop',
     'debugger',
-    'pause',
     'mute-project',
     'vol-slider',
     'clones',

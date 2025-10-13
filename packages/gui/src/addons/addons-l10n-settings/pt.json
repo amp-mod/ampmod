@@ -44,7 +44,6 @@
     "debugger/@settings-name-log_clone_create": "Registrar criações de clone",
     "debugger/@settings-name-log_failed_clone_creation": "Registrar quando o tamanho máximo de clones for atingido",
     "debugger/@settings-name-log_greenflag": "Registrar quando a bandeira verde for clicada",
-    "pause/@name": "Botão de pausa",
     "mute-project/@description": "Ctrl+Clique na bandeira verde para mutar/desmutar o projeto.",
     "mute-project/@info-macOS": "No macOS, use a tecla Cmd ao invés de Ctrl.",
     "mute-project/@name": "Modo projeto mutado",

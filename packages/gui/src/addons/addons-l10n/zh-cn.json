@@ -84,8 +84,6 @@
     "debugger/thread": "线程 {id}",
     "debugger/unknown-sprite": "（未知角色）",
     "debugger/unpause": "继续",
-    "pause/pause": "暂停",
-    "pause/play": "继续",
     "clones/clones": "克隆体数量:{cloneCount}",
     "color-picker/hex": "16进制颜色",
     "remove-sprite-confirm/confirm": "你确定要删除这个角色吗？",
