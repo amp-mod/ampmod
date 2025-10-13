@@ -767,16 +767,16 @@ class Runtime extends EventEmitter {
      * Event name for project being paused.
      * @const {string}
      */
-    static get PROJECT_PAUSE() {
-        return "PROJECT_PAUSE";
+    static get RUNTIME_PAUSED() {
+        return "RUNTIME_PAUSED";
     }
 
     /**
      * Event name for project being unpaused.
      * @const {string}
      */
-    static get PROJECT_UNPAUSE() {
-        return "PROJECT_UNPAUSE";
+    static get RUNTIME_UNPAUSED() {
+        return "RUNTIME_UNPAUSED";
     }
 
     /**
