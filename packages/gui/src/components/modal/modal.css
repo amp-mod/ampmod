@@ -102,7 +102,9 @@
     user-select: none;
 
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     overflow: hidden;
     animation: zoomFadeIn 0.3s ease-out;
 }
@@ -158,7 +160,9 @@ $sides: 20rem;
     border-bottom: 1px $menu-bar-bottom-border solid;
 
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1rem;
     font-weight: normal;
 }
@@ -192,7 +196,9 @@ $sides: 20rem;
     letter-spacing: 0.4px;
     cursor: default;
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 1.4rem;
     font-weight: bold; /* Changed to bold */
 }

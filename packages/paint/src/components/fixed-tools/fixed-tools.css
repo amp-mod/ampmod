@@ -108,7 +108,10 @@ $border-radius: 0.25rem;
     cursor: pointer;
     transition: 0.1s ease;
     align-items: center;
-    font-family: "Inter Variable", "Helvetica Neue", Helvetica, sans-serif;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .mod-disabled {

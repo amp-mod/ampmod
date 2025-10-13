@@ -3,7 +3,9 @@
 
 .tag-button {
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     display: inline-flex;
     align-items: center;
 }

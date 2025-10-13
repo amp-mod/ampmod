@@ -4,7 +4,9 @@
 .inline-message {
     color: $menu-bar-foreground;
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: flex-end;
     align-items: center;

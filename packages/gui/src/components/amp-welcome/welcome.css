@@ -36,7 +36,10 @@
     user-select: none;
     color: $text-primary;
     overflow: hidden;
-    font-family: "Inter Variable", "Helvetica Neue", Helvetica, sans-serif;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background: $ui-white;
     display: flex;
     flex-direction: row;

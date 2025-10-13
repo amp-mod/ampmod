@@ -10,7 +10,9 @@
     background-color: transparent;
     color: inherit;
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .input:focus {
     opacity: 1;
@@ -25,7 +27,9 @@
     border: 1px solid $ui-black-transparent !important;
     box-shadow: 0 0 0.5rem $shadow !important;
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     z-index: $z-index-menu-bar !important;
 }
 

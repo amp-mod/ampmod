@@ -11,9 +11,6 @@ importers:
       '@ampmod/branding':
         specifier: workspace:*
         version: link:packages/branding
-      '@fontsource-variable/inter':
-        specifier: ^5.2.8
-        version: 5.2.8
     devDependencies:
       esbuild-loader:
         specifier: ^4.4.0
@@ -178,9 +175,6 @@ importers:
       '@ampmod/branding':
         specifier: workspace:^
         version: link:../branding
-      '@fontsource/inter':
-        specifier: ^5.2.8
-        version: 5.2.8
       '@microbit/microbit-universal-hex':
         specifier: 0.2.2
         version: 0.2.2(tslib@2.8.1)
@@ -198,7 +192,7 @@ importers:
         version: 0.0.202403251715(encoding@0.1.13)(webpack@4.47.0(webpack-cli@3.3.12))
       '@turbowarp/scratch-svg-renderer':
         specifier: ^1.0.202505311824
-        version: 1.0.202505311824(scratch-render-fonts@https://codeload.github.com/TurboWarp/scratch-render-fonts/tar.gz/7b6768fc6dfef6b343a06f992587b74807043961)
+        version: 1.0.202505311824
       '@turbowarp/startaudiocontext':
         specifier: ^1.0.0
         version: 1.0.0
@@ -2005,12 +1999,6 @@ packages:
     resolution: {integrity: sha512-sB5uyeq+dwCWyPi31B2gQlVlo+j5brPlWx4yZBrEaRo/nhdDE8Xke1gsGgtiBdaBTxuTkceLVuVt/pclrasb0A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fontsource-variable/inter@5.2.8':
-    resolution: {integrity: sha512-kOfP2D+ykbcX/P3IFnokOhVRNoTozo5/JxhAIVYLpea/UBmCQ/YWPBfWIDuBImXX/15KH+eKh4xpEUyS2sQQGQ==}
-
-  '@fontsource/inter@5.2.8':
-    resolution: {integrity: sha512-P6r5WnJoKiNVV+zvW2xM13gNdFhAEpQ9dQJHt3naLvfg+LkF2ldgSLiF4T41lf1SQCM9QmkqPTn4TH568IRagg==}
-
   '@formatjs/cli@6.7.4':
     resolution: {integrity: sha512-k6uqdeZDAjDd7iKKQ8yFYizFpbi5Y9H9NkV+hoIhmxaMSGvWRnRusQJaIQ+2rI14MH6knW6fx7tnO15C+ijDiw==}
     engines: {node: '>= 16'}
@@ -2380,7 +2368,6 @@ packages:
 
   '@turbowarp/scratch-svg-renderer@1.0.202505311824':
     resolution: {integrity: sha512-EaKVqIuEwrr4SzQGOVyr8GBE+DGzUbbn38qiV6DMWFzb++/HgWl1qdlKA/j+mOK+GDwYydMFP0FuWYvWBkt6sA==}
-    version: 1.0.202505311824
     peerDependencies:
       scratch-render-fonts: github:TurboWarp/scratch-render-fonts#master
 
@@ -13066,10 +13053,6 @@ snapshots:
       '@eslint/core': 0.16.0
       levn: 0.4.1
 
-  '@fontsource-variable/inter@5.2.8': {}
-
-  '@fontsource/inter@5.2.8': {}
-
   '@formatjs/cli@6.7.4': {}
 
   '@gar/promisify@1.1.3': {}
@@ -13640,6 +13623,14 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - webpack
+
+  '@turbowarp/scratch-svg-renderer@1.0.202505311824':
+    dependencies:
+      '@turbowarp/nanolog': 0.2.0
+      base64-js: 1.2.1
+      base64-loader: 1.0.0
+      dompurify: 2.5.8
+      transformation-matrix: 1.15.0
 
   '@turbowarp/scratch-svg-renderer@1.0.202505311824(scratch-render-fonts@https://codeload.github.com/TurboWarp/scratch-render-fonts/tar.gz/7b6768fc6dfef6b343a06f992587b74807043961)':
     dependencies:
@@ -23092,7 +23083,7 @@ snapshots:
     dependencies:
       '@turbowarp/ancient-hull.js': 0.2.13
       '@turbowarp/nanolog': 0.2.0
-      '@turbowarp/scratch-svg-renderer': 1.0.202505311824(scratch-render-fonts@https://codeload.github.com/TurboWarp/scratch-render-fonts/tar.gz/7b6768fc6dfef6b343a06f992587b74807043961)
+      '@turbowarp/scratch-svg-renderer': 1.0.202505311824
       grapheme-breaker: 0.3.2
       ify-loader: 1.0.4
       linebreak: 0.3.0

@@ -11,7 +11,9 @@
     overflow: visible;
     box-shadow: 0 8px 8px 0 $shadow;
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .menu.left {
@@ -32,7 +34,9 @@
     font-weight: bold;
     position: relative;
     font-family:
-        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     transition: background-color 0.2s;
 }
 

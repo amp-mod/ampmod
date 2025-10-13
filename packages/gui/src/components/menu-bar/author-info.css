@@ -2,7 +2,10 @@
 @import "../../css/units.css";
 
 .author-info {
-    font-family: "Inter Variable", "Helvetica Neue", Helvetica, sans-serif;
+    font-family:
+        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
+        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
+        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: flex-start;
     align-items: center;

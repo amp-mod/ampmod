@@ -33,7 +33,6 @@
     },
     "dependencies": {
         "@ampmod/branding": "workspace:^",
-        "@fontsource/inter": "^5.2.8",
         "@microbit/microbit-universal-hex": "0.2.2",
         "@turbowarp/jszip": "^3.11.1",
         "@turbowarp/nanolog": "^0.2.0",
