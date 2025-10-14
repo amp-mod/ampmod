@@ -457,6 +457,9 @@ class Runtime extends EventEmitter {
          */
         this.isPaused = false;
 
+        this._pauseTasksDone = false;
+        this._unpauseTasksDone = true;
+
         this._initScratchLink();
 
         this.resetRunId();
@@ -2800,8 +2803,24 @@ class Runtime extends EventEmitter {
      * inactive threads after each iteration.
      */
     _step() {
-        if (this.isPaused) {
+        // amp: listen for pauses and prepare
+        if (this.isPaused && !this._pauseTasksDone) {
+            this.audioEngine.audioContext.suspend();
+            this._unpauseTasksDone = false;
+            this._pauseTasksDone = true;
+            this.emit(Runtime.RUNTIME_PAUSED);
             return;
+        } else if (this.isPaused) {
+            return;
+        } else if (
+            !this.isPaused &&
+            this._pauseTasksDone &&
+            !this._unpauseTasksDone
+        ) {
+            this._pauseTasksDone = false;
+            this.ioDevices.clock.resume();
+            this.emit(Runtime.RUNTIME_UNPAUSED);
+            this._unpauseTasksDone = true;
         }
 
         if (this.interpolationEnabled) {
