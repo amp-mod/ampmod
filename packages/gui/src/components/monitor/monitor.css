@@ -9,9 +9,7 @@
     border: 1px solid $ui-black-transparent-default;
     border-radius: calc($space / 2);
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 0.75rem;
     transition: box-shadow 0.2s;
     pointer-events: all;
@@ -176,9 +174,7 @@
     outline: none;
     font-size: 0.75rem;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
     /* Workaround for Firefox */
     width: 0;
     flex: 1 1 auto;

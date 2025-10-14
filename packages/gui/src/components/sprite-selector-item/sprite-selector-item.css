@@ -9,9 +9,7 @@
     position: relative;
 
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 0.8rem;
     color: $text-primary;
     border-width: 2px;
@@ -74,9 +72,7 @@
     color: $text-primary;
     user-select: none;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .sprite-name,

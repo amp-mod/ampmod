@@ -6,7 +6,7 @@ export default async function ({ addon, console, msg }) {
     style.textContent = `
     .blocklyText {
         fill: ${Blockly.Colours.text};
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu", "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
         font-size: 12pt;
         font-weight: 500;
     }

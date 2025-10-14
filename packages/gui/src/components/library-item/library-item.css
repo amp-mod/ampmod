@@ -14,9 +14,7 @@
     margin: $space;
     padding: 1rem 1rem 0 1rem;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: $text-primary;
     background: $ui-white;
     box-shadow: 0 0 0 2px $ui-black-transparent;

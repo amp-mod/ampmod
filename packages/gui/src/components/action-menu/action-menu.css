@@ -140,9 +140,7 @@ button::-moz-focus-inner {
     border: 1px solid hsla(0, 0%, 0%, 0.1) !important;
     box-shadow: 0 0 0.5rem hsla(0, 0%, 0%, 0.25) !important;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        Inter, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
 .tooltip:after {
@@ -162,9 +160,7 @@ button::-moz-focus-inner {
     border-radius: $form-radius !important;
     box-shadow: 0 0 0.5rem hsla(0, 0%, 0%, 0.25) !important;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+        Inter, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
     z-index: $z-index-tooltip !important;
 }
 

@@ -5,9 +5,7 @@
 .sprite-info {
     padding: 0.75rem;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: $ui-white;
     color: $text-primary;
     border-top-left-radius: $space;

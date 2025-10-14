@@ -7,9 +7,7 @@
     position: absolute;
     top: 0;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 [dir="ltr"] .stage-header-wrapper {
     right: 0;

@@ -10,6 +10,9 @@ const LoadScratchBlocksHOC = function (WrappedComponent) {
             super(props);
             this.state = {
                 loaded: LazyScratchBlocks.isLoaded(),
+                fontLoaded: document.fonts
+                    ? document.fonts.check('1em "Inter Variable"')
+                    : true,
                 error: null,
             };
         }
@@ -18,6 +21,19 @@ const LoadScratchBlocksHOC = function (WrappedComponent) {
             const promises = [];
             const urlParams = new URLSearchParams(window.location.search);
             const delayLazyBlocks = urlParams.has("delaylazyblocks");
+
+            // Wait for "Inter Variable" font
+            if (!this.state.fontLoaded && document.fonts) {
+                promises.push(
+                    document.fonts
+                        .load('1em "Inter Variable"')
+                        .then(() => this.setState({ fontLoaded: true }))
+                        .catch(e => {
+                            log.warn("Font load failed:", e);
+                            this.setState({ fontLoaded: true }); // fallback
+                        })
+                );
+            }
 
             // Load scratch-blocks if not yet loaded
             if (!this.state.loaded) {
@@ -43,7 +59,7 @@ const LoadScratchBlocksHOC = function (WrappedComponent) {
         }
 
         render() {
-            const { error, loaded } = this.state;
+            const { error, loaded, fontLoaded } = this.state;
 
             if (error) {
                 return (
@@ -54,7 +70,7 @@ const LoadScratchBlocksHOC = function (WrappedComponent) {
                 );
             }
 
-            if (!loaded) {
+            if (!loaded || !fontLoaded) {
                 return <LoadingSpinner />;
             }
 

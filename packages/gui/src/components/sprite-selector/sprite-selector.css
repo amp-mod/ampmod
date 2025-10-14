@@ -6,9 +6,7 @@
     flex-grow: 1;
     position: relative;
     font-family:
-        -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Ubuntu",
-        "Adwaita Sans", "Cantarell", "Fira Sans", Roboto, "Noto Sans", "Oxygen",
-        "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Inter Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-right: calc($space / 2);
     background-color: $ui-secondary;
     border-top-right-radius: $space;
