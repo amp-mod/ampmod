@@ -8,6 +8,8 @@ if (process.env.ampmod_mode === "lab") {
     // amp:theme would be catastrophic for all other lab versions and the eventual
     // canary / production build.
     lsNamespace = `lab/${process.env.ampmod_lab_experiment_name}:`;
+} else if (process.env.ampmod_mode === "edu") {
+    lsNamespace = "ampmod-education:";
 } else if (process.env.ampmod_mode === "canary") {
     // We should also separate canary from prod for similar reasons even though there
     // is only one version in the canary repository.

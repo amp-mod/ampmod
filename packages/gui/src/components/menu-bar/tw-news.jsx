@@ -49,7 +49,8 @@ class TWNews extends React.Component {
             this.state.closed ||
             isScratchDesktop() ||
             is911 ||
-            process.env.ampmod_mode === "lab"
+            process.env.ampmod_mode === "lab" ||
+            process.env.ampmod_mode === "edu"
         ) {
             return null;
         }

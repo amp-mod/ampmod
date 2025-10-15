@@ -28,6 +28,13 @@ const fetchProjectToken = async projectId => {
     if (projectId === "0") {
         return null;
     }
+    if (process.env.ampmod_mode === "edu") {
+        // eslint-disable-next-line max-len
+        alert(
+            "Fetching from scratch.mit.edu is not allowed. If you want to import a project from Scratch, please export it from the Scratch editor and import into AmpMod manually."
+        );
+        return;
+    }
     // Parse ?token=abcdef
     const searchParams = new URLSearchParams(location.search);
     if (searchParams.has("token")) {
