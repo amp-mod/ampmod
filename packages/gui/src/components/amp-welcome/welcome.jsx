@@ -97,6 +97,19 @@ const Welcome = ({ intl, isRtl, onContinue }) => {
                                         values={{ APP_NAME }}
                                     />
                                 </p>
+                                <p>
+                                    <i>
+                                        <small>
+                                            <FormattedMessage
+                                                id="amp.welcome.edu"
+                                                // eslint-disable-next-line max-len
+                                                defaultMessage="Note for school IT admins: {APP_NAME} is a Scratch modification (like Snap!/BYOB once was). We are an IDE, not a site to play Geometry Dash. An education version of {APP_NAME} will be available soon."
+                                                description="Welcome modal message for educators"
+                                                values={{ APP_NAME }}
+                                            />
+                                        </small>
+                                    </i>
+                                </p>
                             </div>
                         )}
 
