@@ -29,12 +29,11 @@ const manuallyTrustExtension = url => {
 const isTrustedExtension = url =>
     // Always trust AmpMod website.
     url.startsWith("https://ampmod.codeberg.page/") ||
-    (!process.env.ampmod_mode === "edu" &&
-        // Always trust TurboWarp's official extension repository.
-        (url.startsWith("https://extensions.turbowarp.org/") ||
-            // For development.
-            url.startsWith("http://localhost:8000/") ||
-            extensionsTrustedByUser.has(url)));
+    // Always trust TurboWarp's official extension repository.
+    url.startsWith("https://extensions.turbowarp.org/") ||
+    // For development.
+    url.startsWith("http://localhost:8000/") ||
+    extensionsTrustedByUser.has(url);
 
 /**
  * Set of fetch resource hosts that were manually trusted by the user.
@@ -53,35 +52,33 @@ const embedHostsTrustedByUser = new Set();
  * @returns {boolean} True if the URL is part of the builtin set of URLs to always trust fetching from.
  */
 const isAlwaysTrustedForFetching = parsed =>
-    // Education mode should not allow fetching.
-    !process.env.ampmod_mode === "edu" &&
     // If we would trust loading an extension from here, we can trust loading resources too.
-    (isTrustedExtension(parsed.href) ||
-        // Any TurboWarp service such as trampoline
-        parsed.origin === "https://turbowarp.org" ||
-        parsed.origin.endsWith(".turbowarp.org") ||
-        parsed.origin.endsWith(".turbowarp.xyz") ||
-        // GitHub API
-        // GitHub Pages allows redirects, so not included here.
-        parsed.origin === "https://raw.githubusercontent.com" ||
-        parsed.origin === "https://gist.githubusercontent.com" ||
-        parsed.origin === "https://api.github.com" ||
-        // GitLab API
-        // GitLab Pages allows redirects, so not included here.
-        parsed.origin === "https://gitlab.com" ||
-        // Codeberg
-        // Codeberg Pages allows redirects, so not included here.
-        parsed.origin === "https://codeberg.org" ||
-        // Sourcehut Pages
-        parsed.origin.endsWith(".srht.site") ||
-        // Itch
-        parsed.origin.endsWith(".itch.io") ||
-        // GameJolt
-        parsed.origin === "https://api.gamejolt.com" ||
-        // httpbin
-        parsed.origin === "https://httpbin.org" ||
-        // ScratchDB
-        parsed.origin === "https://scratchdb.lefty.one");
+    isTrustedExtension(parsed.href) ||
+    // Any TurboWarp service such as trampoline
+    parsed.origin === "https://turbowarp.org" ||
+    parsed.origin.endsWith(".turbowarp.org") ||
+    parsed.origin.endsWith(".turbowarp.xyz") ||
+    // GitHub API
+    // GitHub Pages allows redirects, so not included here.
+    parsed.origin === "https://raw.githubusercontent.com" ||
+    parsed.origin === "https://gist.githubusercontent.com" ||
+    parsed.origin === "https://api.github.com" ||
+    // GitLab API
+    // GitLab Pages allows redirects, so not included here.
+    parsed.origin === "https://gitlab.com" ||
+    // Codeberg
+    // Codeberg Pages allows redirects, so not included here.
+    parsed.origin === "https://codeberg.org" ||
+    // Sourcehut Pages
+    parsed.origin.endsWith(".srht.site") ||
+    // Itch
+    parsed.origin.endsWith(".itch.io") ||
+    // GameJolt
+    parsed.origin === "https://api.gamejolt.com" ||
+    // httpbin
+    parsed.origin === "https://httpbin.org" ||
+    // ScratchDB
+    parsed.origin === "https://scratchdb.lefty.one";
 
 const FETCHABLE_PROTOCOLS = [
     "http:",
@@ -253,12 +250,6 @@ class TWSecurityManagerComponent extends React.Component {
      * @returns {Promise<boolean>} Whether the extension can be loaded
      */
     async canLoadExtensionFromProject(url) {
-        if (process.env.ampmod_mode === "edu" && !isTrustedExtension(url)) {
-            alert(
-                `You are not allowed to load the extension: ${url}. This project may fail to load.`
-            );
-            return false;
-        }
         if (isTrustedExtension(url)) {
             log.info(`Loading extension ${url} automatically`);
             return true;
