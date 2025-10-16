@@ -129,6 +129,21 @@
     padding: 0.125rem 1.55rem 0;
 }
 
+/* Tab style overrides from react-tabs */
+.tab.is-selected:after {
+    display: none;
+}
+
+.tab.is-selected:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: $ui-black-transparent;
+}
+
+.tab.is-selected:focus:after {
+    display: none;
+}
+
 .tab img {
     width: 1.375rem;
     filter: grayscale(100%);
