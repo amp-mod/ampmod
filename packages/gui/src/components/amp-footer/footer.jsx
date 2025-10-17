@@ -169,20 +169,20 @@ const Footer = () => {
                                 id="tw.code"
                             />
                         </a>
-                        {(!process.env.ampmod_mode === "canary" && (
-                            <a href="https://ampmod.codeberg.page/canary/">
-                                <FormattedMessage
-                                    defaultMessage="Canary Build"
-                                    description="Link to the canary build of AmpMod"
-                                    id="amp.canary"
-                                />
-                            </a>
-                        )) || (
+                        {process.env.ampmod_mode === "canary" ? (
                             <a href="https://ampmod.codeberg.page/">
                                 <FormattedMessage
                                     defaultMessage="Stable Build"
                                     description="Link to the stable build of AmpMod"
                                     id="amp.production"
+                                />
+                            </a>
+                        ) : (
+                            <a href="https://ampmod.codeberg.page/canary/">
+                                <FormattedMessage
+                                    defaultMessage="Canary Build"
+                                    description="Link to the canary build of AmpMod"
+                                    id="amp.canary"
                                 />
                             </a>
                         )}
