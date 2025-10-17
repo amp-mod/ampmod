@@ -272,7 +272,6 @@ class ExtensionLibrary extends React.PureComponent {
                 filterable
                 persistableKey="extensionId"
                 id="extensionLibrary"
-                noFaceSensing
                 tags={extensionTags}
                 title={this.props.intl.formatMessage(messages.extensionTitle)}
                 visible={this.props.visible}
