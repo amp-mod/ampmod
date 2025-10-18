@@ -56,7 +56,7 @@ steps:
       image: node:alpine
       commands:
           - apk add --no-cache openjdk21-jre python3
-          - corepack enable
+          - npm i -g pnpm
           - pnpm i --frozen-lockfile
     - name: build-monorepo
       when:
@@ -66,7 +66,7 @@ steps:
             branch: develop
       image: node:alpine
       commands:
-          - corepack enable
+          - npm i -g pnpm
           # Don't specify CBP build mode since redirects aren't properly implemented in canary
           - NODE_ENV=production BUILD_MODE=canary ESBUILD_WORKERS=8 pnpm run ci-build
           # Only needed for custom domains
