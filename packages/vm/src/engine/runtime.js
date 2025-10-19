@@ -1344,16 +1344,33 @@ class Runtime extends EventEmitter {
                 type: menuId,
                 inputsInline: true,
                 output: "String",
-                colour: categoryInfo.color1,
-                colourSecondary: categoryInfo.color2,
-                colourTertiary: categoryInfo.color3,
-                extensions: categoryInfo.globalExtensions,
+                ...(menuInfo.acceptCustom
+                    ? {
+                          extensions: ["colours_textfield"],
+                      }
+                    : {
+                          colour: categoryInfo.color1,
+                          colourSecondary: categoryInfo.color2,
+                          colourTertiary: categoryInfo.color3,
+                          extensions: categoryInfo.globalExtensions,
+                      }),
                 outputShape: menuInfo.acceptReporters
                     ? ScratchBlocksConstants.OUTPUT_SHAPE_ROUND
                     : ScratchBlocksConstants.OUTPUT_SHAPE_SQUARE,
                 args0: [
                     {
-                        type: "field_dropdown",
+                        type: menuInfo.acceptCustom
+                            ? (() => {
+                                  switch (menuInfo.acceptCustom) {
+                                      case "number":
+                                          return "field_numberdropdown";
+                                      case "text":
+                                          return "field_textdropdown";
+                                      default:
+                                          return "field_dropdown";
+                                  }
+                              })()
+                            : "field_dropdown",
                         name: menuName,
                         options: menuItems,
                     },
