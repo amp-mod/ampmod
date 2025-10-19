@@ -101,6 +101,15 @@ class LibraryItemComponent extends React.PureComponent {
                         height={150}
                     />
                 </div>
+                {this.props.insetIconURL ? (
+                    <div className={styles.libraryItemInsetImageContainer}>
+                        <img
+                            className={styles.libraryItemInsetImage}
+                            src={this.props.insetIconURL}
+                            draggable={false}
+                        />
+                    </div>
+                ) : null}
                 <div
                     className={
                         typeof this.props.extensionId === "string"
