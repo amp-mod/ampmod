@@ -1098,8 +1098,6 @@ const makeToolboxXML = function (
         variablesXML,
         gap,
         arraysXML,
-        gap,
-        myBlocksXML,
     ];
 
     if (futureXML) {
@@ -1113,6 +1111,8 @@ const makeToolboxXML = function (
     for (const extensionCategory of categoriesXML) {
         everything.push(gap, extensionCategory.xml);
     }
+
+    everything.push(gap, myBlocksXML);
 
     everything.push(xmlClose);
     return everything.join("\n");
