@@ -107,6 +107,7 @@ export default [
         extensionId: "music",
         iconURL: musicIconURL,
         insetIconURL: musicInsetIconURL,
+        insetIconBgColor: "#cf63cf",
         description: (
             <FormattedMessage
                 defaultMessage="Play instruments and drums."
@@ -128,6 +129,7 @@ export default [
         extensionId: "videoSensing",
         iconURL: videoSensingIconURL,
         insetIconURL: videoSensingInsetIconURL,
+        insetIconBgColor: "#5cb1d6",
         description: (
             <FormattedMessage
                 defaultMessage="Sense motion with the camera."
@@ -150,6 +152,7 @@ export default [
         collaborator: "Amazon Web Services",
         iconURL: text2speechIconURL,
         insetIconURL: text2speechInsetIconURL,
+        insetIconBgColor: "#9966ff",
         description: (
             <FormattedMessage
                 defaultMessage="Make your projects talk."
@@ -173,6 +176,7 @@ export default [
         collaborator: "Google",
         iconURL: translateIconURL,
         insetIconURL: translateInsetIconURL,
+        insetIconBgColor: "#5cb1d6",
         description: (
             <FormattedMessage
                 defaultMessage="Translate text into many languages."
@@ -190,6 +194,7 @@ export default [
         collaborator: "JoyLabz",
         iconURL: makeymakeyIconURL,
         insetIconURL: makeymakeyInsetIconURL,
+        insetIconBgColor: "#ff661a",
         description: (
             <FormattedMessage
                 defaultMessage="Make anything into a key."
