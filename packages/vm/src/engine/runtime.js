@@ -1872,7 +1872,7 @@ class Runtime extends EventEmitter {
             let fieldName;
             if (argInfo.menu) {
                 const menuInfo = context.categoryInfo.menuInfo[argInfo.menu];
-                if (menuInfo.acceptReporters) {
+                if (menuInfo.acceptReporters || menuInfo.acceptText) {
                     valueName = placeholder;
                     shadowType = this._makeExtensionMenuId(
                         argInfo.menu,
