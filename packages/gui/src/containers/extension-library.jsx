@@ -241,6 +241,30 @@ class ExtensionLibrary extends React.PureComponent {
     }
     render() {
         let library = extensionLibraryContent.map(toLibraryItem);
+
+        // Insert faceSensing after videoSensing
+        const videoIndex = library.findIndex(
+            item => item.extensionId === "videoSensing"
+        );
+        const galleryFace = this.state.gallery?.find(
+            ext => ext.extensionId === "faceSensing"
+        );
+
+        if (galleryFace && videoIndex !== -1) {
+            // Remove it from gallery if it exists there
+            this.state.gallery = this.state.gallery.filter(
+                ext => ext.extensionId !== "faceSensing"
+            );
+            // Insert right after videoSensing
+            library.splice(
+                videoIndex + 1,
+                0,
+                toLibraryItem(
+                    translateGalleryItem(galleryFace, this.props.intl.locale)
+                )
+            );
+        }
+
         library.push("---");
 
         // Add saved custom extensions from state
