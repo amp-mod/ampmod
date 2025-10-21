@@ -41,8 +41,8 @@ export default async function ({ addon }) {
       "looks-transparent": accent + "26",
       "looks-light-transparent": darkenHex(accent, -0.2) + "26",
       "ui-primary": ui,
-      "ui-secondary": darkenHex(ui, 0.95),
-      "ui-tertiary": darkenHex(ui, 0.8),
+      "ui-secondary": darkenHex(ui, 0.96),
+      "ui-tertiary": darkenHex(ui, 0.87),
     };
 
     const blockColors = {
