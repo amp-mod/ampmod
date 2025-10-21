@@ -88,7 +88,7 @@ const manifest = {
       "description": "Custom theme made by 8to16 on the forums.",
       "values": {
         "base": "dark",
-        "accent": "#FFB6C1",
+        "accent": "#59c059",
         "workspace": "#241f31",
         "ui": "#3d3846",
         "menubar": "#FFB6C1"
