@@ -66,6 +66,7 @@ const manifest = {
   "tags": [
     "theme",
     "beta",
+    "ampmod",
     "new"
   ],
   "enabledByDefault": false,
