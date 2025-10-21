@@ -28,7 +28,7 @@ export default async function ({ addon }) {
     const ui = addon.settings.get("ui");
 
     // Decide base theme
-    const baseGUI = isDark(workspace) && isDark(ui) && isDark(sidebar) ? GUI_DARK : GUI_LIGHT;
+    const baseGUI = isDark(workspace) && isDark(ui) ? GUI_DARK : GUI_LIGHT;
 
     // Merge gui colors
     const guiColors = {
