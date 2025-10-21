@@ -73,7 +73,7 @@ export default async function ({ addon }) {
       "ui-primary": ui,
       "ui-secondary": darkenHex(ui, 0.96),
       "ui-tertiary": darkenHex(ui, 0.87),
-      "menu-bar": menubar,
+      "menu-bar-background": menubar,
     };
 
     const blockColors = {
