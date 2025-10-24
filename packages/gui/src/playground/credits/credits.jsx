@@ -21,15 +21,15 @@ applyGuiColors(detectTheme());
 document.documentElement.lang = "en";
 
 const User = ({ image, text, href }) => (
-    <a href={href} target="_blank" rel="noreferrer" className={styles.user}>
+    <a href={href} target="_blank" rel="noreferrer" className={myStyles.user}>
         <img
             loading="lazy"
-            className={styles.userImage}
+            className={myStyles.userImage}
             src={image}
             width="60"
             height="60"
         />
-        <div className={styles.userInfo}>{text}</div>
+        <div className={myStyles.userInfo}>{text}</div>
     </a>
 );
 User.propTypes = {
@@ -39,7 +39,7 @@ User.propTypes = {
 };
 
 const UserList = ({ users }) => (
-    <div className={styles.users}>
+    <div className={myStyles.users}>
         {users.map((data, index) => (
             <User key={index} {...data} />
         ))}
@@ -188,13 +188,6 @@ const Credits = () => (
                     Pixelify Sans is also available in the editor as the
                     "Amplification" font.
                 </p>
-                <p>
-                    The Apple Cat signature below uses the{" "}
-                    <a href="https://fonts.google.com/specimen/Caveat+Brush">
-                        Caveat Brush
-                    </a>{" "}
-                    font under the same licence.
-                </p>
             </section>
             <section>
                 <h2>Art</h2>
@@ -204,15 +197,6 @@ const Credits = () => (
                     under the CC0 license. Even though the images are public
                     domain, we would still like to attribute.
                 </p>
-            </section>
-            <section>
-                <h2>You</h2>
-                <p>
-                    Most importantly, thank you for using {APP_NAME}, or at
-                    least trying it out. You're awesome!
-                </p>
-                <img src={appleCat} width="64" height="64" />
-                <p className={myStyles.signature}>-Apple Cat</p>
             </section>
             <Footer />
         </main>
