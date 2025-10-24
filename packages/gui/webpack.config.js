@@ -408,7 +408,10 @@ module.exports = [
                 inject: "body", // if you go to skbiditoilet/index.html it will load skibiditoilet/js/not-found.js but it should load just js/not-found.js. this fixes that
                 ...htmlWebpackPluginCommon,
             }),
-            new HtmlInlineScriptPlugin([/(.*)(notfound|privacy).js(.*)/]),
+            new HtmlInlineScriptPlugin([
+                /.*notfound.*\.js$/,
+                /.*privacy.*\.js$/,
+            ]),
             new CopyWebpackPlugin({
                 patterns: [
                     {
