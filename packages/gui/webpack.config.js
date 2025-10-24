@@ -314,6 +314,7 @@ module.exports = [
                 title: `Privacy Policy - ${APP_NAME}`,
                 template: "src/playground/simple.ejs",
                 filename: "privacy.html",
+                inject: "body",
                 skipSimpleAnalytics: true,
                 ...htmlWebpackPluginCommon,
             }),
@@ -404,11 +405,10 @@ module.exports = [
                 template: "src/playground/simple.ejs",
                 filename: "404.html",
                 title: `Not Found - ${APP_NAME}`,
+                inject: "body", // if you go to skbiditoilet/index.html it will load skibiditoilet/js/not-found.js but it should load just js/not-found.js. this fixes that
                 ...htmlWebpackPluginCommon,
             }),
-            new HtmlInlineScriptPlugin([
-                /(.*)(notfound|privacy|examples|newcompiler|credits|home)\.js(.*)/,
-            ]),
+            new HtmlInlineScriptPlugin([/(.*)(notfound|privacy).js(.*)/]),
             new CopyWebpackPlugin({
                 patterns: [
                     {
