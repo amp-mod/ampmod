@@ -9,6 +9,7 @@
 
 .user-image {
     border-radius: 4px;
+    margin-bottom: 4px;
 }
 
 .user {
@@ -19,7 +20,6 @@
     padding: 16px;
     border-radius: 8px;
     font-size: 0.9rem;
-    gap: 8px;
     color: inherit !important;
     text-decoration: none;
     border: 1px solid $ui-black-transparent;
@@ -32,4 +32,9 @@
 
 .spacing {
     margin-bottom: 12px;
+}
+
+.user-role {
+    font-size: 0.7em;
+    margin-top: 2px;
 }

@@ -20,7 +20,13 @@ import appleCat from "./apple-cat-pleased.svg";
 applyGuiColors(detectTheme());
 document.documentElement.lang = "en";
 
-const User = ({ image, text, href }) => (
+const totalContributors =
+    (UserData.contributors?.length || 0) +
+    (UserData.addonDevelopers?.length || 0) +
+    (UserData.extensionDevelopers?.length || 0) +
+    (UserData.tw?.length || 0);
+
+const User = ({ image, text, href, role }) => (
     <a href={href} target="_blank" rel="noreferrer" className={myStyles.user}>
         <img
             loading="lazy"
@@ -30,6 +36,7 @@ const User = ({ image, text, href }) => (
             height="60"
         />
         <div className={myStyles.userInfo}>{text}</div>
+        {role && <div className={myStyles.userRole}>{role}</div>}
     </a>
 );
 User.propTypes = {
@@ -55,12 +62,8 @@ const Credits = () => (
         <header className={styles.headerContainer}>
             <h1 className={styles.headerText}>{APP_NAME} Credits</h1>
             <p className={styles.wrap}>
-                To start off, we would like to thank the developers of Scratch.
-                Without them, none of this would be possible, and people would
-                be learning complicated text-based programming languages. It
-                grew from a simple tool for kids at the Computer Clubhouse, to
-                the most popular block-based programming language in the world.
-                So truly, thank you.
+                There are {totalContributors} contributors to {APP_NAME} in
+                total, and this is growing!
             </p>
             <div className={styles.spacing}></div>
         </header>
@@ -69,8 +72,28 @@ const Credits = () => (
                 <p>
                     <i>
                         Individual contributors are listed in no particular
-                        order. The order is randomized each visit.
+                        order. The order is randomized each visit. Users who
+                        only made very minor contributions are not included.
                     </i>
+                </p>
+            </section>
+            <section>
+                <h2>Contributors</h2>
+                <UserList users={UserData.contributors} />
+            </section>
+            <section>
+                <h2>Addons</h2>
+                <UserList users={UserData.addonDevelopers} />
+            </section>
+            <section>
+                <h2>TurboWarp Extension Gallery</h2>
+                <UserList users={UserData.extensionDevelopers} />
+            </section>
+            <section>
+                <h2>Example Projects</h2>
+                <p>
+                    You can find information about who created an example on the
+                    page for that example.
                 </p>
             </section>
             {/* Please don't remove this. Be nice! */}
@@ -95,6 +118,7 @@ const Credits = () => (
                     </a>{" "}
                     but is not endorsed by TurboWarp in any way.
                 </p>
+                <UserList users={UserData.tw} />
             </section>
             <section>
                 <h2>Scratch</h2>
@@ -138,26 +162,6 @@ const Credits = () => (
                     </a>
                     .
                 </p>
-            </section>
-            <section>
-                <h2>Contributors</h2>
-                <UserList users={UserData.ubContributors} />
-            </section>
-            <section>
-                <h2>TurboWarp Contributors</h2>
-                <UserList users={UserData.contributors} />
-            </section>
-            <section>
-                <h2>Addons</h2>
-                <UserList users={UserData.addonDevelopers} />
-            </section>
-            <section>
-                <h2>TurboWarp Extension Gallery</h2>
-                <UserList users={UserData.extensionDevelopers} />
-            </section>
-            <section>
-                <h2>Example Projects</h2>
-                <UserList users={UserData.examples} />
             </section>
             <section>
                 <h2>Translators</h2>
