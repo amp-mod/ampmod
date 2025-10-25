@@ -26,27 +26,6 @@
 #
 
 steps:
-    - name: clone-pages
-      when:
-          - event: push
-            branch: develop
-          - event: manual
-            branch: develop
-      environment:
-          # secrets must be set in Woodpecker configuration
-          CBTOKEN:
-              from_secret: cbtoken
-      image: alpine/git
-      commands:
-          # Avoid permission denied errors
-          - chmod -R a+w .
-          # Set up git in a working way
-          - git config --global --add safe.directory /woodpecker/src/codeberg.org/ampmod/ampmod/amp-build
-          - git config --global user.email "no@thankyou.com"
-          - git config --global user.name "CI Builder"
-          # clone and move the target repo
-          - git clone -b pages https://$CBTOKEN@codeberg.org/ampmod/canary.git amp-build
-          - chmod -R a+w amp-build
     - name: install
       when:
           - event: push
@@ -55,10 +34,10 @@ steps:
             branch: develop
       image: node:alpine
       commands:
-          - apk add --no-cache openjdk21-jre python3
+          - apk add --no-cache openjdk21-jre python3 git
           - npm i -g pnpm
-          - pnpm --filter !turbowarp-desktop i --frozen-lockfile
-    - name: build-monorepo
+          - pnpm i --frozen-lockfile
+    - name: compile-desktop
       when:
           - event: push
             branch: develop
@@ -67,31 +46,26 @@ steps:
       image: node:alpine
       commands:
           - npm i -g pnpm
+          - cd packages/desktop
           # Don't specify CBP build mode since redirects aren't properly implemented in canary
-          - NODE_ENV=production BUILD_MODE=canary ESBUILD_WORKERS=8 pnpm run ci-build
+          - NODE_ENV=production BUILD_MODE=canary ESBUILD_WORKERS=8 pnpm run webpack:compile
           # Only needed for custom domains
           # - cp domains build/.domains
-    - name: push
+    - name: production
+      image: node:alpine
+      commands:
+          - npm i -g pnpm
+          - pnpm run webpack:prod
+    - name: publish
       when:
           - event: push
             branch: develop
           - event: manual
             branch: develop
-      image: alpine/git
-      environment:
-          # secrets must be set in Woodpecker configuration
-          CBTOKEN:
+      image: woodpeckerci/plugin-release
+      settings:
+          prerelease: true
+          files:
+              - "AmpMod-Desktop-*"
+          api_key:
               from_secret: cbtoken
-      commands:
-          # Set up git in a working way
-          - git config --global --add safe.directory /woodpecker/src/codeberg.org/ampmod/ampmod/amp-build
-          - git config --global user.email "no@thankyou.com"
-          - git config --global user.name "CI Builder"
-          # Navigate to the canary build directory
-          - cd ./amp-build
-          # Remove all previous files, then copy in the new build
-          - git rm -rf ./*
-          - cp -a ../packages/gui/build/. .
-          - git add --all
-          - git commit -m "Woodpecker CI Build at $( env TZ=America/Chicago date +'%Y-%m-%d %X %Z' )"
-          - git push -f -u origin pages
