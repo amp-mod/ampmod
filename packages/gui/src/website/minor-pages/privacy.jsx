@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styles from "../design.css";
 import { APP_NAME } from "@ampmod/branding";
+import { lsNamespace } from "../../lib/amp-localstorage-namespace";
 
 export default () => {
     const [analyticsOptOut, setAnalyticsOptOut] = useState(false);
 
     useEffect(() => {
         const optedOut =
-            localStorage.getItem("amp:analytics-opted-out") === "true";
+            localStorage.getItem(`${lsNamespace}analytics-opted-out`) ===
+            "true";
         setAnalyticsOptOut(optedOut);
     }, []);
 
@@ -15,11 +17,10 @@ export default () => {
         const checked = e.target.checked;
         setAnalyticsOptOut(checked);
         if (checked) {
-            localStorage.setItem("amp:analytics-opted-out", "true");
+            localStorage.setItem(`${lsNamespace}analytics-opted-out`, "true");
         } else {
-            localStorage.removeItem("amp:analytics-opted-out");
+            localStorage.removeItem(`${lsNamespace}analytics-opted-out`);
         }
-        console.log("Analytics opted out:", checked);
     };
 
     return (
