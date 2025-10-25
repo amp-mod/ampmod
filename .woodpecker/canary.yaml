@@ -26,17 +26,11 @@
 #
 
 when:
-    branch:
-        include:
-            - develop
-    event:
-        include:
-            - push
-            - manual
+    branch: [develop]
+    event: [push, manual]
     paths:
-        include:
-            - ".woodpecker/*.yaml"
-            - "packages/**"
+        - .woodpecker/*.yaml
+        - packages/**
 
 steps:
     - name: clone-pages
