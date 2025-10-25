@@ -53,6 +53,11 @@ steps:
           # - cp domains build/.domains
     - name: production
       image: node:alpine
+      when:
+          - event: push
+            branch: develop
+          - event: manual
+            branch: develop
       commands:
           - npm i -g pnpm
           - pnpm run webpack:prod
