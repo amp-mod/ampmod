@@ -35,7 +35,7 @@ when:
             - manual
     paths:
         include:
-            - ".woodpecker.yml"
+            - ".woodpecker/*.yaml"
             - "packages/**"
 
 steps:
