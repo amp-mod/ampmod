@@ -117,7 +117,7 @@ const GuiThemeMenu = ({ isOpen, isRtl, onChangeTheme, onOpen, theme }) => {
                 GUI_LIGHT,
                 GUI_DARK,
                 GUI_AMOLED,
-                GUI_HIGH_CONTRAST,
+                // GUI_HIGH_CONTRAST,
             ].map(id => (
                 <GuiThemeItem
                     key={id}
