@@ -283,21 +283,21 @@ module.exports = [
     // to run editor examples
     defaultsDeep({}, base, {
         entry: {
-            info: [
-                "./src/playground/components/header/header.jsx",
-                "./src/playground/components/footer/footer.jsx",
-                "./src/playground/info.css",
+            website: [
+                "./src/website/components/header/header.jsx",
+                "./src/website/components/footer/footer.jsx",
+                "./src/website/design.css",
             ],
             editor: "./src/playground/editor.jsx",
             fullscreen: "./src/playground/fullscreen.jsx",
             embed: "./src/playground/embed.jsx",
             "addon-settings": "./src/playground/addon-settings.jsx",
-            credits: "./src/playground/credits/credits.jsx",
-            home: "./src/playground/home/home.jsx",
-            notfound: "./src/playground/not-found.js",
-            newcompiler: "./src/playground/new-compiler/new-compiler.jsx",
-            examples: "./src/playground/examples/examples.jsx",
-            privacy: "./src/playground/privacy.jsx",
+            credits: "./src/website/credits/credits.jsx",
+            home: "./src/website/home/home.jsx",
+            notfound: "./src/website/not-found.js",
+            newcompiler: "./src/website/new-compiler/new-compiler.jsx",
+            examples: "./src/website/examples/examples.jsx",
+            privacy: "./src/website/privacy.jsx",
         },
         output: {
             path: path.resolve(__dirname, "build"),
