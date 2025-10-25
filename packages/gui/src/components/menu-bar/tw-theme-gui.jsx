@@ -44,7 +44,7 @@ const options = defineMessages({
         id: "amp.gui.dark",
     },
     [GUI_AMOLED]: {
-        defaultMessage: "AMOLED (Beta)",
+        defaultMessage: "AMOLED",
         description: "AMOLED theme option",
         id: "amp.gui.amoled",
     },
