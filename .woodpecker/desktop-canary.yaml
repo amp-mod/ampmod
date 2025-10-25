@@ -60,6 +60,7 @@ steps:
             branch: develop
       commands:
           - npm i -g pnpm
+          - cd packages/desktop
           - pnpm run webpack:prod
     - name: publish
       when:
