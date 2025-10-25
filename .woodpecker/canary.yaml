@@ -55,7 +55,7 @@ steps:
             branch: develop
       image: node:alpine
       commands:
-          - apk add --no-cache openjdk21-jre python3
+          - apk add --no-cache openjdk21-jre python3 git
           - npm i -g pnpm
           - pnpm i --frozen-lockfile
     - name: build-monorepo
