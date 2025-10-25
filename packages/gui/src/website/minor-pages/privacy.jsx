@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from "react";
-import render from "../playground/app-target.js";
-import styles from "./design.css";
-
+import styles from "../design.css";
 import { APP_NAME } from "@ampmod/branding";
-import { applyGuiColors } from "../lib/themes/guiHelpers.js";
-import { detectTheme } from "../lib/themes/themePersistance.js";
 
-import Header from "./components/header/header.jsx";
-import Footer from "./components/footer/footer.jsx";
-
-applyGuiColors(detectTheme());
-document.documentElement.lang = "en";
-
-const Privacy = () => {
+export default () => {
     const [analyticsOptOut, setAnalyticsOptOut] = useState(false);
 
     useEffect(() => {
@@ -34,7 +24,6 @@ const Privacy = () => {
 
     return (
         <>
-            <Header />
             <header className={styles.headerContainer}>
                 <h1>{APP_NAME} Privacy Policy</h1>
             </header>
@@ -168,9 +157,6 @@ const Privacy = () => {
                     </p>
                 </section>
             </main>
-            <Footer />
         </>
     );
 };
-
-render(<Privacy />);

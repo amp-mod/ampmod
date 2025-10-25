@@ -35,6 +35,11 @@
         <% } else { %>  
           <meta name="robots" content="noindex, nofollow">
         <% } %>
+        <% if (htmlWebpackPlugin.options.page) { %>
+        <script>
+          window.__PAGE__ = "<%= htmlWebpackPlugin.options.page %>";
+        </script>
+        <% } %>
         <style>
             body[data-splash-theme="dark"] {
                 background: #111;
