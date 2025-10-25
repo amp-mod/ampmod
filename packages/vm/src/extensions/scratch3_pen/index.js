@@ -372,6 +372,18 @@ class Scratch3PenBlocks {
                     }),
                     filter: [TargetType.SPRITE],
                 },
+                {
+                    opcode: "isPenDown",
+                    blockType: BlockType.BOOLEAN,
+                    text: formatMessage({
+                        id: "pen.isPenDown",
+                        default: "pen down?",
+                        description:
+                            "is the sprite leaving a trail when it moves?",
+                    }),
+                    disableMonitor: true,
+                    filter: [TargetType.SPRITE],
+                },
                 "---",
                 {
                     opcode: "setPenColorToColor",
@@ -629,6 +641,10 @@ class Scratch3PenBlocks {
             );
             this.runtime.requestRedraw();
         }
+    }
+
+    isPenDown(args, util) {
+        return this._getPenState(util.target).penDown;
     }
 
     /**
