@@ -25,13 +25,21 @@
 # .domains in the target repo so codeberg pages works for custom domains
 #
 
+when:
+    branch:
+        include:
+            - develop
+    event:
+        include:
+            - push
+            - manual
+    paths:
+        include:
+            - ".woodpecker.yml"
+            - "packages/**"
+
 steps:
     - name: clone-pages
-      when:
-          - event: push
-            branch: develop
-          - event: manual
-            branch: develop
       environment:
           # secrets must be set in Woodpecker configuration
           CBTOKEN:
@@ -48,22 +56,12 @@ steps:
           - git clone -b pages https://$CBTOKEN@codeberg.org/ampmod/canary.git amp-build
           - chmod -R a+w amp-build
     - name: install
-      when:
-          - event: push
-            branch: develop
-          - event: manual
-            branch: develop
       image: node:alpine
       commands:
           - apk add --no-cache openjdk21-jre python3
           - npm i -g pnpm
           - pnpm --filter !turbowarp-desktop i --frozen-lockfile
     - name: build-monorepo
-      when:
-          - event: push
-            branch: develop
-          - event: manual
-            branch: develop
       image: node:alpine
       commands:
           - npm i -g pnpm
@@ -72,11 +70,6 @@ steps:
           # Only needed for custom domains
           # - cp domains build/.domains
     - name: push
-      when:
-          - event: push
-            branch: develop
-          - event: manual
-            branch: develop
       image: alpine/git
       environment:
           # secrets must be set in Woodpecker configuration
