@@ -26,7 +26,7 @@
     <% 
       [
         require('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2'),
-        // ... (other font requires)
+        require('@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2'),
       ].map(font => { %>
         <link 
           rel="preload"
@@ -184,7 +184,6 @@
       (function () {
         'use strict';
         
-        // --- Setup Variables & Translations ---
         const translations = <%= JSON.stringify(require("./splash-translations").default) %>;
         const lsNamespace = "<%= require('../lib/amp-localstorage-namespace.js').lsNamespace %>";
         
@@ -217,7 +216,6 @@
           el.innerHTML = interpolate(t[el.getAttribute('data-amp-translation')]);
         });
 
-        // --- Themeing Logic ---
         const splash = document.querySelector('.spash-waiting-for-js');
         const canary = <%= process.env.ampmod_mode === "canary" %>;
         let accent = canary ? '#FF4C4C' : '#59C059';
@@ -245,19 +243,16 @@
         splash.style.color = theme === 'light' ? 'black' : 'white';
         splash.hidden = false;
 
-        // --- DOM Elements for interaction ---
         const splashMain = document.querySelector('.splash-main');
         const splashErrorScreen = document.querySelector('.splash-error-screen');
         const splashErrors = document.querySelector('.splash-errors');
         const splashCustomInfo = document.querySelector('.splash-custom-info');
         
-        // --- Timeout for "Taking too long" message ---
         const showTooLongMessage = setTimeout(() => {
           if (!splashErrorScreen.hidden) return;
           document.querySelector('.splash-taking-too-long').hidden = false;
         }, 20000);
 
-        // --- Error Handling ---
         let totalErrors = 0;
         window.onerror = (event, source, line, col, err) => {
           if (++totalErrors > 5) return;
@@ -275,7 +270,6 @@
           splashErrors.appendChild(errorEl);
         };
 
-        // --- Button Handlers ---
         document.querySelector('.splash-reset').onclick = function () {
           this.disabled = true;
           function hardRefresh() {
@@ -319,11 +313,10 @@
           setTimeout(() => { button.textContent = t.errorCopy; }, 2000);
         };
 
-        // --- External APIs ---
         window.SplashEnd = () => {
           clearTimeout(showTooLongMessage);
           window.onerror = null;
-          splash.remove(); /* Simpler way to remove element */
+          splash.remove();
         };
 
         window.SetCustomSplashInfo = (text) => {
