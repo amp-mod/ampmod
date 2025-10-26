@@ -229,7 +229,7 @@ export default [
                 id="gui.extension.microbit.description"
             />
         ),
-        tags: ["scratch", "hardware", "new"],
+        tags: ["scratch", "hardware"],
         featured: true,
         disabled: false,
         bluetoothRequired: true,
