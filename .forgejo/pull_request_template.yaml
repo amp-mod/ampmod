@@ -1,3 +1,4 @@
+name: "PR Template"
 body:
     - type: textarea
       id: resolves
