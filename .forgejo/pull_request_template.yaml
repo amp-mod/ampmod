@@ -7,9 +7,6 @@ body:
           label: Resolves
           description: "What issue on the issue tracker does this resolve? Please provide a link."
           placeholder: "Resolves #..."
-          value: "Resolves #..."
-      validations:
-          required: true
     - type: textarea
       id: description
       attributes:
