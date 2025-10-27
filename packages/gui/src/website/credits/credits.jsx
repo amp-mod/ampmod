@@ -159,7 +159,10 @@ const Credits = () => (
                 </p>
                 <details>
                     <summary>
-                        <Localise id="credits.otherModsSummary" />
+                        <Localise
+                            id="credits.otherModsSummary"
+                            values={{ APP_NAME }}
+                        />
                     </summary>
                     <ul>
                         <li>
@@ -175,7 +178,14 @@ const Credits = () => (
                 <p>
                     <Localise
                         id="credits.faviconDescription"
-                        values={{ APP_NAME }}
+                        values={{
+                            APP_NAME,
+                            forumoji: (
+                                <a href="https://gh.vercte.net/forumoji">
+                                    Forumoji
+                                </a>
+                            ),
+                        }}
                     />
                 </p>
             </section>
@@ -188,20 +198,6 @@ const Credits = () => (
                         id="credits.translatorsDescription"
                         values={{ APP_NAME }}
                     />
-                </p>
-            </section>
-            <section>
-                <h2>
-                    <Localise id="credits.fonts" />
-                </h2>
-                <p>
-                    <Localise
-                        id="credits.fontsDescription"
-                        values={{ APP_NAME }}
-                    />
-                </p>
-                <p>
-                    <Localise id="credits.fontsEditorNote" />
                 </p>
             </section>
             <section>

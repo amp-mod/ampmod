@@ -252,7 +252,7 @@
         "context": "Description about other mods contributions and non-endorsement."
     },
     "credits.otherModsSummary": {
-        "text": "Modifications AmpMod is based on",
+        "text": "Modifications {APP_NAME} is based on",
         "context": "Summary text inside details listing other mods."
     },
     "credits.favicon": {
@@ -260,7 +260,7 @@
         "context": "Heading for favicon credits."
     },
     "credits.faviconDescription": {
-        "text": "The AmpMod favicon is based off an emoji from the Forumoji project by lolecksdeehaha.",
+        "text": "The {APP_NAME} favicon is based off an emoji from the {forumoji} project by lolecksdeehaha.",
         "context": "Description of favicon source and creator."
     },
     "credits.translators": {
@@ -268,20 +268,8 @@
         "context": "Heading for translators section."
     },
     "credits.translatorsDescription": {
-        "text": "Unfortunately, AmpMod's only three developers only speak English. We are working on a way for you to translate AmpMod. While we set it up, you can register an account on Codeberg Weblate and stay tuned.",
-        "context": "Information about translation possibilities and limitations."
-    },
-    "credits.fonts": {
-        "text": "Fonts",
-        "context": "Heading for fonts section."
-    },
-    "credits.fontsDescription": {
-        "text": "The AmpMod logo uses the Pixelify Sans font. It is licenced under the SIL Open Font License.",
-        "context": "Description of logo font and license."
-    },
-    "credits.fontsEditorNote": {
-        "text": "Pixelify Sans is also available in the editor as the 'Amplification' font.",
-        "context": "Additional note about editor font availability."
+        "text": "Our community has helped translate {APP_NAME} into many languages. More information will be available soon.",
+        "context": "Information about translators."
     },
     "credits.art": { "text": "Art", "context": "Heading for art section." },
     "credits.artDescription": {
