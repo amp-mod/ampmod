@@ -13,10 +13,6 @@ const translations = {};
 translationContext.keys().forEach(key => {
     const locale = key.replace(/^\.\/(.*)\.json$/, "$1");
     translations[locale] = translationContext(key);
-    if (key == "es-419") {
-        // We reuse our European Spanish translations for American Spanish instead of separating them.
-        return translationContext("es");
-    }
 });
 
 const supportedLocales = Object.keys(translations);
@@ -53,7 +49,14 @@ const interpolate = (text, values) => {
 };
 
 const getTranslation = (id, values = {}) => {
-    const locale = detectLocale(supportedLocales);
+    // We reuse our European Spanish translations for American Spanish instead of separating them.
+    const locale = () => {
+        const detectLocaleResult = detectLocale(supportedLocales);
+        if (detectLocaleResult === "es-419") {
+            return "es";
+        }
+        return detectLocaleResult;
+    };
     const localeTranslations = translations[locale] || translations.en;
     let translationObject = localeTranslations[id];
     if (!translationObject) {
