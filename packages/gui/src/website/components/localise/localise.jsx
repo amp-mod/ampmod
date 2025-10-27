@@ -1,5 +1,6 @@
 import React from "react";
 import { detectLocale } from "../../../lib/detect-locale";
+import editorLocales from "@turbowarp/scratch-l10n";
 
 // Load all translation JSON files dynamically from the site-translations directory.
 const translationContext = require.context(
@@ -15,6 +16,9 @@ translationContext.keys().forEach(key => {
 });
 
 const supportedLocales = Object.keys(translations);
+
+// for detecting RTL
+const rtlLanguages = ["ar", "he", "fa", "ur"];
 
 // Utility to handle strings/components interpolation
 const interpolate = (text, values) => {
@@ -70,7 +74,18 @@ export const localise = (id, values = {}) => {
 };
 
 export const setHtmlLang = () => {
-    document.documentElement.lang = detectLocale(supportedLocales);
+    // Detect the locale using your existing detectLocale function
+    const locale = detectLocale(Object.keys(editorLocales)) || "en";
+
+    // Set the <html> lang
+    document.documentElement.lang = locale;
+
+    // Enable RTL if the language is in rtlLanguages
+    // Only check the first part before dash (ar-EG -> ar)
+    const langPrefix = locale.split("-")[0];
+    document.documentElement.dir = rtlLanguages.includes(langPrefix)
+        ? "rtl"
+        : "ltr";
 };
 
 export default Localise;
