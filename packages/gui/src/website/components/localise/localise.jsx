@@ -1,6 +1,7 @@
 import React from "react";
 import { detectLocale } from "../../../lib/detect-locale";
 
+// Load all translation JSON files dynamically from the site-translations directory.
 const translationContext = require.context(
     "../../site-translations",
     false,
@@ -38,35 +39,38 @@ const interpolate = (text, values) => {
     return parts;
 };
 
-export const Localise = ({ id, values = {} }) => {
+const getTranslation = (id, values = {}) => {
     const locale = detectLocale(supportedLocales);
     const localeTranslations = translations[locale] || translations.en;
-    const text = localeTranslations[id] || id;
+    let translationObject = localeTranslations[id];
+    if (!translationObject) {
+        translationObject = translations.en[id];
+    }
+    const text = translationObject?.text || id;
+    return interpolate(text, values);
+};
 
-    return <>{interpolate(text, values)}</>;
+export const Localise = ({ id, values = {} }) => {
+    const parts = getTranslation(id, values);
+    return <>{parts}</>;
 };
 
 export const localise = (id, values = {}) => {
-    const locale = detectLocale(Object.keys(translations));
-    const localeTranslations = translations[locale] || translations.en;
-    const text = localeTranslations[id] || id;
+    const parts = getTranslation(id, values);
 
     // For the helper, we can optionally allow raw HTML
     // Warning: this can be unsafe if values come from untrusted sources
-    const parts = interpolate(text, values);
     return parts
-        .map((part, i) =>
-            typeof part === "string"
+        .map(part =>
+            typeof part === "string" || React.isValidElement(part)
                 ? part
-                : React.isValidElement(part)
-                  ? part
-                  : String(part)
+                : String(part)
         )
         .join("");
 };
 
 export const setHtmlLang = () => {
-    document.documentElement.lang = detectLocale(Object.keys(translations));
+    document.documentElement.lang = detectLocale(supportedLocales);
 };
 
 export default Localise;

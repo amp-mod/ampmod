@@ -1,44 +1,158 @@
 {
-    "appSlogan": "Block-based programming, amplified",
-    "whatIsAppName": "What is {APP_NAME}?",
-    "appShortDescription": "{APP_NAME} is a powerful block-based programming language built on Scratch 3.0 and TurboWarp.",
-    "appDescription": "{APP_NAME} is a powerful block-based programming language, built on Scratch 3.0 and TurboWarp. It can be used for many things, from simple throwaway spaghetti scripts to large-scale calculations.",
-    "notJustScratch": "It's not just Scratch, it's {APP_NAME}!",
-    "appConvenience": "{APP_NAME} is designed to be a convenient package of features to make complex projects easily. From clicker games to scientific experiments, we have it all.",
-    "needHelp": "Need help?",
-    "visitForums": "Visit the forums",
-    "visitWiki": "Visit the wiki",
-    "features": "Features",
-    "forProgrammers": "For programmers",
-    "jsCompile": "{APP_NAME} compiles projects to JavaScript to make them run faster than in vanilla Scratch.",
-    "arraysFeature": "With arrays, you can create complex list structures and store them as variables.",
-    "extensionsFeature": "{APP_NAME} adds over 100 new unsandboxed extensions to Scratch, opening access to various browser features.",
-    "forArtists": "For artists and animators",
-    "newFonts": "{APP_NAME} features new fonts like Comic and Amplification to use in your costumes and backdrops.",
-    "roundedRectangle": "Creating a rounded rectangle has never been easier with the Rounded Rectangle tool.",
-    "customFonts": "Custom fonts can be loaded from system font name or a font file.",
-
-    "footer.heading.about": "About",
-    "footer.heading.community": "Community",
-    "footer.heading.resources": "Resources",
-    "footer.heading.legal": "Legal",
-
-    "amp.footer.copyright": "© {year} {APP_NAME} developers. {APP_NAME} is {freeSoftware}.",
-    "amp.footer.copyright.freeSoftware": "free and open-source software",
-    "amp.footer.disclaimer": "{APP_NAME} is not affiliated with {scratchLink} or {twLink}. Support Scratch by {supportScratch}.",
-    "amp.footer.disclaimer.supportScratch": "donating to the Scratch Foundation",
-
-    "tw.footer.faq": "AmpMod FAQ",
-    "tw.footer.blog": "AmpMod Blog",
-    "amp.onScratch": "{APP_NAME} on Scratch",
-    "tw.topicButton": "{APP_NAME} Forums",
-    "tw.footer.wiki": "AmpMod Wiki",
-    "tw.footer.credits": "Credits",
-    "tw.footer.extensions": "Extension Gallery",
-    "tw.footer.manual": "Manual",
-    "tw.code": "Source Code",
-    "amp.production": "Stable Build",
-    "amp.canary": "Canary Build",
-    "tw.footer.parameters": "URL Parameters",
-    "tw.privacy": "Privacy Policy"
+    "appSlogan": {
+        "text": "Block-based programming, amplified",
+        "context": "A slogan explaining the app informally in a few words."
+    },
+    "whatIsAppName": {
+        "text": "What is {APP_NAME}?",
+        "context": "Title for the section introducing the app, asking 'What is {APP_NAME}?'. {APP_NAME} is replaced with the app's name, e.g., 'AmpMod'."
+    },
+    "appShortDescription": {
+        "text": "{APP_NAME} is a powerful block-based programming language built on Scratch 3.0 and TurboWarp.",
+        "context": "Shorter version of appDescription. {APP_NAME} is replaced with the app's name."
+    },
+    "appDescription": {
+        "text": "{APP_NAME} is a powerful block-based programming language, built on Scratch 3.0 and TurboWarp. It can be used for many things, from simple throwaway spaghetti scripts to large-scale calculations.",
+        "context": "Paragraph describing what the app is and its capabilities, including that it's block-based and built on Scratch/TurboWarp. {APP_NAME} is replaced with the app's name."
+    },
+    "notJustScratch": {
+        "text": "It's not just Scratch, it's {APP_NAME}!",
+        "context": "Title emphasizing that the app is more than just Scratch, using {APP_NAME} dynamically. {APP_NAME} is replaced with the app's name."
+    },
+    "appConvenience": {
+        "text": "{APP_NAME} is designed to be a convenient package of features to make complex projects easily. From clicker games to scientific experiments, we have it all.",
+        "context": "Paragraph explaining the convenience features of the app and its usability for various project types. {APP_NAME} is replaced with the app's name."
+    },
+    "needHelp": {
+        "text": "Need help?",
+        "context": "Heading for the support/help section."
+    },
+    "visitForums": {
+        "text": "Visit the forums",
+        "context": "Button or link text pointing to the app's community forums."
+    },
+    "visitWiki": {
+        "text": "Visit the wiki",
+        "context": "Button or link text pointing to the app's wiki/documentation."
+    },
+    "features": {
+        "text": "Features",
+        "context": "Heading for the features section."
+    },
+    "forProgrammers": {
+        "text": "For programmers",
+        "context": "Subheading describing features targeted at programmers."
+    },
+    "jsCompile": {
+        "text": "{APP_NAME} compiles projects to JavaScript to make them run faster than in vanilla Scratch.",
+        "context": "Feature description explaining that {APP_NAME} compiles projects to JavaScript for better performance. {APP_NAME} is replaced with the app's name."
+    },
+    "arraysFeature": {
+        "text": "With arrays, you can create complex list structures and store them as variables.",
+        "context": "Feature description about creating and managing arrays/complex lists."
+    },
+    "extensionsFeature": {
+        "text": "{APP_NAME} adds over 100 new unsandboxed extensions to Scratch, opening access to various browser features.",
+        "context": "Feature description about the additional unsandboxed extensions provided by {APP_NAME}. {APP_NAME} is replaced with the app's name."
+    },
+    "forArtists": {
+        "text": "For artists and animators",
+        "context": "Subheading describing features targeted at artists and animators."
+    },
+    "newFonts": {
+        "text": "{APP_NAME} features new fonts like Comic and Amplification to use in your costumes and backdrops.",
+        "context": "Feature description about new fonts available in {APP_NAME} for costumes and backdrops. {APP_NAME} is replaced with the app's name."
+    },
+    "roundedRectangle": {
+        "text": "Creating a rounded rectangle has never been easier with the Rounded Rectangle tool.",
+        "context": "Feature description for the rounded rectangle tool."
+    },
+    "customFonts": {
+        "text": "Custom fonts can be loaded from system font name or a font file.",
+        "context": "Feature description explaining that custom fonts can be loaded from system fonts or font files."
+    },
+    "footer.heading.about": {
+        "text": "About",
+        "context": "Heading for the 'About' section in the footer."
+    },
+    "footer.heading.community": {
+        "text": "Community",
+        "context": "Heading for the 'Community' section in the footer."
+    },
+    "footer.heading.resources": {
+        "text": "Resources",
+        "context": "Heading for the 'Resources' section in the footer."
+    },
+    "footer.heading.legal": {
+        "text": "Legal",
+        "context": "Heading for the 'Legal' section in the footer."
+    },
+    "amp.footer.copyright": {
+        "text": "© {year} {APP_NAME} developers. {APP_NAME} is {freeSoftware}.",
+        "context": "Copyright notice including year and app name. {year} and {APP_NAME} are replaced dynamically. {freeSoftware} becomes a link to the open-source licence."
+    },
+    "amp.footer.copyright.freeSoftware": {
+        "text": "free and open-source software",
+        "context": "Part of the amp.footer.copyright phrase describing that the software is free and open-source."
+    },
+    "amp.footer.disclaimer": {
+        "text": "{APP_NAME} is not affiliated with {scratchLink} or {twLink}. Support Scratch by {supportScratch}.",
+        "context": "Disclaimer stating {APP_NAME} is not affiliated with Scratch or TurboWarp. Links and support actions are replaced dynamically."
+    },
+    "amp.footer.disclaimer.supportScratch": {
+        "text": "donating to the Scratch Foundation",
+        "context": "Text that links to a Scratch Foundation donation page."
+    },
+    "tw.footer.faq": {
+        "text": "AmpMod FAQ",
+        "context": "Label for the FAQ page link in the footer."
+    },
+    "tw.footer.blog": {
+        "text": "AmpMod Blog",
+        "context": "Label for the blog link in the footer."
+    },
+    "amp.onScratch": {
+        "text": "{APP_NAME} on Scratch",
+        "context": "Label for a link to {APP_NAME}'s forum topic on Scratch."
+    },
+    "tw.topicButton": {
+        "text": "{APP_NAME} Forums",
+        "context": "Label for the forums button linking to {APP_NAME} discussion forums."
+    },
+    "tw.footer.wiki": {
+        "text": "AmpMod Wiki",
+        "context": "Label for the wiki link in the footer."
+    },
+    "tw.footer.credits": {
+        "text": "Credits",
+        "context": "Label for the credits page link in the footer."
+    },
+    "tw.footer.extensions": {
+        "text": "Extension Gallery",
+        "context": "Label for the extension gallery page link in the footer."
+    },
+    "tw.footer.manual": {
+        "text": "Manual",
+        "context": "Label for the manual/documentation link in the footer."
+    },
+    "tw.code": {
+        "text": "Source Code",
+        "context": "Label for the source code link."
+    },
+    "amp.production": {
+        "text": "Stable Build",
+        "context": "Label for the stable build version of the app."
+    },
+    "amp.canary": {
+        "text": "Canary Build",
+        "context": "Label for the canary (experimental) build version of the app."
+    },
+    "tw.footer.parameters": {
+        "text": "URL Parameters",
+        "context": "Label for the URL parameters documentation link in the footer."
+    },
+    "tw.privacy": {
+        "text": "Privacy Policy",
+        "context": "Label for the privacy policy page link."
+    }
 }
