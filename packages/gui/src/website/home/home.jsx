@@ -1,6 +1,9 @@
 import "../import-first.js";
 import React from "react";
 import render from "../../playground/app-target.js";
+
+// This page diverges significantly from other pages and thus uses its own independent styles altogether.
+// design.css is only used for the hero in a separate component.
 import styles from "./home.css";
 
 import { APP_FORUMS, APP_NAME, APP_WIKI, APP_SLOGAN } from "@ampmod/branding";
@@ -10,6 +13,8 @@ import Header from "../components/header/header.jsx";
 import Footer from "../components/footer/footer.jsx";
 import Clippy from "../../containers/amp-clippy.jsx";
 import { Hero } from "../components/hero/hero.jsx";
+
+/* eslint-disable react/jsx-no-literals */
 import Localise, { setHtmlLang } from "../components/localise/localise.jsx";
 
 applyGuiColors(detectTheme());
