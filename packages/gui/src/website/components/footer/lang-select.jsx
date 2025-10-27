@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { lsNamespace } from "../../../lib/amp-localstorage-namespace";
-import originalLocales from "@turbowarp/scratch-l10n";
+import locales from "@turbowarp/scratch-l10n";
 
 const LANGUAGE_KEY = `${lsNamespace}language`;
-
-// Filter out "descriptions" if it exists
-const locales = Object.fromEntries(
-    Object.entries(originalLocales).filter(([key]) => key !== "descriptions")
-);
 
 // Browser API for readable language names
 let languageNames;

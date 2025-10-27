@@ -22,9 +22,14 @@ const rtlLanguages = ["ar", "he", "fa", "ur"];
 
 // Utility to handle strings/components interpolation
 const interpolate = (text, values) => {
-    // Split the text by all placeholders
     const parts = [text];
     Object.keys(values).forEach(key => {
+        const rawVal = values[key];
+        const val = React.isValidElement(rawVal)
+            ? rawVal
+            : typeof rawVal === "function"
+              ? React.createElement(rawVal)
+              : rawVal;
         const regex = new RegExp(`{${key}}`, "g");
         let newParts = [];
         parts.forEach(part => {
@@ -32,7 +37,7 @@ const interpolate = (text, values) => {
                 const split = part.split(regex);
                 split.forEach((chunk, i) => {
                     newParts.push(chunk);
-                    if (i < split.length - 1) newParts.push(values[key]);
+                    if (i < split.length - 1) newParts.push(val);
                 });
             } else {
                 newParts.push(part);
@@ -56,32 +61,30 @@ const getTranslation = (id, values = {}) => {
 
 export const Localise = ({ id, values = {} }) => {
     const parts = getTranslation(id, values);
-    return <>{parts}</>;
+    return (
+        <>
+            {parts.map((part, i) =>
+                React.isValidElement(part)
+                    ? React.cloneElement(part, { key: i })
+                    : part
+            )}
+        </>
+    );
 };
 
 export const localise = (id, values = {}) => {
     const parts = getTranslation(id, values);
 
-    // For the helper, we can optionally allow raw HTML
-    // Warning: this can be unsafe if values come from untrusted sources
     return parts
-        .map(part =>
-            typeof part === "string" || React.isValidElement(part)
-                ? part
-                : String(part)
-        )
+        .map(part => (typeof part === "string" ? part : String(part)))
         .join("");
 };
 
 export const setHtmlLang = () => {
-    // Detect the locale using your existing detectLocale function
     const locale = detectLocale(Object.keys(editorLocales)) || "en";
 
-    // Set the <html> lang
     document.documentElement.lang = locale;
 
-    // Enable RTL if the language is in rtlLanguages
-    // Only check the first part before dash (ar-EG -> ar)
     const langPrefix = locale.split("-")[0];
     document.documentElement.dir = rtlLanguages.includes(langPrefix)
         ? "rtl"
