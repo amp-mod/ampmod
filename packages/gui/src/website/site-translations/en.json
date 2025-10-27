@@ -182,5 +182,126 @@
     "tw.privacy": {
         "text": "Privacy Policy",
         "context": "Label for the privacy policy page link."
+    },
+    "credits.title": {
+        "text": "{APP_NAME} Credits",
+        "context": "Title of the Credits page, includes app name."
+    },
+    "credits.totalContributors": {
+        "text": "There are {totalContributors} contributors to {APP_NAME} in total, and this is growing!",
+        "context": "Text displaying total contributors dynamically."
+    },
+    "credits.disclaimer.general": {
+        "text": "Individual contributors are listed in no particular order. The order is randomized each visit. Users who only made very minor contributions are not included.",
+        "context": "Disclaimer about contributors listing order and omissions."
+    },
+    "credits.contributors": {
+        "text": "Contributors",
+        "context": "Heading for main contributors section."
+    },
+    "credits.addons": {
+        "text": "Addons",
+        "context": "Heading for addon developers section."
+    },
+    "credits.extensions": {
+        "text": "TurboWarp Extension Gallery",
+        "context": "Heading for extension developers section."
+    },
+    "credits.exampleProjects": {
+        "text": "Example Projects",
+        "context": "Heading for example projects section."
+    },
+    "credits.exampleProjectsDescription": {
+        "text": "You can find information about who created an example on the page for that example.",
+        "context": "Description about how to see example project authors."
+    },
+    "credits.ampmodSection": {
+        "text": "AmpMod",
+        "context": "Heading for AmpMod-specific credits."
+    },
+    "credits.ampmodDescription": {
+        "text": "{APP_NAME} is based on the work of the AmpMod contributors but is not endorsed by AmpMod in any way.",
+        "context": "Description of AmpMod work and non-endorsement."
+    },
+    "credits.turbowarpSection": {
+        "text": "TurboWarp",
+        "context": "Heading for TurboWarp-specific credits."
+    },
+    "credits.turbowarpDescription": {
+        "text": "{APP_NAME} is based on the work of the TurboWarp contributors but is not endorsed by TurboWarp in any way.",
+        "context": "Description of TurboWarp work and non-endorsement."
+    },
+    "credits.scratchSection": {
+        "text": "Scratch",
+        "context": "Heading for Scratch-specific credits."
+    },
+    "credits.scratchDescription": {
+        "text": "{APP_NAME} is based on the work of the Scratch contributors but is not endorsed by Scratch in any way.",
+        "context": "Description of Scratch work and non-endorsement."
+    },
+    "credits.scratchDonate": {
+        "text": "Donate to support TurboWarp and Scratch.",
+        "context": "Link text encouraging donation to Scratch and TurboWarp."
+    },
+    "credits.otherMods": {
+        "text": "Other Scratch Mods",
+        "context": "Heading for other mods credits section."
+    },
+    "credits.otherModsDescription": {
+        "text": "{APP_NAME} uses code from other open-source Scratch modifications but is not endorsed by any of them in any way.",
+        "context": "Description about other mods contributions and non-endorsement."
+    },
+    "credits.otherModsSummary": {
+        "text": "Modifications AmpMod is based on",
+        "context": "Summary text inside details listing other mods."
+    },
+    "credits.favicon": {
+        "text": "Favicon",
+        "context": "Heading for favicon credits."
+    },
+    "credits.faviconDescription": {
+        "text": "The AmpMod favicon is based off an emoji from the Forumoji project by lolecksdeehaha.",
+        "context": "Description of favicon source and creator."
+    },
+    "credits.translators": {
+        "text": "Translators",
+        "context": "Heading for translators section."
+    },
+    "credits.translatorsDescription": {
+        "text": "Unfortunately, AmpMod's only three developers only speak English. We are working on a way for you to translate AmpMod. While we set it up, you can register an account on Codeberg Weblate and stay tuned.",
+        "context": "Information about translation possibilities and limitations."
+    },
+    "credits.fonts": {
+        "text": "Fonts",
+        "context": "Heading for fonts section."
+    },
+    "credits.fontsDescription": {
+        "text": "The AmpMod logo uses the Pixelify Sans font. It is licenced under the SIL Open Font License.",
+        "context": "Description of logo font and license."
+    },
+    "credits.fontsEditorNote": {
+        "text": "Pixelify Sans is also available in the editor as the 'Amplification' font.",
+        "context": "Additional note about editor font availability."
+    },
+    "credits.art": { "text": "Art", "context": "Heading for art section." },
+    "credits.artDescription": {
+        "text": "Some images use content from Openclipart, licensed under the CC0 license. Even though the images are public domain, we would still like to attribute.",
+        "context": "Description about art sources and licensing."
+    },
+    "credits.roles.lead": {
+        "text": "Lead developer",
+        "context": "Role of the main or lead developer in the credits section."
+    },
+    "credits.roles.developer": {
+        "text": "Developer",
+        "context": "Role of a developer in the credits section."
+    },
+    "credits.roles.bugfixer": {
+        "text": "Bugfixer",
+        "context": "Role of someone who fixes bugs in the credits section."
+    },
+    "credits.roles.images": {
+        "text": "Image contributor",
+        "context": "Role of someone who contributes images in the credits section."
     }
 }
