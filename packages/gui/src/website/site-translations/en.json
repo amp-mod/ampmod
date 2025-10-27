@@ -15,10 +15,6 @@
         "text": "Create",
         "context": "Header menu item linking to the editor page."
     },
-    "header.examples": {
-        "text": "Examples",
-        "context": "Header menu item linking to the examples page."
-    },
     "header.manual": {
         "text": "Manual",
         "context": "Header menu item linking to the documentation/manual page."
@@ -299,5 +295,58 @@
     "credits.roles.tw-tacodiva": {
         "text": "Compiler",
         "context": "Role of Tacodiva7729."
+    },
+
+    "examples.title": {
+        "text": "Examples",
+        "context": "Title of the examples page."
+    },
+    "examples.introduction": {
+        "text": "Click an example to learn more about it. Then, click \"Open\" to open it and experiment with {APP_NAME}!",
+        "context": "Introduction paragraph on the examples page. {APP_NAME} is replaced dynamically."
+    },
+    "examples.licenceText": {
+        "text": "These examples are licenced under a {ccLink} licence. Therefore, if you distribute these examples on another website, you must provide credit to the creator. {imageAttribution}",
+        "context": "Licence information at the bottom of the examples page. {ccLink} and {imageAttribution} are React components inserted dynamically."
+    },
+    "examples.licence.cc": {
+        "text": "Creative Commons Attribution 4.0",
+        "context": "Label for the Creative Commons licence link."
+    },
+    "examples.licence.images": {
+        "text": "Image attribution...",
+        "context": "Label for the image attribution link."
+    },
+    "examples.by": {
+        "text": "by {creator}",
+        "context": "A note stating who made the example project."
+    },
+    "examples.unsupported": {
+        "text": "This project is not supported on your browser or system. It, or parts of it, may not work. The description may provide more context.",
+        "context": "Text stating the project has been detected to likely be incompatible with the user's browser or system."
+    },
+    "examples.open": {
+        "text": "Open",
+        "context": "Button to open a project."
+    },
+    "examples.download": {
+        "text": "Download .apz",
+        "context": "Button to download a project as a .apz file."
+    },
+    "examples.apz.griffpatch": {
+        "text": "Box2D Physics Example",
+        "context": "Title for that example project. Don't translate Box2D."
+    },
+    "examples.apz.griffpatch.description": {
+        "text": "{APP_NAME}'s Box2D extension allows you to add 2-dimensional physics to your games.",
+        "context": "Title for that example project. Don't translate Box2D."
+    },
+    "examples.apz.battery": {
+        "text": "What's my battery on?",
+        "context": "Title for that example project."
+    },
+    "examples.apz.battery.description": {
+        "text": "The Battery extension can get the battery percentage of your device.",
+        "context": "Title for that example project."
     }
 }

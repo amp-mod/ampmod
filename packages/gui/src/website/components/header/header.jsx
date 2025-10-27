@@ -50,7 +50,7 @@ const Header = () => {
                             styles.hoverable
                         )}
                     >
-                        <Localise id="header.create" defaultMessage="Create" />
+                        <Localise id="header.create" />
                     </a>
 
                     <a
@@ -60,10 +60,7 @@ const Header = () => {
                             styles.hoverable
                         )}
                     >
-                        <Localise
-                            id="header.examples"
-                            defaultMessage="Examples"
-                        />
+                        <Localise id="examples.title" />
                     </a>
 
                     <a
@@ -75,7 +72,7 @@ const Header = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <Localise id="header.manual" defaultMessage="Manual" />
+                        <Localise id="header.manual" />
                     </a>
 
                     <a
@@ -87,10 +84,7 @@ const Header = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                     >
-                        <Localise
-                            id="header.extensions"
-                            defaultMessage="Extensions"
-                        />
+                        <Localise id="header.extensions" />
                     </a>
                 </div>
             </div>
