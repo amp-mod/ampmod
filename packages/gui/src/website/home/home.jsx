@@ -12,7 +12,7 @@ import { detectTheme } from "../../lib/themes/themePersistance.js";
 import Header from "../components/header/header.jsx";
 import Footer from "../components/footer/footer.jsx";
 import Clippy from "../../containers/amp-clippy.jsx";
-import { Hero } from "../components/hero/hero.jsx";
+import Hero from "../components/hero/hero.jsx";
 
 /* eslint-disable react/jsx-no-literals */
 import Localise, { setHtmlLang } from "../components/localise/localise.jsx";
