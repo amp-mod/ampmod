@@ -76,7 +76,7 @@ const tw = [
     {
         userID: "17340565",
         username: "GarboMuffin",
-        role: "Creator of TurboWarp",
+        role: "credits.roles.tw-muffin",
     },
     {
         userID: "12498592",
@@ -89,7 +89,7 @@ const tw = [
     {
         userID: "9636514",
         username: "Tacodiva7729",
-        role: "Compiler",
+        role: "credits.roles.tw-tacodiva",
     },
     {
         userID: "141930175",

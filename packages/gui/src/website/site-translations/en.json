@@ -303,5 +303,13 @@
     "credits.roles.images": {
         "text": "Image contributor",
         "context": "Role of someone who contributes images in the credits section."
+    },
+    "credits.roles.tw-muffin": {
+        "text": "Creator of TurboWarp",
+        "context": "Role of GarboMuffin."
+    },
+    "credits.roles.tw-tacodiva": {
+        "text": "Compiler",
+        "context": "Role of Tacodiva7729."
     }
 }
