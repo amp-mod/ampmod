@@ -21,9 +21,9 @@
         "semver": "^7.7.3"
     },
     "devDependencies": {
-        "@babel/core": "^7.28.4",
-        "@babel/preset-env": "^7.12.16",
-        "@babel/preset-react": "^7.13.13",
+        "@babel/core": "^7.28.5",
+        "@babel/preset-env": "^7.28.5",
+        "@babel/preset-react": "^7.28.5",
         "@electron/fuses": "^2.0.0",
         "@turbowarp/extensions": "git+https://codeberg.org/ampmod/extensions.git",
         "adm-zip": "^0.5.16",

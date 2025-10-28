@@ -142,7 +142,7 @@ importers:
         specifier: ^7.1.2
         version: 7.1.2(webpack@4.47.0)
       electron:
-        specifier: ^38.3.0
+        specifier: ^38.4.0
         version: 38.4.0
       electron-builder:
         specifier: ^26.1.0
@@ -151,10 +151,10 @@ importers:
         specifier: ^6.2.0
         version: 6.2.0(webpack@4.47.0)
       postcss:
-        specifier: ^8.4.13
+        specifier: ^8.5.6
         version: 8.5.6
       postcss-import:
-        specifier: ^14.0.0
+        specifier: ^14.1.0
         version: 14.1.0(postcss@8.5.6)
       postcss-loader:
         specifier: ^8.2.0
@@ -163,7 +163,7 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3(postcss@8.5.6)
       scratch-gui:
-        specifier: workspace:latest
+        specifier: workspace:^
         version: link:../gui
       style-loader:
         specifier: ^4.0.0
