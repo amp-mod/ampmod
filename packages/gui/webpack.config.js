@@ -317,7 +317,6 @@ module.exports = [
                       colors: true,
                   },
         plugins: base.plugins.concat([
-            // All HtmlWebpackPlugin configs as in your original config
             new HtmlWebpackPlugin({
                 chunks: ["info", "minorpages"],
                 title: `Privacy Policy - ${APP_NAME}`,
