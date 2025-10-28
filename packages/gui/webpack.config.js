@@ -91,7 +91,7 @@ const base = {
         library: "GUI",
         filename:
             process.env.NODE_ENV === "production"
-                ? `js/${CACHE_EPOCH}/[name].[hash].js`
+                ? `js/${CACHE_EPOCH}/[name].[contenthash].js`
                 : "js/[name].js",
         chunkFilename:
             process.env.NODE_ENV === "production"
@@ -124,6 +124,7 @@ const base = {
     module: {
         rules: [
             {
+                // JS/TSX loader
                 test: /\.[jt]sx?$/,
                 loader: "esbuild-loader",
                 include: [
@@ -137,6 +138,7 @@ const base = {
                 },
             },
             {
+                // CSS loader
                 test: /\.css$/,
                 use: [
                     {
@@ -148,43 +150,59 @@ const base = {
                             modules: true,
                             importLoaders: 1,
                             localIdentName: "[name]_[local]_[hash:base64:5]",
-                            camelCase: true,
+                            exportLocalsConvention: "camelCase",
                         },
                     },
                     {
                         loader: "esbuild-loader",
-                        options: {
-                            target: "es2019",
-                        },
+                        options: { target: "es2019" },
                     },
                     {
                         loader: "postcss-loader",
                         options: {
-                            ident: "postcss",
-                            plugins: function () {
-                                return [
+                            postcssOptions: {
+                                plugins: [
                                     postcssImport,
                                     postcssVars,
                                     autoprefixer,
-                                ];
+                                ],
                             },
                         },
                     },
                 ],
             },
             {
+                // Static assets
                 test: /\.(svg|png|wav|mp3|gif|jpg|woff2?|hex)$/,
                 type: "asset",
-                parser: {
-                    dataUrlCondition: {
-                        maxSize: 8 * 1024,
-                    },
-                },
-                generator: {
-                    filename: "static/assets/[name][hash][ext]",
-                },
+                parser: { dataUrlCondition: { maxSize: 8 * 1024 } },
+                generator: { filename: "static/assets/[name][hash][ext]" },
             },
         ],
+    },
+    optimization: {
+        moduleIds: "hashed", // replaces NamedModulesPlugin/HashedModuleIdsPlugin
+        chunkIds: "named", // replaces NamedChunksPlugin
+        runtimeChunk: "single",
+        splitChunks: {
+            chunks: "all",
+            minSize: 10000,
+            minChunks: 1,
+            maxInitialRequests: 3,
+            cacheGroups: {
+                defaultVendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    reuseExistingChunk: true,
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true,
+                },
+            },
+        },
+        emitOnErrors: true,
     },
     plugins: [
         new webpack.BannerPlugin({
@@ -207,7 +225,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             `.trim(),
         }),
         new webpack.DefinePlugin({
-            "process.env.NODE_ENV": `"${process.env.NODE_ENV}"`,
+            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
             "process.env.DEBUG": Boolean(process.env.DEBUG),
             "process.env.DISABLE_SERVICE_WORKER": JSON.stringify(
                 process.env.DISABLE_SERVICE_WORKER || ""
@@ -229,10 +247,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         }),
         new CopyWebpackPlugin({
             patterns: [
-                {
-                    from: "../blocks/media",
-                    to: "static/blocks-media/default",
-                },
+                { from: "../blocks/media", to: "static/blocks-media/default" },
                 {
                     from: "../blocks/media",
                     to: "static/blocks-media/high-contrast",
@@ -242,10 +257,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
                     to: "static/blocks-media/high-contrast",
                     force: true,
                 },
-                {
-                    from: "../blocks/media",
-                    to: "static/blocks-media/dark",
-                },
+                { from: "../blocks/media", to: "static/blocks-media/dark" },
                 {
                     from: "src/lib/themes/blocks/dark-media/blocks-media",
                     to: "static/blocks-media/dark",
@@ -253,36 +265,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
                 },
             ],
         }),
-        /* new CompressionPlugin({
-            filename:
-                process.env.NODE_ENV === "production"
-                    ? `js/${CACHE_EPOCH}/[name].js.br`
-                    : "js/[name].js.br",
-            algorithm: "brotliCompress",
-            test: /js\/amp\-.*\.js$/,
-            compressionOptions: {
-                params: {
-                    [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-                },
-            },
-            threshold: 1000,
-            minRatio: 0.85,
-            deleteOriginalAssets: "keep-source-map",
-        }),
-        new CompressionPlugin({
-            filename: "microbit/[mame].hex.br",
-            algorithm: "brotliCompress",
-            test: /microbit\/.*\.hex$/,
-            compressionOptions: {
-                params: {
-                    [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
-                },
-            },
-            threshold: 1,
-            minRatio: 0,
-            deleteOriginalAssets: true,
-        }), */
-        // https://codeberg.org/LibreKitten/LibreKitten/src/commit/ea4698/packages/gui/webpack.config.js
         new webpack.ProvidePlugin({
             Buffer: ["buffer", "Buffer"],
         }),
@@ -335,6 +317,7 @@ module.exports = [
                       colors: true,
                   },
         plugins: base.plugins.concat([
+            // All HtmlWebpackPlugin configs as in your original config
             new HtmlWebpackPlugin({
                 chunks: ["info", "minorpages"],
                 title: `Privacy Policy - ${APP_NAME}`,
@@ -347,7 +330,6 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ["editor"],
                 template: "src/playground/index.ejs",
-                // In lab, editor is the default page
                 filename:
                     process.env.BUILD_MODE === "lab"
                         ? "index.html"
@@ -356,7 +338,6 @@ module.exports = [
                 isEditor: true,
                 ...htmlWebpackPluginCommon,
             }),
-            // player: dupe of the above for compatibility
             new HtmlWebpackPlugin({
                 chunks: ["editor"],
                 template: "src/playground/index.ejs",
@@ -453,56 +434,4 @@ module.exports = [
             }),
         ]),
     }),
-].concat(
-    process.env.NODE_ENV === "production" || process.env.BUILD_MODE === "dist"
-        ? // export as library
-          defaultsDeep({}, base, {
-              target: "web",
-              entry: {
-                  "scratch-gui": "./src/index.js",
-              },
-              output: {
-                  libraryTarget: "umd",
-                  filename: "js/[name].js",
-                  chunkFilename: "js/[name].js",
-                  path: path.resolve("dist"),
-                  publicPath: `${STATIC_PATH}/`,
-              },
-              module: {
-                  rules: base.module.rules.concat([
-                      {
-                          test: /\.(svg|png|wav|mp3|gif|jpg|woff2|hex)$/,
-                          loader: "asset/resource",
-                          options: {
-                              limit: 2048,
-                              outputPath: "static/assets/",
-                              publicPath: `${STATIC_PATH}/assets/`,
-                              esModule: false,
-                          },
-                      },
-                  ]),
-              },
-              plugins: base.plugins.concat([
-                  new CopyWebpackPlugin({
-                      patterns: [
-                          {
-                              from: "extension-worker.{js,js.map}",
-                              context: "node_modules/scratch-vm/dist/web",
-                              noErrorOnMissing: true,
-                          },
-                      ],
-                  }),
-                  // Include library JSON files for scratch-desktop to use for downloading
-                  new CopyWebpackPlugin({
-                      patterns: [
-                          {
-                              from: "src/lib/libraries/*.json",
-                              to: "libraries",
-                              flatten: true,
-                          },
-                      ],
-                  }),
-              ]),
-          })
-        : []
-);
+];
