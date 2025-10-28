@@ -20,7 +20,6 @@ const {
     APP_DESCRIPTION,
     APP_SOURCE,
 } = require("@ampmod/branding");
-const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const root = process.env.ROOT || "";
 if (root.length > 0 && !root.endsWith("/")) {
@@ -67,9 +66,8 @@ const base = {
             ? false
             : "eval-cheap-module-source-map"),
     devServer: {
-        contentBase: path.resolve(__dirname, "build"),
+        static: { directory: path.resolve(__dirname, "build") },
         host: "0.0.0.0",
-        disableHostCheck: true,
         compress: true,
         port: process.env.PORT || 8601,
         // allows ROUTING_STYLE=wildcard to work properly
@@ -173,11 +171,14 @@ const base = {
             },
             {
                 test: /\.(svg|png|wav|mp3|gif|jpg|woff2?|hex)$/,
-                loader: "url-loader",
-                options: {
-                    limit: 8192, // Convert images < 8kb to base64 strings
-                    outputPath: "static/assets/",
-                    esModule: false,
+                type: "asset",
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 8 * 1024,
+                    },
+                },
+                generator: {
+                    filename: "static/assets/[name][hash][ext]",
                 },
             },
         ],
@@ -327,7 +328,6 @@ module.exports = [
                       colors: true,
                   },
         plugins: base.plugins.concat([
-            new OptimizeCssAssetsPlugin(),
             new HtmlWebpackPlugin({
                 chunks: ["info", "minorpages"],
                 title: `Privacy Policy - ${APP_NAME}`,
@@ -465,7 +465,7 @@ module.exports = [
                   rules: base.module.rules.concat([
                       {
                           test: /\.(svg|png|wav|mp3|gif|jpg|woff2|hex)$/,
-                          loader: "url-loader",
+                          loader: "asset/resource",
                           options: {
                               limit: 2048,
                               outputPath: "static/assets/",
