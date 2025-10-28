@@ -282,7 +282,11 @@ class ExtensionManager {
 
         let ExtensionWorker;
         if (sandboxMode === "worker") {
-            ExtensionWorker = require("worker-loader?name=js/extension-worker/extension-worker.[hash].js!./extension-worker");
+            ExtensionWorker = new Worker(
+                new URL("./extension-worker.js", import.meta.url, {
+                    type: "classic",
+                })
+            );
         } else if (sandboxMode === "iframe") {
             ExtensionWorker = (await import("./tw-iframe-extension-worker"))
                 .default;
