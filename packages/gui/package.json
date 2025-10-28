@@ -46,6 +46,7 @@
         "balance-text": "3.3.1",
         "base64-loader": "1.0.0",
         "bowser": "^2.12.1",
+        "buffer": "^6.0.3",
         "classnames": "2.2.6",
         "computed-style-to-inline-style": "^4.0.0",
         "copy-webpack-plugin": "13.0.1",

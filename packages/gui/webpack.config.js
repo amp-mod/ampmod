@@ -102,6 +102,9 @@ const base = {
     resolve: {
         symlinks: false,
         extensions: [".jsx", ".js", ".ts", ".tsx"],
+        fallback: {
+            buffer: require.resolve("buffer/"),
+        },
         alias: {
             "text-encoding$": path.resolve(
                 __dirname,
@@ -279,6 +282,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             minRatio: 0,
             deleteOriginalAssets: true,
         }), */
+        // https://codeberg.org/LibreKitten/LibreKitten/src/commit/ea4698/packages/gui/webpack.config.js
+        new webpack.ProvidePlugin({
+            Buffer: ["buffer", "Buffer"],
+        }),
     ],
 };
 
