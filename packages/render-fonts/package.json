@@ -34,8 +34,6 @@
         "eslint-config-scratch": "^5.1.0",
         "json": "^10.0.0",
         "lodash.defaultsdeep": "4.6.1",
-        "rimraf": "^2.7.1",
-        "webpack": "^4.47.0",
-        "webpack-cli": "^3.3.12"
+        "rimraf": "^2.7.1"
     }
 }

@@ -41,9 +41,7 @@
         "postcss-simple-vars": "^6.0.3",
         "scratch-gui": "workspace:latest",
         "style-loader": "^4.0.0",
-        "url-loader": "^4.1.1",
-        "webpack": "4.47.0",
-        "webpack-cli": "^4.10.0"
+        "url-loader": "^4.1.1"
     },
     "overrides": {
         "webpack@4.47.0": {
