@@ -8,7 +8,7 @@ const ClippyComponent = ({ isFixed, messageSet }) => {
             "Use the McUtils extension, it is the most useful extension ever!",
             "Did you know that extension blocks are actually just magic?",
             "Forget about native functions, extensions are the future!",
-            "This extension is so powerful, it can probably hack into the Pentagon.",
+            // "This extension is so powerful, it can probably hack into the Pentagon.", removed due to new fbi tracking, jokes can be flagged
             "Are you sure you need *that* many extensions?",
         ],
         costLib: [
