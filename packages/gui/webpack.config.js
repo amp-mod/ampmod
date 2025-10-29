@@ -190,8 +190,8 @@ const base = {
         ],
     },
     optimization: {
-        moduleIds: "hashed", // replaces NamedModulesPlugin/HashedModuleIdsPlugin
-        chunkIds: "named", // replaces NamedChunksPlugin
+        moduleIds: "deterministic",
+        chunkIds: "named",
         runtimeChunk: "single",
         splitChunks: {
             chunks: "all",
