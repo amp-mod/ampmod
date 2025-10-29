@@ -38,6 +38,15 @@ const htmlWebpackPluginCommon = {
     meta: JSON.parse(process.env.EXTRA_META || "{}"),
     APP_NAME,
     isCbp: process.env.IS_CBP_BUILD || false,
+    NODE_ENV: process.env.NODE_ENV,
+    BUILD_MODE: process.env.BUILD_MODE,
+    DEBUG: Boolean(process.env.DEBUG),
+    ROUTING_STYLE: process.env.ROUTING_STYLE || "filehash",
+    ampmod_version: monorepoPackageJson.version,
+    ampmod_mode: process.env.BUILD_MODE,
+    LAB_EXPERIMENT_NAME: process.env.LAB_EXPERIMENT_NAME || "default",
+    LAB_EXPERIMENT_NAME_FULL:
+        process.env.LAB_EXPERIMENT_NAME_FULL || "AmpMod Lab",
     minify:
         process.env.NODE_ENV === "production"
             ? {
