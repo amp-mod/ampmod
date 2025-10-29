@@ -228,7 +228,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             `.trim(),
         }),
         new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
             "process.env.DEBUG": Boolean(process.env.DEBUG),
             "process.env.DISABLE_SERVICE_WORKER": JSON.stringify(
                 process.env.DISABLE_SERVICE_WORKER || ""
