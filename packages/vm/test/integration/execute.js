@@ -64,8 +64,11 @@ const executeDir = path.resolve(__dirname, "../fixtures/execute");
 // Find files which end in ".apz", ".sb", ".sb2", or ".sb3"
 const fileFilter = /\.(apz|sb[23])?$/i;
 
+const targetArg = process.argv[2];
+
 fs.readdirSync(executeDir)
     .filter(uri => fileFilter.test(uri))
+    .filter(uri => !targetArg || uri === targetArg)
     .forEach(uri => {
         const run = (t, enableCompiler) => {
             const vm = new VirtualMachine();
