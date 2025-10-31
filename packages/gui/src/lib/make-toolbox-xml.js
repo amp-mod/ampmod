@@ -606,11 +606,11 @@ const sensing = function (isInitialSetup, isStage, targetId, colors) {
         <block type="sensing_lastkeypressed"/>
         ${blockSeparator}
         <block type="sensing_mousedown"/>
-            <block type="sensing_mousebuttondown">
-                <value name="MOUSEBUTTONMENU">
-                    <shadow type="sensing_mousebuttonmenu"/>
-                </value>
-            </block>
+        <block type="sensing_mousebuttondown">
+            <value name="MOUSEBUTTONMENU">
+                <shadow type="sensing_mousebuttonmenu"/>
+            </value>
+        </block>
         <block type="sensing_mousex"/>
         <block type="sensing_mousey"/>
         ${
