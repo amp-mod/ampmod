@@ -33,6 +33,11 @@ when:
         - packages/**
 
 steps:
+    - name: ijustwannaseeiwilldeletethisstep
+      image: node:alpine
+      commands:
+          - node -v
+    - name: build-monorepo
     - name: clone-pages
       environment:
           # secrets must be set in Woodpecker configuration
