@@ -25,7 +25,7 @@ class AmpModArraysBlocks {
     }
 
     itemOf (args) {
-        return Cast.toList(args.ARRAY)[Cast.toNumber(args.INDEX) - 1] ?? '';
+        return Cast.toList(args.VALUE)[Cast.toNumber(args.INDEX) - 1] ?? '';
     }
 
     itemNoOf (args) {
@@ -39,7 +39,7 @@ class AmpModArraysBlocks {
     }
 
     length (args) {
-        return Cast.toList(args.ARRAY).length;
+        return Cast.toList(args.VALUE).length;
     }
 
     // intentionally swapped behaviors
