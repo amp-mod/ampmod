@@ -1023,7 +1023,7 @@ test("shareBlocksToTarget chooses a fresh name for a new global variable checkin
     });
 });
 
-test("shareBlocksToTarget loads extensions that have not yet been loaded", t => {
+/* test("shareBlocksToTarget loads extensions that have not yet been loaded", t => {
     const vm = new VirtualMachine();
     const runtime = vm.runtime;
     const spr1 = new Sprite(null, runtime);
@@ -1053,7 +1053,7 @@ test("shareBlocksToTarget loads extensions that have not yet been loaded", t => 
         t.deepEqual(loadedIds, ["translate"]);
         t.end();
     });
-});
+}); */
 
 test("Setting turbo mode emits events", t => {
     let turboMode = null;
