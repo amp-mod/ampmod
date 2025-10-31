@@ -1,7 +1,11 @@
 const test = require("tap").test;
 const Operators = require("../../src/blocks/scratch3_operators");
 
-const blocks = new Operators(null);
+const blocks = new Operators({
+    runtimeOptions: {
+        caseSensitivity: false,
+    },
+});
 
 test("divide: (1) / (0) = Infinity", t => {
     t.strictEqual(

@@ -1,8 +1,11 @@
 const test = require("tap").test;
 const Operators = require("../../src/blocks/scratch3_operators");
 
-const blocks = new Operators(null);
-
+const blocks = new Operators({
+    runtimeOptions: {
+        caseSensitivity: false,
+    },
+});
 test("getPrimitives", t => {
     t.type(blocks.getPrimitives(), "object");
     t.end();
