@@ -33,11 +33,6 @@ when:
         - packages/**
 
 steps:
-    - name: ijustwannaseeiwilldeletethisstep
-      image: node:alpine
-      commands:
-          - node -v
-    - name: build-monorepo
     - name: clone-pages
       environment:
           # secrets must be set in Woodpecker configuration
@@ -55,13 +50,13 @@ steps:
           - git clone -b pages https://$CBTOKEN@codeberg.org/ampmod/canary.git amp-build
           - chmod -R a+w amp-build
     - name: install
-      image: node:alpine
+      image: node:24-alpine
       commands:
           - apk add --no-cache openjdk21-jre python3
           - corepack enable
           - pnpm --filter !turbowarp-desktop i --frozen-lockfile
     - name: build-monorepo
-      image: node:alpine
+      image: node:24-alpine
       commands:
           - corepack enable
           # Don't specify CBP build mode since redirects aren't properly implemented in canary
