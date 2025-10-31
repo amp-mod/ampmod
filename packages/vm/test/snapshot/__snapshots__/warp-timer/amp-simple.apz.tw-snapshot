@@ -1,0 +1,29 @@
+// TW Snapshot
+// Input SHA-256: 3abbec1b8b71c23d886be63eee4e805356b19b8db32edff9740b444cd2af5bef
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+if (runtime.ioDevices.mouse.getButtonIsDown(0)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"Secondary (usually right) mouse button clicked",}, b0, false, false, "n", null);
+}
+yield* executeInCompatibilityLayer({"MESSAGE":("AmpMod" + ("\n" + "TurboWarp")),}, b0, false, false, "c", null);
+target.setXY(target.x + 10, target.y + 10);
+runtime.ext_scratch3_control._createClone("_myself_", target);
+startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: "message1" });
+retire(); return;
+}; })
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+return function* genXYZ () {
+if (!target.isOriginal) {
+runtime.ext_scratch3_motion._moveSteps((Math.pow(2, 4) || 0), target);
+} else {
+runtime.ext_scratch3_motion._moveSteps((0 - (Math.pow(2, 4) || 0)), target);
+}
+b0.value = ("apple,banana".split(","));
+retire(); return;
+}; })

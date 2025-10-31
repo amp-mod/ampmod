@@ -8,7 +8,7 @@ const executeDir = path.resolve(__dirname, "../fixtures/execute");
 // sb2 project loading results in random IDs each time, so for now we only snapshot sb3 files
 const testFiles = fs
     .readdirSync(executeDir)
-    .filter(uri => uri.endsWith(".sb3"));
+    .filter(uri => uri.endsWith(".sb3") || uri.endsWith(".apz"));
 
 /**
  * @typedef {string} Snapshot Represents either a generated or parsed test case snapshot.
