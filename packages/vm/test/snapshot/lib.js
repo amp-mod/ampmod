@@ -55,7 +55,8 @@ const getProjectData = testCase => fs.readFileSync(path.join(executeDir, testCas
  */
 const getSnapshotPath = testCase => path.join(snapshotDir, `${testCase.id}.tw-snapshot`);
 
-const computeSHA256 = buffer => crypto.createHash('SHA256').update(buffer).digest('hex');
+const computeSHA256 = buffer => crypto.createHash('SHA256').update(buffer)
+    .digest('hex');
 
 /**
  * @param {string} snapshot a snapshot

@@ -152,7 +152,7 @@ const _videoMotionViewComponentsTmp = {
  * @constructor
  */
 class VideoMotionView {
-    constructor(motion, output = OUTPUT.XYT) {
+    constructor (motion, output = OUTPUT.XYT) {
         /**
          * VideoMotion instance to visualize.
          * @type {VideoMotion}
@@ -190,7 +190,7 @@ class VideoMotionView {
      * Modes of debug output that can be rendered.
      * @type {object}
      */
-    static get OUTPUT() {
+    static get OUTPUT () {
         return OUTPUT;
     }
 
@@ -202,7 +202,7 @@ class VideoMotionView {
      * @param {number} yStop - location to stop at on the y axis
      * @param {function} fn - handle to call with each iterated address
      */
-    _eachAddress(xStart, yStart, xStop, yStop, fn) {
+    _eachAddress (xStart, yStart, xStop, yStop, fn) {
         for (let i = yStart; i < yStop; i++) {
             for (let j = xStart; j < xStop; j++) {
                 const address = i * WIDTH + j;
@@ -222,7 +222,7 @@ class VideoMotionView {
      * @param {number} yStep - height of the cells
      * @param {function} fn - function to call with a bound handle to _eachAddress
      */
-    _eachCell(xStart, yStart, xStop, yStop, xStep, yStep, fn) {
+    _eachCell (xStart, yStart, xStop, yStop, xStep, yStep, fn) {
         const xStep2 = (xStep / 2) | 0;
         const yStep2 = (yStep / 2) | 0;
         for (let i = yStart; i < yStop; i += yStep) {
@@ -243,7 +243,7 @@ class VideoMotionView {
      * @param {number} address - address to build values for
      * @returns {object} a object with a gradX, grady, and gradT value
      */
-    _grads(address) {
+    _grads (address) {
         const {curr, prev} = this.motion;
         const gradX = (curr[address - 1] & 0xff) - (curr[address + 1] & 0xff);
         const gradY = (curr[address - WIDTH] & 0xff) - (curr[address + WIDTH] & 0xff);
@@ -258,7 +258,7 @@ class VideoMotionView {
      *   component values for
      * @returns {object} a object with a A2, A1B2, B1, C2, C1 value
      */
-    _components(eachAddress) {
+    _components (eachAddress) {
         let A2 = 0;
         let A1B2 = 0;
         let B1 = 0;
@@ -286,7 +286,7 @@ class VideoMotionView {
      * Visualize the motion code output mode selected for this view to the
      * debug canvas.
      */
-    draw() {
+    draw () {
         if (!(this.motion.prev && this.motion.curr)) {
             return;
         }
@@ -464,10 +464,10 @@ class VideoMotionView {
 
                 buffer[address] =
                     (0xff << 24) +
-                    (inRange && amount > THRESHOLD
-                        ? (((((v / winStep + 1) / 2) * 0xff) << 8) & 0xff00) +
-                          (((((u / winStep + 1) / 2) * 0xff) << 0) & 0xff)
-                        : 0x8080);
+                    (inRange && amount > THRESHOLD ?
+                        (((((v / winStep + 1) / 2) * 0xff) << 8) & 0xff00) +
+                          (((((u / winStep + 1) / 2) * 0xff) << 0) & 0xff) :
+                        0x8080);
             });
         } else if (this.output === OUTPUT.UV_CELL) {
             const winStep = WINSIZE * 2 + 1;
@@ -485,10 +485,10 @@ class VideoMotionView {
                 eachAddress(address => {
                     buffer[address] =
                         (0xff << 24) +
-                        (inRange && amount > THRESHOLD
-                            ? (((((v / winStep + 1) / 2) * 0xff) << 8) & 0xff00) +
-                              (((((u / winStep + 1) / 2) * 0xff) << 0) & 0xff)
-                            : 0x8080);
+                        (inRange && amount > THRESHOLD ?
+                            (((((v / winStep + 1) / 2) * 0xff) << 8) & 0xff00) +
+                              (((((u / winStep + 1) / 2) * 0xff) << 0) & 0xff) :
+                            0x8080);
                 });
             });
         }

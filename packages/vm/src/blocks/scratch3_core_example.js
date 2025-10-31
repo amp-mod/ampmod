@@ -11,7 +11,7 @@ const blockIconURI =
  * and used as part of tests.
  */
 class Scratch3CoreExample {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -22,7 +22,7 @@ class Scratch3CoreExample {
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         return {
             id: 'coreExample',
             name: 'CoreEx', // This string does not need to be translated as this extension is only used as an example.
@@ -56,12 +56,12 @@ class Scratch3CoreExample {
      * Example opcode just returns the name of the stage target.
      * @returns {string} The name of the first target in the project.
      */
-    exampleOpcode() {
+    exampleOpcode () {
         const stage = this.runtime.getTargetForStage();
         return stage ? stage.getName() : 'no stage yet';
     }
 
-    exampleWithInlineImage() {
+    exampleWithInlineImage () {
         return;
     }
 }

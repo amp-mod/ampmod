@@ -34,7 +34,7 @@ const generateAllow = () =>
         .join('; ');
 
 class IframeExtensionWorker {
-    constructor() {
+    constructor () {
         this.id = uid();
         this.isRemote = true;
         this.ready = false;
@@ -62,7 +62,7 @@ class IframeExtensionWorker {
         this.iframe.src = URL.createObjectURL(blob);
     }
 
-    _onWindowMessage(e) {
+    _onWindowMessage (e) {
         if (!e.data || e.data.vmIframeId !== this.id) {
             return;
         }
@@ -80,11 +80,11 @@ class IframeExtensionWorker {
         }
     }
 
-    onmessage() {
+    onmessage () {
         // Should be overridden
     }
 
-    postMessage(data, transfer) {
+    postMessage (data, transfer) {
         if (this.ready) {
             if (transfer) {
                 this.iframe.contentWindow.postMessage(data, '*', transfer);

@@ -20,7 +20,7 @@ const animationFrameWrapper = callback => {
 };
 
 class FrameLoop {
-    constructor(runtime) {
+    constructor (runtime) {
         this.runtime = runtime;
         this.running = false;
         this.setFramerate(30);
@@ -34,32 +34,32 @@ class FrameLoop {
         this._stepAnimation = null;
     }
 
-    setFramerate(fps) {
+    setFramerate (fps) {
         this.framerate = fps;
         this._restart();
     }
 
-    setInterpolation(interpolation) {
+    setInterpolation (interpolation) {
         this.interpolation = interpolation;
         this._restart();
     }
 
-    stepCallback() {
+    stepCallback () {
         this.runtime._step();
     }
 
-    interpolationCallback() {
+    interpolationCallback () {
         this.runtime._renderInterpolatedPositions();
     }
 
-    _restart() {
+    _restart () {
         if (this.running) {
             this.stop();
             this.start();
         }
     }
 
-    start() {
+    start () {
         this.running = true;
         if (this.framerate === 0) {
             this._stepAnimation = animationFrameWrapper(this.stepCallback);
@@ -74,7 +74,7 @@ class FrameLoop {
         }
     }
 
-    stop() {
+    stop () {
         this.running = false;
         clearInterval(this._stepInterval);
         if (this._interpolationAnimation) {

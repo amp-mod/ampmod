@@ -44,7 +44,7 @@ const finalResponseTimeoutDurationMs = 3000;
 const listenAndWaitBlockTimeoutMs = 10000;
 
 class Scratch3Speech2TextBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -171,7 +171,7 @@ class Scratch3Speech2TextBlocks {
      * @returns {Array} list of strings from the hat blocks in the project.
      * @private
      */
-    _scanBlocksForPhraseList() {
+    _scanBlocksForPhraseList () {
         const words = [];
         // For each each target, walk through the top level blocks and check whether
         // they are speech hat/when I hear blocks.
@@ -198,7 +198,7 @@ class Scratch3Speech2TextBlocks {
      * Get the viewer's language code.
      * @return {string} the language code.
      */
-    _getViewerLanguageCode() {
+    _getViewerLanguageCode () {
         return formatMessage.setup().locale || navigator.language || navigator.userLanguage || 'en-US';
     }
 
@@ -209,7 +209,7 @@ class Scratch3Speech2TextBlocks {
      *   - clears out any remaining speech blocks that are waiting.
      * @private.
      */
-    _resetListening() {
+    _resetListening () {
         this.runtime.emitMicListening(false);
         this._stopListening();
         this._closeWebsocket();
@@ -221,7 +221,7 @@ class Scratch3Speech2TextBlocks {
      * the empty string.
      * @private
      */
-    _resetEdgeTriggerUtterance() {
+    _resetEdgeTriggerUtterance () {
         this._utteranceForEdgeTrigger = '';
     }
 
@@ -229,7 +229,7 @@ class Scratch3Speech2TextBlocks {
      * Close the connection to the socket server if it is open.
      * @private
      */
-    _closeWebsocket() {
+    _closeWebsocket () {
         if (this._socket && this._socket.readyState === this._socket.OPEN) {
             this._socket.close();
         }
@@ -239,7 +239,7 @@ class Scratch3Speech2TextBlocks {
      * Call to suspend getting data from the microphone.
      * @private
      */
-    _stopListening() {
+    _stopListening () {
         // Note that this can be called before any Listen And Wait block did setup,
         // so check that things exist before disconnecting them.
         if (this._context) {
@@ -260,7 +260,7 @@ class Scratch3Speech2TextBlocks {
      * Resolves all the speech promises we've accumulated so far and empties out the list.
      * @private
      */
-    _resolveSpeechPromises() {
+    _resolveSpeechPromises () {
         for (let i = 0; i < this._speechPromises.length; i++) {
             const resFn = this._speechPromises[i];
             resFn();
@@ -274,7 +274,7 @@ class Scratch3Speech2TextBlocks {
      * back before yielding the block execution.
      * @private
      */
-    _stopTranscription() {
+    _stopTranscription () {
         this._stopListening();
         if (this._socket && this._socket.readyState === this._socket.OPEN) {
             this._socket.send('stopTranscription');
@@ -291,7 +291,7 @@ class Scratch3Speech2TextBlocks {
      * @returns {boolean} true If a result is good enough to be kept.
      * @private
      */
-    _shouldKeepResult(fuzzyMatchIndex, result, normalizedTranscript) {
+    _shouldKeepResult (fuzzyMatchIndex, result, normalizedTranscript) {
         // The threshold above which we decide transcription results are unlikely to change again.
         // See https://cloud.google.com/speech-to-text/docs/basics#streaming_responses.
         const stabilityThreshold = 0.85;
@@ -335,7 +335,7 @@ class Scratch3Speech2TextBlocks {
      * @returns {string} The normalized text.
      * @private
      */
-    _normalizeText(text) {
+    _normalizeText (text) {
         text = Cast.toString(text).toLowerCase();
         text = text.replace(/[.?!]/g, '');
         text = text.trim();
@@ -348,7 +348,7 @@ class Scratch3Speech2TextBlocks {
      * @param {string} pattern The pattern to look for in text.
      * @returns {number} The index of the match or -1 if there isn't one.
      */
-    _computeFuzzyMatch(text, pattern) {
+    _computeFuzzyMatch (text, pattern) {
         // Don't bother matching if any are null.
         if (!pattern || !text) {
             return -1;
@@ -370,7 +370,7 @@ class Scratch3Speech2TextBlocks {
      * @param {object} result The transcription result.
      * @private
      */
-    _processTranscriptionResult(result) {
+    _processTranscriptionResult (result) {
         log.info(`Got result: ${JSON.stringify(result)}`);
         const transcriptionResult = this._normalizeText(result.alternatives[0].transcript);
 
@@ -408,7 +408,7 @@ class Scratch3Speech2TextBlocks {
      * @param {MessageEvent} e The message event containing data from speech server.
      * @private
      */
-    _onTranscriptionFromServer(e) {
+    _onTranscriptionFromServer (e) {
         let result = null;
         try {
             result = JSON.parse(e.data);
@@ -427,7 +427,7 @@ class Scratch3Speech2TextBlocks {
      * @returns {boolean} true if there is a fuzzy match.
      * @private
      */
-    _speechMatches(pattern, text) {
+    _speechMatches (pattern, text) {
         pattern = this._normalizeText(pattern);
         text = this._normalizeText(text);
         const match = this._computeFuzzyMatch(text, pattern);
@@ -438,7 +438,7 @@ class Scratch3Speech2TextBlocks {
      * Kick off the listening process.
      * @private
      */
-    _startListening() {
+    _startListening () {
         this.runtime.emitMicListening(true);
         this._initListening();
         // Force the block to timeout if we don't get any results back/the user didn't say anything.
@@ -449,7 +449,7 @@ class Scratch3Speech2TextBlocks {
      * Resume listening for audio and re-open the socket to send data.
      * @private
      */
-    _resumeListening() {
+    _resumeListening () {
         this._context.resume.bind(this._context);
         this._newWebsocket();
     }
@@ -459,7 +459,7 @@ class Scratch3Speech2TextBlocks {
      * that data to the speech server.
      * @private
      */
-    _initListening() {
+    _initListening () {
         this._initializeMicrophone();
         this._initScriptNode();
         this._newWebsocket();
@@ -469,7 +469,7 @@ class Scratch3Speech2TextBlocks {
      * Initialize the audio context and connect the microphone.
      * @private
      */
-    _initializeMicrophone() {
+    _initializeMicrophone () {
         // Don't make a new context if we already made one.
         if (!this._context) {
             // Safari still needs a webkit prefix for audio context
@@ -491,7 +491,7 @@ class Scratch3Speech2TextBlocks {
      * @private
      *
      */
-    _initScriptNode() {
+    _initScriptNode () {
         // Create a node that sends raw bytes across the websocket
         this._scriptNode = this._context.createScriptProcessor(4096, 1, 1);
     }
@@ -501,7 +501,7 @@ class Scratch3Speech2TextBlocks {
      * @param {Function} resolve - function to call when the web socket opens succesfully.
      * @param {Function} reject - function to call if opening the web socket fails.
      */
-    _newSocketCallback(resolve, reject) {
+    _newSocketCallback (resolve, reject) {
         this._socket = new WebSocket(serverURL);
         this._socket.addEventListener('open', resolve);
         this._socket.addEventListener('error', reject);
@@ -513,7 +513,7 @@ class Scratch3Speech2TextBlocks {
      * connects to the script node to get data.
      * @private
      */
-    _socketMessageCallback() {
+    _socketMessageCallback () {
         this._socket.addEventListener('message', this._onTranscriptionFromServer);
         this._startByteStream();
     }
@@ -522,7 +522,7 @@ class Scratch3Speech2TextBlocks {
      * Sets up callback for when socket and audio are initialized.
      * @private
      */
-    _newWebsocket() {
+    _newWebsocket () {
         const websocketPromise = new Promise(this._newSocketCallback);
         Promise.all([this._audioPromise, websocketPromise])
             .then(this._setupSocketCallback)
@@ -537,7 +537,7 @@ class Scratch3Speech2TextBlocks {
      * be useful to send more data so we can do quota stuff.
      * @param {Array} values The
      */
-    _setupSocketCallback(values) {
+    _setupSocketCallback (values) {
         this._micStream = values[0];
         this._socket = values[1].target;
 
@@ -565,7 +565,7 @@ class Scratch3Speech2TextBlocks {
      * Do setup so we can start streaming mic data.
      * @private
      */
-    _startByteStream() {
+    _startByteStream () {
         // Hook up the scriptNode to the mic
         this._sourceNode = this._context.createMediaStreamSource(this._micStream);
         this._sourceNode.connect(this._scriptNode);
@@ -579,7 +579,7 @@ class Scratch3Speech2TextBlocks {
      * @param {audioProcessingEvent} e The event with audio data in it.
      * @private
      */
-    _processAudioCallback(e) {
+    _processAudioCallback (e) {
         if (this._socket.readyState === WebSocket.CLOSED || this._socket.readyState === WebSocket.CLOSING) {
             log.error(`Not sending data because not in ready state. State: ${this._socket.readyState}`);
             // TODO: should we stop trying and reset state so it might work next time?
@@ -596,14 +596,14 @@ class Scratch3Speech2TextBlocks {
      * The key to load & store a target's speech-related state.
      * @type {string}
      */
-    static get STATE_KEY() {
+    static get STATE_KEY () {
         return 'Scratch.speech';
     }
 
     /**
      * @returns {object} Metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         return {
             id: 'speech2text',
             name: formatMessage({
@@ -663,7 +663,7 @@ class Scratch3Speech2TextBlocks {
      * Start the listening process if it isn't already in progress.
      * @return {Promise} A promise that will resolve when listening is complete.
      */
-    listenAndWait() {
+    listenAndWait () {
         this._phraseList = this._scanBlocksForPhraseList();
         this._resetEdgeTriggerUtterance();
 
@@ -682,7 +682,7 @@ class Scratch3Speech2TextBlocks {
      * @param {object} args - the block arguments.
      * @return {boolean} true if the phrase matches what was transcribed.
      */
-    whenIHearHat(args) {
+    whenIHearHat (args) {
         return this._speechMatches(args.PHRASE, this._utteranceForEdgeTrigger);
     }
 
@@ -690,7 +690,7 @@ class Scratch3Speech2TextBlocks {
      * Reporter for the last heard phrase/utterance.
      * @return {string} The lastest thing we heard from a listen and wait block.
      */
-    getSpeech() {
+    getSpeech () {
         return this._currentUtterance;
     }
 }

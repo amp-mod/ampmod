@@ -715,9 +715,9 @@ const serialize = function (runtime, targetId, {allowOptimization = true} = {}) 
     // Create extension set to hold extension ids found while serializing targets
     const extensions = new Set();
 
-    const originalTargetsToSerialize = targetId
-        ? [runtime.getTargetById(targetId)]
-        : runtime.targets.filter(target => target.isOriginal);
+    const originalTargetsToSerialize = targetId ?
+        [runtime.getTargetById(targetId)] :
+        runtime.targets.filter(target => target.isOriginal);
 
     const layerOrdering = getSimplifiedLayerOrdering(originalTargetsToSerialize);
 
@@ -828,134 +828,134 @@ const deserializeInputDesc = function (inputDescOrId, parentId, isShadow, blocks
     primitiveObj.inputs = Object.create(null);
     // need a reference to parent id
     switch (inputDescOrId[0]) {
-        case MATH_NUM_PRIMITIVE: {
-            primitiveObj.opcode = 'math_number';
-            primitiveObj.fields = {
-                NUM: {
-                    name: 'NUM',
-                    value: inputDescOrId[1]
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case POSITIVE_NUM_PRIMITIVE: {
-            primitiveObj.opcode = 'math_positive_number';
-            primitiveObj.fields = {
-                NUM: {
-                    name: 'NUM',
-                    value: inputDescOrId[1]
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case WHOLE_NUM_PRIMITIVE: {
-            primitiveObj.opcode = 'math_whole_number';
-            primitiveObj.fields = {
-                NUM: {
-                    name: 'NUM',
-                    value: inputDescOrId[1]
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case INTEGER_NUM_PRIMITIVE: {
-            primitiveObj.opcode = 'math_integer';
-            primitiveObj.fields = {
-                NUM: {
-                    name: 'NUM',
-                    value: inputDescOrId[1]
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case ANGLE_NUM_PRIMITIVE: {
-            primitiveObj.opcode = 'math_angle';
-            primitiveObj.fields = {
-                NUM: {
-                    name: 'NUM',
-                    value: inputDescOrId[1]
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case COLOR_PICKER_PRIMITIVE: {
-            primitiveObj.opcode = 'colour_picker';
-            primitiveObj.fields = {
-                COLOUR: {
-                    name: 'COLOUR',
-                    value: inputDescOrId[1]
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case TEXT_PRIMITIVE: {
-            primitiveObj.opcode = 'text';
-            primitiveObj.fields = {
-                TEXT: {
-                    name: 'TEXT',
-                    value: inputDescOrId[1]
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case BROADCAST_PRIMITIVE: {
-            primitiveObj.opcode = 'event_broadcast_menu';
-            primitiveObj.fields = {
-                BROADCAST_OPTION: {
-                    name: 'BROADCAST_OPTION',
-                    value: inputDescOrId[1],
-                    id: inputDescOrId[2],
-                    variableType: Variable.BROADCAST_MESSAGE_TYPE
-                }
-            };
-            primitiveObj.topLevel = false;
-            break;
-        }
-        case VAR_PRIMITIVE: {
-            primitiveObj.opcode = 'data_variable';
-            primitiveObj.fields = {
-                VARIABLE: {
-                    name: 'VARIABLE',
-                    value: inputDescOrId[1],
-                    id: inputDescOrId[2],
-                    variableType: Variable.SCALAR_TYPE
-                }
-            };
-            if (inputDescOrId.length > 3) {
-                primitiveObj.topLevel = true;
-                primitiveObj.x = inputDescOrId[3];
-                primitiveObj.y = inputDescOrId[4];
+    case MATH_NUM_PRIMITIVE: {
+        primitiveObj.opcode = 'math_number';
+        primitiveObj.fields = {
+            NUM: {
+                name: 'NUM',
+                value: inputDescOrId[1]
             }
-            break;
-        }
-        case LIST_PRIMITIVE: {
-            primitiveObj.opcode = 'data_listcontents';
-            primitiveObj.fields = {
-                LIST: {
-                    name: 'LIST',
-                    value: inputDescOrId[1],
-                    id: inputDescOrId[2],
-                    variableType: Variable.LIST_TYPE
-                }
-            };
-            if (inputDescOrId.length > 3) {
-                primitiveObj.topLevel = true;
-                primitiveObj.x = inputDescOrId[3];
-                primitiveObj.y = inputDescOrId[4];
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case POSITIVE_NUM_PRIMITIVE: {
+        primitiveObj.opcode = 'math_positive_number';
+        primitiveObj.fields = {
+            NUM: {
+                name: 'NUM',
+                value: inputDescOrId[1]
             }
-            break;
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case WHOLE_NUM_PRIMITIVE: {
+        primitiveObj.opcode = 'math_whole_number';
+        primitiveObj.fields = {
+            NUM: {
+                name: 'NUM',
+                value: inputDescOrId[1]
+            }
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case INTEGER_NUM_PRIMITIVE: {
+        primitiveObj.opcode = 'math_integer';
+        primitiveObj.fields = {
+            NUM: {
+                name: 'NUM',
+                value: inputDescOrId[1]
+            }
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case ANGLE_NUM_PRIMITIVE: {
+        primitiveObj.opcode = 'math_angle';
+        primitiveObj.fields = {
+            NUM: {
+                name: 'NUM',
+                value: inputDescOrId[1]
+            }
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case COLOR_PICKER_PRIMITIVE: {
+        primitiveObj.opcode = 'colour_picker';
+        primitiveObj.fields = {
+            COLOUR: {
+                name: 'COLOUR',
+                value: inputDescOrId[1]
+            }
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case TEXT_PRIMITIVE: {
+        primitiveObj.opcode = 'text';
+        primitiveObj.fields = {
+            TEXT: {
+                name: 'TEXT',
+                value: inputDescOrId[1]
+            }
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case BROADCAST_PRIMITIVE: {
+        primitiveObj.opcode = 'event_broadcast_menu';
+        primitiveObj.fields = {
+            BROADCAST_OPTION: {
+                name: 'BROADCAST_OPTION',
+                value: inputDescOrId[1],
+                id: inputDescOrId[2],
+                variableType: Variable.BROADCAST_MESSAGE_TYPE
+            }
+        };
+        primitiveObj.topLevel = false;
+        break;
+    }
+    case VAR_PRIMITIVE: {
+        primitiveObj.opcode = 'data_variable';
+        primitiveObj.fields = {
+            VARIABLE: {
+                name: 'VARIABLE',
+                value: inputDescOrId[1],
+                id: inputDescOrId[2],
+                variableType: Variable.SCALAR_TYPE
+            }
+        };
+        if (inputDescOrId.length > 3) {
+            primitiveObj.topLevel = true;
+            primitiveObj.x = inputDescOrId[3];
+            primitiveObj.y = inputDescOrId[4];
         }
-        default: {
-            log.error(`Found unknown primitive type during deserialization: ${JSON.stringify(inputDescOrId)}`);
-            return null;
+        break;
+    }
+    case LIST_PRIMITIVE: {
+        primitiveObj.opcode = 'data_listcontents';
+        primitiveObj.fields = {
+            LIST: {
+                name: 'LIST',
+                value: inputDescOrId[1],
+                id: inputDescOrId[2],
+                variableType: Variable.LIST_TYPE
+            }
+        };
+        if (inputDescOrId.length > 3) {
+            primitiveObj.topLevel = true;
+            primitiveObj.x = inputDescOrId[3];
+            primitiveObj.y = inputDescOrId[4];
         }
+        break;
+    }
+    default: {
+        log.error(`Found unknown primitive type during deserialization: ${JSON.stringify(inputDescOrId)}`);
+        return null;
+    }
     }
     blocks[newId] = primitiveObj;
     return newId;
@@ -1105,9 +1105,9 @@ const parseScratchAssets = function (object, runtime, zip) {
             costumeSource.dataFormat ||
             (costumeSource.assetType && costumeSource.assetType.runtimeFormat) || // older format
             'png'; // if all else fails, guess that it might be a PNG
-        const costumeMd5Ext = Object.prototype.hasOwnProperty.call(costumeSource, 'md5ext')
-            ? costumeSource.md5ext
-            : `${costumeSource.assetId}.${dataFormat}`;
+        const costumeMd5Ext = Object.prototype.hasOwnProperty.call(costumeSource, 'md5ext') ?
+            costumeSource.md5ext :
+            `${costumeSource.assetId}.${dataFormat}`;
         costume.md5 = costumeMd5Ext;
         costume.dataFormat = dataFormat;
         // deserializeCostume should be called on the costume object we're
@@ -1350,9 +1350,9 @@ const deserializeMonitor = function (monitorData, runtime, targets, extensions) 
     // Due to a bug (see https://github.com/scratchfoundation/scratch-vm/pull/2322), renamed list monitors may have been serialized
     // with an outdated/incorrect LIST parameter. Fix it up to use the current name of the actual corresponding list.
     if (monitorData.opcode === 'data_listcontents') {
-        const listTarget = monitorData.targetId
-            ? targets.find(t => t.id === monitorData.targetId)
-            : targets.find(t => t.isStage);
+        const listTarget = monitorData.targetId ?
+            targets.find(t => t.id === monitorData.targetId) :
+            targets.find(t => t.isStage);
         if (listTarget && Object.prototype.hasOwnProperty.call(listTarget.variables, monitorData.id)) {
             monitorData.params.LIST = listTarget.variables[monitorData.id].name;
         }

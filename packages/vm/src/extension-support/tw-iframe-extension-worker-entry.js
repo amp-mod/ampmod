@@ -8,7 +8,7 @@ const id = window.__WRAPPED_IFRAME_ID__;
 
 context.isWorker = false;
 context.centralDispatchService = {
-    postMessage(message, transfer) {
+    postMessage (message, transfer) {
         const data = {
             vmIframeId: id,
             message

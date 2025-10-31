@@ -61,7 +61,7 @@ const canvasPool = (function () {
      * collection.
      */
     class CanvasPool {
-        constructor() {
+        constructor () {
             this.pool = [];
             this.clearSoon = null;
         }
@@ -70,7 +70,7 @@ const canvasPool = (function () {
          * After a short wait period clear the pool to let the VM collect
          * garbage.
          */
-        clear() {
+        clear () {
             if (!this.clearSoon) {
                 this.clearSoon = new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
                     this.pool.length = 0;
@@ -83,7 +83,7 @@ const canvasPool = (function () {
          * Return a canvas. Create the canvas if the pool is empty.
          * @returns {HTMLCanvasElement} A canvas element.
          */
-        create() {
+        create () {
             return this.pool.pop() || document.createElement('canvas');
         }
 
@@ -91,14 +91,14 @@ const canvasPool = (function () {
          * Release the canvas to be reused.
          * @param {HTMLCanvasElement} canvas A canvas element.
          */
-        release(canvas) {
+        release (canvas) {
             this.clear();
             this.pool.push(canvas);
         }
     }
 
     return new CanvasPool();
-})();
+}());
 
 /**
  * @param {string} src URL of image
@@ -358,9 +358,9 @@ const handleCostumeLoadError = function (costume, runtime) {
     const isVector = costume.dataFormat === AssetType.ImageVector.runtimeFormat;
 
     // Use default asset if original fails to load
-    costume.assetId = isVector
-        ? runtime.storage.defaultAssetId.ImageVector
-        : runtime.storage.defaultAssetId.ImageBitmap;
+    costume.assetId = isVector ?
+        runtime.storage.defaultAssetId.ImageVector :
+        runtime.storage.defaultAssetId.ImageBitmap;
     costume.asset = runtime.storage.get(costume.assetId);
     costume.md5 = `${costume.assetId}.${costume.asset.dataFormat}`;
 

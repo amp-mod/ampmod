@@ -13,7 +13,7 @@
  * @param {string} blockId - Id for whose block data is cached in this instance
  */
 class RuntimeScriptCache {
-    constructor(container, blockId) {
+    constructor (container, blockId) {
         /**
          * Container with block data for blockId.
          * @type {Blocks}

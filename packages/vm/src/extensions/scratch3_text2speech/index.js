@@ -110,7 +110,7 @@ const WELSH_ID = 'cy';
  * @constructor
  */
 class Scratch3Text2SpeechBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -143,7 +143,7 @@ class Scratch3Text2SpeechBlocks {
     /**
      * An object with info for each voice.
      */
-    get VOICE_INFO() {
+    get VOICE_INFO () {
         return {
             [ALTO_ID]: {
                 name: formatMessage({
@@ -213,7 +213,7 @@ class Scratch3Text2SpeechBlocks {
      *      A different locale code system, used by our speech synthesis service.
      *      Each extension locale has a speech synth locale.
      */
-    get LANGUAGE_INFO() {
+    get LANGUAGE_INFO () {
         return {
             [ARABIC_ID]: {
                 name: 'Arabic',
@@ -346,7 +346,7 @@ class Scratch3Text2SpeechBlocks {
      * The key to load & store a target's text2speech state.
      * @return {string} The key.
      */
-    static get STATE_KEY() {
+    static get STATE_KEY () {
         return 'Scratch.text2speech';
     }
 
@@ -354,7 +354,7 @@ class Scratch3Text2SpeechBlocks {
      * The default state, to be used when a target has no existing state.
      * @type {Text2SpeechState}
      */
-    static get DEFAULT_TEXT2SPEECH_STATE() {
+    static get DEFAULT_TEXT2SPEECH_STATE () {
         return {
             voiceId: ALTO_ID
         };
@@ -364,7 +364,7 @@ class Scratch3Text2SpeechBlocks {
      * A default language to use for speech synthesis.
      * @type {string}
      */
-    get DEFAULT_LANGUAGE() {
+    get DEFAULT_LANGUAGE () {
         return ENGLISH_ID;
     }
 
@@ -373,7 +373,7 @@ class Scratch3Text2SpeechBlocks {
      * @returns {Text2SpeechState} the mutable state associated with that target. This will be created if necessary.
      * @private
      */
-    _getState(target) {
+    _getState (target) {
         let state = target.getCustomState(Scratch3Text2SpeechBlocks.STATE_KEY);
         if (!state) {
             state = Clone.simple(Scratch3Text2SpeechBlocks.DEFAULT_TEXT2SPEECH_STATE);
@@ -389,7 +389,7 @@ class Scratch3Text2SpeechBlocks {
      * @listens Runtime#event:targetWasCreated
      * @private
      */
-    _onTargetCreated(newTarget, sourceTarget) {
+    _onTargetCreated (newTarget, sourceTarget) {
         if (sourceTarget) {
             const state = sourceTarget.getCustomState(Scratch3Text2SpeechBlocks.STATE_KEY);
             if (state) {
@@ -401,7 +401,7 @@ class Scratch3Text2SpeechBlocks {
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         // Only localize the default input to the "speak" block if we are in a
         // supported language.
         let defaultTextToSpeak = 'hello';
@@ -490,7 +490,7 @@ class Scratch3Text2SpeechBlocks {
      * browser locale.
      * @return {string} a Scratch locale code.
      */
-    getEditorLanguage() {
+    getEditorLanguage () {
         const locale =
             formatMessage.setup().locale || navigator.language || navigator.userLanguage || this.DEFAULT_LANGUAGE;
         return locale.toLowerCase();
@@ -500,7 +500,7 @@ class Scratch3Text2SpeechBlocks {
      * Get the language code currently set for the extension.
      * @returns {string} a Scratch locale code.
      */
-    getCurrentLanguage() {
+    getCurrentLanguage () {
         const stage = this.runtime.getTargetForStage();
         if (!stage) return this.DEFAULT_LANGUAGE;
         // If no language has been set, set it to the editor locale (or default).
@@ -515,7 +515,7 @@ class Scratch3Text2SpeechBlocks {
      * It is stored in the stage so it can be saved and loaded with the project.
      * @param {string} locale a locale code.
      */
-    setCurrentLanguage(locale) {
+    setCurrentLanguage (locale) {
         const stage = this.runtime.getTargetForStage();
         if (!stage) return;
 
@@ -544,7 +544,7 @@ class Scratch3Text2SpeechBlocks {
      * @param {string} locale a locale code.
      * @returns {?string} a locale supported by the extension.
      */
-    _getExtensionLocaleForSupportedLocale(locale) {
+    _getExtensionLocaleForSupportedLocale (locale) {
         for (const lang in this.LANGUAGE_INFO) {
             if (this.LANGUAGE_INFO[lang].locales.includes(locale)) {
                 return lang;
@@ -558,7 +558,7 @@ class Scratch3Text2SpeechBlocks {
      * the current language code set for the extension.
      * @returns {string} a speech synthesis locale.
      */
-    _getSpeechSynthLocale() {
+    _getSpeechSynthLocale () {
         let speechSynthLocale = this.LANGUAGE_INFO[this.DEFAULT_LANGUAGE].speechSynthLocale;
         if (this.LANGUAGE_INFO[this.getCurrentLanguage()]) {
             speechSynthLocale = this.LANGUAGE_INFO[this.getCurrentLanguage()].speechSynthLocale;
@@ -570,7 +570,7 @@ class Scratch3Text2SpeechBlocks {
      * Get an array of the locales supported by this extension.
      * @returns {Array} An array of locale strings.
      */
-    _getSupportedLocales() {
+    _getSupportedLocales () {
         return Object.keys(this.LANGUAGE_INFO).reduce((acc, lang) => acc.concat(this.LANGUAGE_INFO[lang].locales), []);
     }
 
@@ -580,7 +580,7 @@ class Scratch3Text2SpeechBlocks {
      * @param {string} languageCode the language code to check.
      * @returns {boolean} true if the language code is supported.
      */
-    isSupportedLanguage(languageCode) {
+    isSupportedLanguage (languageCode) {
         return this._supportedLocales.includes(languageCode);
     }
 
@@ -588,7 +588,7 @@ class Scratch3Text2SpeechBlocks {
      * Get the menu of voices for the "set voice" block.
      * @return {array} the text and value for each menu item.
      */
-    getVoiceMenu() {
+    getVoiceMenu () {
         return Object.keys(this.VOICE_INFO).map(voiceId => ({
             text: this.VOICE_INFO[voiceId].name,
             value: voiceId
@@ -603,7 +603,7 @@ class Scratch3Text2SpeechBlocks {
      *   otherwise fall back to the untranslated name in LANGUAGE_INFO.
      * @return {array} the text and value for each menu item.
      */
-    getLanguageMenu() {
+    getLanguageMenu () {
         const editorLanguage = this.getEditorLanguage();
         // Get the array of localized language names
         const localizedNameMap = {};
@@ -646,7 +646,7 @@ class Scratch3Text2SpeechBlocks {
      * @param  {object} args Block arguments
      * @param {object} util Utility object provided by the runtime.
      */
-    setVoice(args, util) {
+    setVoice (args, util) {
         const state = this._getState(util.target);
 
         let voice = args.VOICE;
@@ -669,14 +669,14 @@ class Scratch3Text2SpeechBlocks {
      * Set the language for speech synthesis.
      * @param  {object} args Block arguments
      */
-    setLanguage(args) {
+    setLanguage (args) {
         this.setCurrentLanguage(args.LANGUAGE);
     }
 
     /**
      * Stop all currently playing speech sounds.
      */
-    _stopAllSpeech() {
+    _stopAllSpeech () {
         this._soundPlayers.forEach(player => {
             player.stop();
         });
@@ -688,7 +688,7 @@ class Scratch3Text2SpeechBlocks {
      * @param {object} util Utility object provided by the runtime.
      * @return {Promise} A promise that resolves after playing the sound
      */
-    speakAndWait(args, util) {
+    speakAndWait (args, util) {
         // Cast input to string
         let words = Cast.toString(args.WORDS);
         let locale = this._getSpeechSynthLocale();

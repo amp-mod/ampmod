@@ -78,7 +78,7 @@ const LOCAL_THRESHOLD = THRESHOLD / 3;
  * @constructor
  */
 class VideoMotion {
-    constructor() {
+    constructor () {
         /**
          * The number of frames that have been added from a source.
          * @type {number}
@@ -143,7 +143,7 @@ class VideoMotion {
      * Reset internal state so future frame analysis does not consider values
      * from before this method was called.
      */
-    reset() {
+    reset () {
         this.frameNumber = 0;
         this.lastAnalyzedFrame = 0;
         this.motionAmount = this.motionDirection = 0;
@@ -155,7 +155,7 @@ class VideoMotion {
      * each index in the RGBA format.
      * @param {Uint32Array} source - a source frame of pixels to copy
      */
-    addFrame(source) {
+    addFrame (source) {
         this.frameNumber++;
 
         // Swap curr to prev.
@@ -178,7 +178,7 @@ class VideoMotion {
      * Analyze the current frame against the previous frame determining the
      * amount of motion and direction of the motion.
      */
-    analyzeFrame() {
+    analyzeFrame () {
         if (!this.curr || !this.prev) {
             this.motionAmount = this.motionDirection = -1;
             // Don't have two frames to analyze yet
@@ -272,7 +272,7 @@ class VideoMotion {
      * @param {Drawable} drawable - touchable and bounded drawable to build motion for
      * @param {MotionState} state - state to store built values to
      */
-    getLocalMotion(drawable, state) {
+    getLocalMotion (drawable, state) {
         if (!this.curr || !this.prev) {
             state.motionAmount = state.motionDirection = -1;
             // Don't have two frames to analyze yet

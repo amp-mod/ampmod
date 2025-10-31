@@ -9,7 +9,7 @@ const {startHats} = require('../../compiler/compat-block-utility');
  * @constructor
  */
 class ElectroTestBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -20,7 +20,7 @@ class ElectroTestBlocks {
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         return {
             id: 'electroTest',
             name: 'Electro Test',
@@ -108,32 +108,32 @@ class ElectroTestBlocks {
         };
     }
 
-    listOfGreetings() {
+    listOfGreetings () {
         return ['hello', 'hi', 'greetings', 'welcome', 'hola', 'bonjour'];
     }
 
-    addRandomNumber(args) {
+    addRandomNumber (args) {
         const baseArray = args.ARRAY;
         return [...baseArray, Math.floor(Math.random() * 10) + 1];
     }
 
-    ampApiObject() {
+    ampApiObject () {
         return AmpMod;
     }
 
-    multiReporter() {
+    multiReporter () {
         return "I'm not joking";
     }
 
-    helpUrlExists() {
+    helpUrlExists () {
         console.log('Yes');
     }
 
-    scbb() {
+    scbb () {
         alert('switch like a snitch');
     }
 
-    pause() {
+    pause () {
         this.runtime.isPaused = true;
     }
 }

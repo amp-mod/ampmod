@@ -19,7 +19,8 @@ test('base64ToUint8Array', t => {
 
 test('round trips', t => {
     const data = [
-        new Uint8Array(new Array(255).fill().map((_, index) => index)),
+        new Uint8Array(new Array(255).fill()
+            .map((_, index) => index)),
         new Uint8Array(0),
         new Uint8Array([10, 90, 0, 255, 255, 255, 10, 2]),
         new Uint8Array(10000),

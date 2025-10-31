@@ -16,7 +16,7 @@ const MathUtil = require('../util/math-util');
  */
 
 class Scratch3LooksBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -40,7 +40,7 @@ class Scratch3LooksBlocks {
      * The default bubble state, to be used when a target has no existing bubble state.
      * @type {BubbleState}
      */
-    static get DEFAULT_BUBBLE_STATE() {
+    static get DEFAULT_BUBBLE_STATE () {
         return {
             drawableId: null,
             onSpriteRight: true,
@@ -55,7 +55,7 @@ class Scratch3LooksBlocks {
      * The key to load & store a target's bubble-related state.
      * @type {string}
      */
-    static get STATE_KEY() {
+    static get STATE_KEY () {
         return 'Scratch.looks';
     }
 
@@ -63,7 +63,7 @@ class Scratch3LooksBlocks {
      * Event name for a text bubble being created or updated.
      * @const {string}
      */
-    static get SAY_OR_THINK() {
+    static get SAY_OR_THINK () {
         // There are currently many places in the codebase which explicitly refer to this event by the string 'SAY',
         // so keep this as the string 'SAY' for now rather than changing it to 'SAY_OR_THINK' and breaking things.
         return 'SAY';
@@ -73,7 +73,7 @@ class Scratch3LooksBlocks {
      * Limit for say bubble string.
      * @const {string}
      */
-    static get SAY_BUBBLE_LIMIT() {
+    static get SAY_BUBBLE_LIMIT () {
         return 330;
     }
 
@@ -81,7 +81,7 @@ class Scratch3LooksBlocks {
      * Limit for ghost effect
      * @const {object}
      */
-    static get EFFECT_GHOST_LIMIT() {
+    static get EFFECT_GHOST_LIMIT () {
         return {min: 0, max: 100};
     }
 
@@ -89,7 +89,7 @@ class Scratch3LooksBlocks {
      * Limit for brightness effect
      * @const {object}
      */
-    static get EFFECT_BRIGHTNESS_LIMIT() {
+    static get EFFECT_BRIGHTNESS_LIMIT () {
         return {min: -100, max: 100};
     }
 
@@ -98,7 +98,7 @@ class Scratch3LooksBlocks {
      * @returns {BubbleState} the mutable bubble state associated with that target. This will be created if necessary.
      * @private
      */
-    _getBubbleState(target) {
+    _getBubbleState (target) {
         let bubbleState = target.getCustomState(Scratch3LooksBlocks.STATE_KEY);
         if (!bubbleState) {
             bubbleState = Clone.simple(Scratch3LooksBlocks.DEFAULT_BUBBLE_STATE);
@@ -112,7 +112,7 @@ class Scratch3LooksBlocks {
      * @param {RenderedTarget} target - the target which has moved.
      * @private
      */
-    _onTargetChanged(target) {
+    _onTargetChanged (target) {
         const bubbleState = this._getBubbleState(target);
         if (bubbleState.drawableId) {
             this._positionBubble(target);
@@ -124,7 +124,7 @@ class Scratch3LooksBlocks {
      * @param {RenderedTarget} target - the target.
      * @private
      */
-    _onTargetWillExit(target) {
+    _onTargetWillExit (target) {
         const bubbleState = this._getBubbleState(target);
         if (bubbleState.drawableId && bubbleState.skinId) {
             this.runtime.renderer.destroyDrawable(bubbleState.drawableId, StageLayering.SPRITE_LAYER);
@@ -140,7 +140,7 @@ class Scratch3LooksBlocks {
      * Handle project start/stop by clearing all visible bubbles.
      * @private
      */
-    _onResetBubbles() {
+    _onResetBubbles () {
         for (let n = 0; n < this.runtime.targets.length; n++) {
             const bubbleState = this._getBubbleState(this.runtime.targets[n]);
             bubbleState.text = '';
@@ -154,7 +154,7 @@ class Scratch3LooksBlocks {
      * @param {!Target} target Target whose bubble needs positioning.
      * @private
      */
-    _positionBubble(target) {
+    _positionBubble (target) {
         if (!target.visible) return;
         const bubbleState = this._getBubbleState(target);
         const [bubbleWidth, bubbleHeight] = this.runtime.renderer.getCurrentSkinSize(bubbleState.drawableId);
@@ -196,15 +196,15 @@ class Scratch3LooksBlocks {
             this._renderBubble(target);
         } else {
             this.runtime.renderer.updateDrawablePosition(bubbleState.drawableId, [
-                bubbleState.onSpriteRight
-                    ? Math.max(
-                          stageBounds.left, // Bubble should not extend past left edge of stage
-                          Math.min(stageBounds.right - bubbleWidth, targetBounds.right)
-                      )
-                    : Math.min(
-                          stageBounds.right - bubbleWidth, // Bubble should not extend past right edge of stage
-                          Math.max(stageBounds.left, targetBounds.left - bubbleWidth)
-                      ),
+                bubbleState.onSpriteRight ?
+                    Math.max(
+                        stageBounds.left, // Bubble should not extend past left edge of stage
+                        Math.min(stageBounds.right - bubbleWidth, targetBounds.right)
+                    ) :
+                    Math.min(
+                        stageBounds.right - bubbleWidth, // Bubble should not extend past right edge of stage
+                        Math.max(stageBounds.left, targetBounds.left - bubbleWidth)
+                    ),
                 // Bubble should not extend past the top of the stage
                 Math.min(stageBounds.top, targetBounds.bottom + bubbleHeight)
             ]);
@@ -220,7 +220,7 @@ class Scratch3LooksBlocks {
      * @return {undefined} Early return if text is empty string.
      * @private
      */
-    _renderBubble(target) {
+    _renderBubble (target) {
         // used by compiler
         if (!this.runtime.renderer) return;
 
@@ -251,7 +251,7 @@ class Scratch3LooksBlocks {
      * @return {string} The formatted text
      * @private
      */
-    _formatBubbleText(text) {
+    _formatBubbleText (text) {
         if (text === '') return text;
 
         // Non-integers should be rounded to 2 decimal places (no more, no less), unless they're small enough that
@@ -275,7 +275,7 @@ class Scratch3LooksBlocks {
      * @param {!string} text The text for the bubble, empty string clears the bubble.
      * @private
      */
-    _updateBubble(target, type, text) {
+    _updateBubble (target, type, text) {
         const bubbleState = this._getBubbleState(target);
         bubbleState.type = type;
         bubbleState.text = this._formatBubbleText(text);
@@ -287,7 +287,7 @@ class Scratch3LooksBlocks {
      * Retrieve the block primitives implemented by this package.
      * @return {object.<string, Function>} Mapping of opcode to Function.
      */
-    getPrimitives() {
+    getPrimitives () {
         return {
             looks_say: this.say,
             looks_sayforsecs: this.sayforsecs,
@@ -316,7 +316,7 @@ class Scratch3LooksBlocks {
         };
     }
 
-    getMonitored() {
+    getMonitored () {
         return {
             looks_size: {
                 isSpriteSpecific: true,
@@ -332,17 +332,17 @@ class Scratch3LooksBlocks {
         };
     }
 
-    say(args, util) {
+    say (args, util) {
         // @TODO in 2.0 calling say/think resets the right/left bias of the bubble
         const message = args.MESSAGE;
         this._say(message, util.target);
     }
-    _say(message, target) {
+    _say (message, target) {
         // used by compiler
         this.runtime.emit(Scratch3LooksBlocks.SAY_OR_THINK, target, 'say', message);
     }
 
-    sayforsecs(args, util) {
+    sayforsecs (args, util) {
         this.say(args, util);
         const target = util.target;
         const usageId = this._getBubbleState(target).usageId;
@@ -358,11 +358,11 @@ class Scratch3LooksBlocks {
         });
     }
 
-    think(args, util) {
+    think (args, util) {
         this.runtime.emit(Scratch3LooksBlocks.SAY_OR_THINK, util.target, 'think', args.MESSAGE);
     }
 
-    thinkforsecs(args, util) {
+    thinkforsecs (args, util) {
         this.think(args, util);
         const target = util.target;
         const usageId = this._getBubbleState(target).usageId;
@@ -378,12 +378,12 @@ class Scratch3LooksBlocks {
         });
     }
 
-    show(args, util) {
+    show (args, util) {
         util.target.setVisible(true);
         this._renderBubble(util.target);
     }
 
-    hide(args, util) {
+    hide (args, util) {
         util.target.setVisible(false);
         this._renderBubble(util.target);
     }
@@ -396,7 +396,7 @@ class Scratch3LooksBlocks {
      * @param {boolean=} optZeroIndex Set to zero-index the requestedCostume.
      * @return {Array.<!Thread>} Any threads started by this switch.
      */
-    _setCostume(target, requestedCostume, optZeroIndex) {
+    _setCostume (target, requestedCostume, optZeroIndex) {
         // used by compiler
         if (typeof requestedCostume === 'number') {
             // Numbers should be treated as costume indices, always
@@ -431,7 +431,7 @@ class Scratch3LooksBlocks {
      * @param {boolean=} optZeroIndex Set to zero-index the requestedBackdrop.
      * @return {Array.<!Thread>} Any threads started by this switch.
      */
-    _setBackdrop(stage, requestedBackdrop, optZeroIndex) {
+    _setBackdrop (stage, requestedBackdrop, optZeroIndex) {
         // used by compiler
         if (typeof requestedBackdrop === 'number') {
             // Numbers should be treated as backdrop indices, always
@@ -473,19 +473,19 @@ class Scratch3LooksBlocks {
         });
     }
 
-    switchCostume(args, util) {
+    switchCostume (args, util) {
         this._setCostume(util.target, args.COSTUME); // used by compiler
     }
 
-    nextCostume(args, util) {
+    nextCostume (args, util) {
         this._setCostume(util.target, util.target.currentCostume + 1, true);
     }
 
-    switchBackdrop(args) {
+    switchBackdrop (args) {
         this._setBackdrop(this.runtime.getTargetForStage(), args.BACKDROP);
     }
 
-    switchBackdropAndWait(args, util) {
+    switchBackdropAndWait (args, util) {
         // Have we run before, starting threads?
         if (!util.stackFrame.startedThreads) {
             // No - switch the backdrop.
@@ -514,34 +514,34 @@ class Scratch3LooksBlocks {
         }
     }
 
-    nextBackdrop() {
+    nextBackdrop () {
         const stage = this.runtime.getTargetForStage();
         this._setBackdrop(stage, stage.currentCostume + 1, true);
     }
 
-    clampEffect(effect, value) {
+    clampEffect (effect, value) {
         // used by compiler
         let clampedValue = value;
         switch (effect) {
-            case 'ghost':
-                clampedValue = MathUtil.clamp(
-                    value,
-                    Scratch3LooksBlocks.EFFECT_GHOST_LIMIT.min,
-                    Scratch3LooksBlocks.EFFECT_GHOST_LIMIT.max
-                );
-                break;
-            case 'brightness':
-                clampedValue = MathUtil.clamp(
-                    value,
-                    Scratch3LooksBlocks.EFFECT_BRIGHTNESS_LIMIT.min,
-                    Scratch3LooksBlocks.EFFECT_BRIGHTNESS_LIMIT.max
-                );
-                break;
+        case 'ghost':
+            clampedValue = MathUtil.clamp(
+                value,
+                Scratch3LooksBlocks.EFFECT_GHOST_LIMIT.min,
+                Scratch3LooksBlocks.EFFECT_GHOST_LIMIT.max
+            );
+            break;
+        case 'brightness':
+            clampedValue = MathUtil.clamp(
+                value,
+                Scratch3LooksBlocks.EFFECT_BRIGHTNESS_LIMIT.min,
+                Scratch3LooksBlocks.EFFECT_BRIGHTNESS_LIMIT.max
+            );
+            break;
         }
         return clampedValue;
     }
 
-    changeEffect(args, util) {
+    changeEffect (args, util) {
         const effect = Cast.toString(args.EFFECT).toLowerCase();
         const change = Cast.toNumber(args.CHANGE);
         if (!Object.prototype.hasOwnProperty.call(util.target.effects, effect)) return;
@@ -550,28 +550,28 @@ class Scratch3LooksBlocks {
         util.target.setEffect(effect, newValue);
     }
 
-    setEffect(args, util) {
+    setEffect (args, util) {
         const effect = Cast.toString(args.EFFECT).toLowerCase();
         let value = Cast.toNumber(args.VALUE);
         value = this.clampEffect(effect, value);
         util.target.setEffect(effect, value);
     }
 
-    clearEffects(args, util) {
+    clearEffects (args, util) {
         util.target.clearEffects();
     }
 
-    changeSize(args, util) {
+    changeSize (args, util) {
         const change = Cast.toNumber(args.CHANGE);
         util.target.setSize(util.target.size + change);
     }
 
-    setSize(args, util) {
+    setSize (args, util) {
         const size = Cast.toNumber(args.SIZE);
         util.target.setSize(size);
     }
 
-    goToFrontBack(args, util) {
+    goToFrontBack (args, util) {
         if (!util.target.isStage) {
             if (args.FRONT_BACK === 'front') {
                 util.target.goToFront();
@@ -581,7 +581,7 @@ class Scratch3LooksBlocks {
         }
     }
 
-    goForwardBackwardLayers(args, util) {
+    goForwardBackwardLayers (args, util) {
         if (!util.target.isStage) {
             if (args.FORWARD_BACKWARD === 'forward') {
                 util.target.goForwardLayers(Cast.toNumber(args.NUM));
@@ -591,11 +591,11 @@ class Scratch3LooksBlocks {
         }
     }
 
-    getSize(args, util) {
+    getSize (args, util) {
         return Math.round(util.target.size);
     }
 
-    getBackdropNumberName(args) {
+    getBackdropNumberName (args) {
         const stage = this.runtime.getTargetForStage();
         if (args.NUMBER_NAME === 'number') {
             return stage.currentCostume + 1;
@@ -604,7 +604,7 @@ class Scratch3LooksBlocks {
         return stage.getCostumes()[stage.currentCostume].name;
     }
 
-    getCostumeNumberName(args, util) {
+    getCostumeNumberName (args, util) {
         if (args.NUMBER_NAME === 'number') {
             return util.target.currentCostume + 1;
         }

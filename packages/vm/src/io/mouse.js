@@ -3,7 +3,7 @@ const MathUtil = require('../util/math-util');
 const roundToThreeDecimals = number => Math.round(number * 1000) / 1000;
 
 class Mouse {
-    constructor(runtime) {
+    constructor (runtime) {
         this._clientX = 0;
         this._clientY = 0;
         this._scratchX = 0;
@@ -24,7 +24,7 @@ class Mouse {
      * @param  {Target} target to trigger hats on.
      * @private
      */
-    _activateClickHats(target) {
+    _activateClickHats (target) {
         // Activate both "this sprite clicked" and "stage clicked"
         // They were separated into two opcodes for labeling,
         // but should act the same way.
@@ -41,7 +41,7 @@ class Mouse {
      * @return {Target} the target at that location
      * @private
      */
-    _pickTarget(x, y) {
+    _pickTarget (x, y) {
         if (this.runtime.renderer) {
             const drawableID = this.runtime.renderer.pick(x, y);
             for (let i = 0; i < this.runtime.targets.length; i++) {
@@ -59,7 +59,7 @@ class Mouse {
      * Mouse DOM event handler.
      * @param  {object} data Data from DOM event.
      */
-    postData(data) {
+    postData (data) {
         if (typeof data.x === 'number') {
             this._clientX = data.x;
             this._scratchX = MathUtil.clamp(
@@ -118,7 +118,7 @@ class Mouse {
      * Get the X position of the mouse in client coordinates.
      * @return {number} Non-clamped X position of the mouse cursor.
      */
-    getClientX() {
+    getClientX () {
         return this._clientX;
     }
 
@@ -126,7 +126,7 @@ class Mouse {
      * Get the Y position of the mouse in client coordinates.
      * @return {number} Non-clamped Y position of the mouse cursor.
      */
-    getClientY() {
+    getClientY () {
         return this._clientY;
     }
 
@@ -134,7 +134,7 @@ class Mouse {
      * Get the X position of the mouse in scratch coordinates.
      * @return {number} Clamped and integer rounded X position of the mouse cursor.
      */
-    getScratchX() {
+    getScratchX () {
         if (this.runtime.runtimeOptions.miscLimits) {
             return Math.round(this._scratchX);
         }
@@ -145,7 +145,7 @@ class Mouse {
      * Get the Y position of the mouse in scratch coordinates.
      * @return {number} Clamped and integer rounded Y position of the mouse cursor.
      */
-    getScratchY() {
+    getScratchY () {
         if (this.runtime.runtimeOptions.miscLimits) {
             return Math.round(this._scratchY);
         }
@@ -156,7 +156,7 @@ class Mouse {
      * Get the down state of the mouse.
      * @return {boolean} Is the mouse down?
      */
-    getIsDown() {
+    getIsDown () {
         return this._isDown;
     }
 
@@ -165,7 +165,7 @@ class Mouse {
      * @param {number} button The ID of the button. 0 = left, 1 = middle, 2 = right
      * @return {boolean} Is the mouse button down?
      */
-    getButtonIsDown(button) {
+    getButtonIsDown (button) {
         if (button === 2) {
             this.usesRightClickDown = true;
         }

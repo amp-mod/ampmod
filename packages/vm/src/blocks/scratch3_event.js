@@ -1,7 +1,7 @@
 const Cast = require('../util/cast');
 
 class Scratch3EventBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -22,7 +22,7 @@ class Scratch3EventBlocks {
      * Retrieve the block primitives implemented by this package.
      * @return {object.<string, Function>} Mapping of opcode to Function.
      */
-    getPrimitives() {
+    getPrimitives () {
         return {
             event_whentouchingobject: this.touchingObject,
             event_broadcast: this.broadcast,
@@ -31,7 +31,7 @@ class Scratch3EventBlocks {
         };
     }
 
-    getHats() {
+    getHats () {
         return {
             event_whenflagclicked: {
                 restartExistingThreads: true
@@ -65,23 +65,23 @@ class Scratch3EventBlocks {
         };
     }
 
-    touchingObject(args, util) {
+    touchingObject (args, util) {
         return util.target.isTouchingObject(args.TOUCHINGOBJECTMENU);
     }
 
-    hatGreaterThanPredicate(args, util) {
+    hatGreaterThanPredicate (args, util) {
         const option = Cast.toString(args.WHENGREATERTHANMENU).toLowerCase();
         const value = Cast.toNumber(args.VALUE);
         switch (option) {
-            case 'timer':
-                return util.ioQuery('clock', 'projectTimer') > value;
-            case 'loudness':
-                return this.runtime.audioEngine && this.runtime.audioEngine.getLoudness() > value;
+        case 'timer':
+            return util.ioQuery('clock', 'projectTimer') > value;
+        case 'loudness':
+            return this.runtime.audioEngine && this.runtime.audioEngine.getLoudness() > value;
         }
         return false;
     }
 
-    broadcast(args, util) {
+    broadcast (args, util) {
         const broadcastVar = util.runtime
             .getTargetForStage()
             .lookupBroadcastMsg(args.BROADCAST_OPTION.id, args.BROADCAST_OPTION.name);
@@ -93,7 +93,7 @@ class Scratch3EventBlocks {
         }
     }
 
-    broadcastAndWait(args, util) {
+    broadcastAndWait (args, util) {
         if (!util.stackFrame.broadcastVar) {
             util.stackFrame.broadcastVar = util.runtime
                 .getTargetForStage()

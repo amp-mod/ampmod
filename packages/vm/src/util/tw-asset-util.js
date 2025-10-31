@@ -8,7 +8,7 @@ class AssetUtil {
      * @param {string} md5ext full md5 with file extension
      * @returns {Promise<Storage.Asset>} scratch-storage asset object
      */
-    static getByMd5ext(runtime, zip, assetType, md5ext) {
+    static getByMd5ext (runtime, zip, assetType, md5ext) {
         const idParts = StringUtil.splitFirst(md5ext, '.');
         const md5 = idParts[0];
         const ext = idParts[1].toLowerCase();

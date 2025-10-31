@@ -65,7 +65,7 @@ const SCRATCH_KEY_NAME = {
  * @constructor
  */
 class Scratch3MakeyMakeyBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -115,7 +115,7 @@ class Scratch3MakeyMakeyBlocks {
      * displayed menu items of the "when keys pressed in order" block.
      * @type {object}
      */
-    get KEY_TEXT_SHORT() {
+    get KEY_TEXT_SHORT () {
         return {
             [KEY_ID_SPACE]: formatMessage({
                 id: 'makeymakey.spaceKey',
@@ -150,7 +150,7 @@ class Scratch3MakeyMakeyBlocks {
      * key sequences for use by the "when keys pressed in order" block.
      * @type {array}
      */
-    get DEFAULT_SEQUENCES() {
+    get DEFAULT_SEQUENCES () {
         return [
             `${KEY_ID_LEFT} ${KEY_ID_UP} ${KEY_ID_RIGHT}`,
             `${KEY_ID_RIGHT} ${KEY_ID_UP} ${KEY_ID_LEFT}`,
@@ -168,7 +168,7 @@ class Scratch3MakeyMakeyBlocks {
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         return {
             globalExtensions: ['colours_data_lists'],
             id: 'makeymakey',
@@ -273,7 +273,7 @@ class Scratch3MakeyMakeyBlocks {
      * @param {array} sequencesArray an array of strings of KEY_IDs.
      * @returns {array} an array of objects with text and value properties.
      */
-    buildSequenceMenu(sequencesArray) {
+    buildSequenceMenu (sequencesArray) {
         return sequencesArray.map(str => this.getMenuItemForSequenceString(str));
     }
 
@@ -282,7 +282,7 @@ class Scratch3MakeyMakeyBlocks {
      * @param {string} sequenceString a string of KEY_IDs.
      * @return {object} an object with text and value properties.
      */
-    getMenuItemForSequenceString(sequenceString) {
+    getMenuItemForSequenceString (sequenceString) {
         let sequenceArray = sequenceString.split(' ');
         sequenceArray = sequenceArray.map(str => this.KEY_TEXT_SHORT[str]);
         return {
@@ -299,7 +299,7 @@ class Scratch3MakeyMakeyBlocks {
      * @property {number} KEY - a key code.
      * @param {object} util - utility object provided by the runtime.
      */
-    whenMakeyKeyPressed(args, util) {
+    whenMakeyKeyPressed (args, util) {
         let key = args.KEY;
         // Convert the key arg, if it is a KEY_ID, to the key name used by
         // the Keyboard io module.
@@ -315,7 +315,7 @@ class Scratch3MakeyMakeyBlocks {
      * buffer and check if any of the key sequences have been completed.
      * @param {string} key A scratch key name.
      */
-    keyPressed(key) {
+    keyPressed (key) {
         // Store only the first word of the Scratch key name, so that e.g. when
         // "left arrow" is pressed, we store "LEFT", which matches KEY_ID_LEFT
         key = key.split(' ')[0];
@@ -357,7 +357,7 @@ class Scratch3MakeyMakeyBlocks {
     /**
      * Clear the key press buffer.
      */
-    _clearkeyPressBuffer() {
+    _clearkeyPressBuffer () {
         this.keyPressBuffer = [];
     }
 
@@ -366,7 +366,7 @@ class Scratch3MakeyMakeyBlocks {
      * @param {string} sequenceString a string of space-separated KEY_IDs.
      * @param {array} sequenceArray an array of KEY_IDs.
      */
-    addSequence(sequenceString, sequenceArray) {
+    addSequence (sequenceString, sequenceArray) {
         // If we already have this sequence string, return.
         if (Object.prototype.hasOwnProperty.call(this.sequences, sequenceString)) {
             return;
@@ -382,7 +382,7 @@ class Scratch3MakeyMakeyBlocks {
      * @param {object} args The block arguments.
      * @property {number} SEQUENCE A string of KEY_IDs.
      */
-    whenCodePressed(args) {
+    whenCodePressed (args) {
         const sequenceString = Cast.toString(args.SEQUENCE).toUpperCase();
         const sequenceArray = sequenceString.split(' ');
         if (sequenceArray.length < 2) {

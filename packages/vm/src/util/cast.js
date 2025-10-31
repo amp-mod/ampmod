@@ -40,7 +40,7 @@ class Cast {
      * @param {*} value Value to cast to number.
      * @return {number} The Scratch-casted number value.
      */
-    static toNumber(value) {
+    static toNumber (value) {
         // If value is already a number we don't need to coerce it with
         // Number().
         if (typeof value === 'number') {
@@ -67,7 +67,7 @@ class Cast {
      * @param {*} value Value to cast to boolean.
      * @return {boolean} The Scratch-casted boolean value.
      */
-    static toBoolean(value) {
+    static toBoolean (value) {
         // Already a boolean?
         if (typeof value === 'boolean') {
             return value;
@@ -89,7 +89,7 @@ class Cast {
      * @param {*} value Value to cast to string.
      * @return {string} The Scratch-casted string value.
      */
-    static toString(value) {
+    static toString (value) {
         return String(value);
     }
 
@@ -98,7 +98,7 @@ class Cast {
      * @param {*} value Value to convert to RGB color array.
      * @return {Array.<number>} [r,g,b], values between 0-255.
      */
-    static toRgbColorList(value) {
+    static toRgbColorList (value) {
         const color = Cast.toRgbColorObject(value);
         return [color.r, color.g, color.b];
     }
@@ -108,7 +108,7 @@ class Cast {
      * @param {*} value Value to convert to RGB color object.
      * @return {RGBOject} [r,g,b], values between 0-255.
      */
-    static toRgbColorObject(value) {
+    static toRgbColorObject (value) {
         let color;
         if (typeof value === 'string' && value.substring(0, 1) === '#') {
             color = Color.hexToRgb(value);
@@ -127,7 +127,7 @@ class Cast {
      * @param {*} value Value to convert to an array.
      * @return {Array} The value converted to an array.
      */
-    static toList(value) {
+    static toList (value) {
         if (Array.isArray(value)) {
             return value;
         }
@@ -157,7 +157,7 @@ class Cast {
      * @param {*} val value to check.
      * @return {boolean} True if the argument is all white spaces or null / empty.
      */
-    static isWhiteSpace(val) {
+    static isWhiteSpace (val) {
         return val === null || (typeof val === 'string' && val.trim().length === 0);
     }
 
@@ -168,7 +168,7 @@ class Cast {
      * @param {*} v2 Second value to compare.
      * @returns {number} Negative number if v1 < v2; 0 if equal; positive otherwise.
      */
-    static compare(v1, v2) {
+    static compare (v1, v2) {
         let n1 = Number(v1);
         let n2 = Number(v2);
         if (n1 === 0 && isNotActuallyZero(v1)) {
@@ -204,7 +204,7 @@ class Cast {
      * @param {*} v2 Second value to compare.
      * @returns {number} Negative number if v1 < v2; 0 if equal; positive otherwise.
      */
-    static compareCS(v1, v2) {
+    static compareCS (v1, v2) {
         let n1 = Number(v1);
         let n2 = Number(v2);
         if (n1 === 0 && isNotActuallyZero(v1)) {
@@ -237,7 +237,7 @@ class Cast {
      * @param {*} val Value to check.
      * @return {boolean} True if number looks like an integer.
      */
-    static isInt(val) {
+    static isInt (val) {
         // Values that are already numbers.
         if (typeof val === 'number') {
             if (isNaN(val)) {
@@ -256,11 +256,11 @@ class Cast {
         return false;
     }
 
-    static get LIST_INVALID() {
+    static get LIST_INVALID () {
         return 'INVALID';
     }
 
-    static get LIST_ALL() {
+    static get LIST_ALL () {
         return 'ALL';
     }
 
@@ -274,7 +274,7 @@ class Cast {
      * @param {boolean} acceptAll Whether it should accept "all" or not.
      * @return {(number|string)} 1-based index for list, LIST_ALL, or LIST_INVALID.
      */
-    static toListIndex(index, length, acceptAll) {
+    static toListIndex (index, length, acceptAll) {
         if (typeof index !== 'number') {
             if (index === 'all') {
                 return acceptAll ? Cast.LIST_ALL : Cast.LIST_INVALID;

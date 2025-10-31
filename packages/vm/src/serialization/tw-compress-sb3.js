@@ -12,7 +12,7 @@ const generateId = i => {
 };
 
 class Pool {
-    constructor() {
+    constructor () {
         this.generatedIds = new Map();
         this.references = new Map();
         this.skippedIds = new Set();
@@ -20,14 +20,14 @@ class Pool {
         // We don't bother listing many here because most would take more than ten million items to be used
         this.skippedIds.add('of');
     }
-    skip(id) {
+    skip (id) {
         this.skippedIds.add(id);
     }
-    addReference(id) {
+    addReference (id) {
         const currentCount = this.references.get(id) || 0;
         this.references.set(id, currentCount + 1);
     }
-    generateNewIds() {
+    generateNewIds () {
         const entries = Array.from(this.references.entries());
         // The most used original IDs should get the shortest new IDs.
         entries.sort((a, b) => b[1] - a[1]);
@@ -46,7 +46,7 @@ class Pool {
             i++;
         }
     }
-    getNewId(originalId) {
+    getNewId (originalId) {
         if (this.generatedIds.has(originalId)) {
             return this.generatedIds.get(originalId);
         }

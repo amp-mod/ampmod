@@ -33,7 +33,7 @@ const KEY_NAME = {
 const KEY_NAME_SET = new Set(Object.values(KEY_NAME));
 
 class Keyboard {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * List of currently pressed scratch keys.
          * A scratch key is:
@@ -60,51 +60,51 @@ class Keyboard {
      * @param  {string} keyString the input key string.
      * @return {string} the corresponding Scratch key, or an empty string.
      */
-    _keyStringToScratchKey(keyString) {
+    _keyStringToScratchKey (keyString) {
         keyString = Cast.toString(keyString);
         // Convert space and arrow keys to their Scratch key names.
         switch (keyString) {
-            case ' ':
-                return KEY_NAME.SPACE;
-            case 'ArrowLeft':
-            case 'Left':
-                return KEY_NAME.LEFT;
-            case 'ArrowUp':
-            case 'Up':
-                return KEY_NAME.UP;
-            case 'Right':
-            case 'ArrowRight':
-                return KEY_NAME.RIGHT;
-            case 'Down':
-            case 'ArrowDown':
-                return KEY_NAME.DOWN;
-            case 'Enter':
-                return KEY_NAME.ENTER;
+        case ' ':
+            return KEY_NAME.SPACE;
+        case 'ArrowLeft':
+        case 'Left':
+            return KEY_NAME.LEFT;
+        case 'ArrowUp':
+        case 'Up':
+            return KEY_NAME.UP;
+        case 'Right':
+        case 'ArrowRight':
+            return KEY_NAME.RIGHT;
+        case 'Down':
+        case 'ArrowDown':
+            return KEY_NAME.DOWN;
+        case 'Enter':
+            return KEY_NAME.ENTER;
             // tw: extra keys
-            case 'Backspace':
-                return KEY_NAME.BACKSPACE;
-            case 'Delete':
-                return KEY_NAME.DELETE;
-            case 'Shift':
-                return KEY_NAME.SHIFT;
-            case 'CapsLock':
-                return KEY_NAME.CAPS_LOCK;
-            case 'ScrollLock':
-                return KEY_NAME.SCROLL_LOCK;
-            case 'Control':
-                return KEY_NAME.CONTROL;
-            case 'Escape':
-                return KEY_NAME.ESCAPE;
-            case 'Insert':
-                return KEY_NAME.INSERT;
-            case 'Home':
-                return KEY_NAME.HOME;
-            case 'End':
-                return KEY_NAME.END;
-            case 'PageUp':
-                return KEY_NAME.PAGE_UP;
-            case 'PageDown':
-                return KEY_NAME.PAGE_DOWN;
+        case 'Backspace':
+            return KEY_NAME.BACKSPACE;
+        case 'Delete':
+            return KEY_NAME.DELETE;
+        case 'Shift':
+            return KEY_NAME.SHIFT;
+        case 'CapsLock':
+            return KEY_NAME.CAPS_LOCK;
+        case 'ScrollLock':
+            return KEY_NAME.SCROLL_LOCK;
+        case 'Control':
+            return KEY_NAME.CONTROL;
+        case 'Escape':
+            return KEY_NAME.ESCAPE;
+        case 'Insert':
+            return KEY_NAME.INSERT;
+        case 'Home':
+            return KEY_NAME.HOME;
+        case 'End':
+            return KEY_NAME.END;
+        case 'PageUp':
+            return KEY_NAME.PAGE_UP;
+        case 'PageDown':
+            return KEY_NAME.PAGE_DOWN;
         }
         // Ignore modifier keys
         if (keyString.length > 1) {
@@ -119,7 +119,7 @@ class Keyboard {
      * @param  {string} keyArg the input arg.
      * @return {string} the corresponding Scratch key.
      */
-    _keyArgToScratchKey(keyArg) {
+    _keyArgToScratchKey (keyArg) {
         // If a number was dropped in, try to convert from ASCII to Scratch key.
         if (typeof keyArg === 'number') {
             // Check for the ASCII range containing numbers, some punctuation,
@@ -128,16 +128,16 @@ class Keyboard {
                 return String.fromCharCode(keyArg);
             }
             switch (keyArg) {
-                case 32:
-                    return KEY_NAME.SPACE;
-                case 37:
-                    return KEY_NAME.LEFT;
-                case 38:
-                    return KEY_NAME.UP;
-                case 39:
-                    return KEY_NAME.RIGHT;
-                case 40:
-                    return KEY_NAME.DOWN;
+            case 32:
+                return KEY_NAME.SPACE;
+            case 37:
+                return KEY_NAME.LEFT;
+            case 38:
+                return KEY_NAME.UP;
+            case 39:
+                return KEY_NAME.RIGHT;
+            case 40:
+                return KEY_NAME.DOWN;
             }
         }
 
@@ -176,7 +176,7 @@ class Keyboard {
      * Keyboard DOM event handler.
      * @param  {object} data Data from DOM event.
      */
-    postData(data) {
+    postData (data) {
         // amp: Clear keys pressed when we're paused.
         // We do this to prevent inputs pressed during pause from freezing
         // even after they are lifted during pause.
@@ -223,7 +223,7 @@ class Keyboard {
      * @param  {Any} keyArg key argument.
      * @return {boolean} Is the specified key down?
      */
-    getKeyIsDown(keyArg) {
+    getKeyIsDown (keyArg) {
         if (keyArg === 'any') {
             return this._keysPressed.length > 0;
         }
@@ -232,7 +232,7 @@ class Keyboard {
     }
 
     // tw: expose last pressed key
-    getLastKeyPressed() {
+    getLastKeyPressed () {
         return this.lastKeyPressed;
     }
 }

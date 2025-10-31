@@ -17,16 +17,16 @@ class TaskQueue {
      * @property {number} maxTotalCost - reject a task if total queue cost would pass this limit (default: no limit).
      * @memberof TaskQueue
      */
-    constructor(maxTokens, refillRate, options = {}) {
+    constructor (maxTokens, refillRate, options = {}) {
         this._maxTokens = maxTokens;
         this._refillRate = refillRate;
         this._pendingTaskRecords = [];
-        this._tokenCount = Object.prototype.hasOwnProperty.call(options, 'startingTokens')
-            ? options.startingTokens
-            : maxTokens;
-        this._maxTotalCost = Object.prototype.hasOwnProperty.call(options, 'maxTotalCost')
-            ? options.maxTotalCost
-            : Infinity;
+        this._tokenCount = Object.prototype.hasOwnProperty.call(options, 'startingTokens') ?
+            options.startingTokens :
+            maxTokens;
+        this._maxTotalCost = Object.prototype.hasOwnProperty.call(options, 'maxTotalCost') ?
+            options.maxTotalCost :
+            Infinity;
         this._timer = new Timer();
         this._timer.start();
         this._timeout = null;
@@ -41,7 +41,7 @@ class TaskQueue {
      * @readonly
      * @memberof TaskQueue
      */
-    get length() {
+    get length () {
         return this._pendingTaskRecords.length;
     }
 
@@ -53,7 +53,7 @@ class TaskQueue {
      * @returns {Promise} - a promise for the task's return value.
      * @memberof TaskQueue
      */
-    do(task, cost = 1) {
+    do (task, cost = 1) {
         if (this._maxTotalCost < Infinity) {
             const currentTotalCost = this._pendingTaskRecords.reduce((t, r) => t + r.cost, 0);
             if (currentTotalCost + cost > this._maxTotalCost) {
@@ -94,7 +94,7 @@ class TaskQueue {
      * @returns {boolean} - true if the task was found, or false otherwise.
      * @memberof TaskQueue
      */
-    cancel(taskPromise) {
+    cancel (taskPromise) {
         const taskIndex = this._pendingTaskRecords.findIndex(r => r.promise === taskPromise);
         if (taskIndex !== -1) {
             const [taskRecord] = this._pendingTaskRecords.splice(taskIndex, 1);
@@ -112,7 +112,7 @@ class TaskQueue {
      *
      * @memberof TaskQueue
      */
-    cancelAll() {
+    cancelAll () {
         if (this._timeout !== null) {
             this._timer.clearTimeout(this._timeout);
             this._timeout = null;
@@ -131,7 +131,7 @@ class TaskQueue {
      * @returns {boolean} true if we had enough tokens; false otherwise.
      * @memberof TaskQueue
      */
-    _refillAndSpend(cost) {
+    _refillAndSpend (cost) {
         this._refill();
         return this._spend(cost);
     }
@@ -141,7 +141,7 @@ class TaskQueue {
      *
      * @memberof TaskQueue
      */
-    _refill() {
+    _refill () {
         const now = this._timer.timeElapsed();
         const timeSinceRefill = now - this._lastUpdateTime;
         if (timeSinceRefill <= 0) return;
@@ -159,7 +159,7 @@ class TaskQueue {
      * @returns {boolean} true if we had enough tokens; false otherwise.
      * @memberof TaskQueue
      */
-    _spend(cost) {
+    _spend (cost) {
         if (cost <= this._tokenCount) {
             this._tokenCount -= cost;
             return true;
@@ -173,7 +173,7 @@ class TaskQueue {
      *
      * @memberof TaskQueue
      */
-    _runTasks() {
+    _runTasks () {
         if (this._timeout) {
             this._timer.clearTimeout(this._timeout);
             this._timeout = null;

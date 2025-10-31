@@ -65,7 +65,7 @@ class MicroBit {
      * @param {Runtime} runtime - the Scratch 3.0 runtime
      * @param {string} extensionId - the id of the extension
      */
-    constructor(runtime, extensionId) {
+    constructor (runtime, extensionId) {
         /**
          * The Scratch 3.0 runtime used to trigger the green flag button.
          * @type {Runtime}
@@ -151,7 +151,7 @@ class MicroBit {
      * @param {string} text - the text to display.
      * @return {Promise} - a Promise that resolves when writing to peripheral.
      */
-    displayText(text) {
+    displayText (text) {
         const output = new Uint8Array(text.length);
         for (let i = 0; i < text.length; i++) {
             output[i] = text.charCodeAt(i);
@@ -163,56 +163,56 @@ class MicroBit {
      * @param {Uint8Array} matrix - the matrix to display.
      * @return {Promise} - a Promise that resolves when writing to peripheral.
      */
-    displayMatrix(matrix) {
+    displayMatrix (matrix) {
         return this.send(BLECommand.CMD_DISPLAY_LED, matrix);
     }
 
     /**
      * @return {number} - the latest value received for the tilt sensor's tilt about the X axis.
      */
-    get tiltX() {
+    get tiltX () {
         return this._sensors.tiltX;
     }
 
     /**
      * @return {number} - the latest value received for the tilt sensor's tilt about the Y axis.
      */
-    get tiltY() {
+    get tiltY () {
         return this._sensors.tiltY;
     }
 
     /**
      * @return {boolean} - the latest value received for the A button.
      */
-    get buttonA() {
+    get buttonA () {
         return this._sensors.buttonA;
     }
 
     /**
      * @return {boolean} - the latest value received for the B button.
      */
-    get buttonB() {
+    get buttonB () {
         return this._sensors.buttonB;
     }
 
     /**
      * @return {number} - the latest value received for the motion gesture states.
      */
-    get gestureState() {
+    get gestureState () {
         return this._sensors.gestureState;
     }
 
     /**
      * @return {Uint8Array} - the current state of the 5x5 LED matrix.
      */
-    get ledMatrixState() {
+    get ledMatrixState () {
         return this._sensors.ledMatrixState;
     }
 
     /**
      * Called by the runtime when user wants to scan for a peripheral.
      */
-    scan() {
+    scan () {
         if (this._ble) {
             this._ble.disconnect();
         }
@@ -231,7 +231,7 @@ class MicroBit {
      * Called by the runtime when user wants to connect to a certain peripheral.
      * @param {number} id - the id of the peripheral to connect to.
      */
-    connect(id) {
+    connect (id) {
         if (this._ble) {
             this._ble.connectPeripheral(id);
         }
@@ -240,7 +240,7 @@ class MicroBit {
     /**
      * Disconnect from the micro:bit.
      */
-    disconnect() {
+    disconnect () {
         if (this._ble) {
             this._ble.disconnect();
         }
@@ -251,7 +251,7 @@ class MicroBit {
     /**
      * Reset all the state and timeout/interval ids.
      */
-    reset() {
+    reset () {
         if (this._timeoutID) {
             window.clearTimeout(this._timeoutID);
             this._timeoutID = null;
@@ -262,7 +262,7 @@ class MicroBit {
      * Return true if connected to the micro:bit.
      * @return {boolean} - whether the micro:bit is connected.
      */
-    isConnected() {
+    isConnected () {
         let connected = false;
         if (this._ble) {
             connected = this._ble.isConnected();
@@ -275,7 +275,7 @@ class MicroBit {
      * @param {number} command - the BLE command hex.
      * @param {Uint8Array} message - the message to write
      */
-    send(command, message) {
+    send (command, message) {
         if (!this.isConnected()) return;
         if (this._busy) return;
 
@@ -308,7 +308,7 @@ class MicroBit {
      * Starts reading data from peripheral after BLE has connected to it.
      * @private
      */
-    _onConnect() {
+    _onConnect () {
         this._ble.read(BLEUUID.service, BLEUUID.rxChar, true, this._onMessage);
         this._timeoutID = window.setTimeout(() => this._ble.handleDisconnectError(BLEDataStoppedError), BLETimeout);
     }
@@ -318,7 +318,7 @@ class MicroBit {
      * @param {object} base64 - the incoming BLE data.
      * @private
      */
-    _onMessage(base64) {
+    _onMessage (base64) {
         // parse data
         const data = Base64Util.base64ToUint8Array(base64);
 
@@ -346,7 +346,7 @@ class MicroBit {
      * @return {number} - the latest value received for the touch pin states.
      * @private
      */
-    _checkPinState(pin) {
+    _checkPinState (pin) {
         return this._sensors.touchPins[pin];
     }
 }
@@ -403,28 +403,28 @@ class Scratch3MicroBitBlocks {
     /**
      * @return {string} - the name of this extension.
      */
-    static get EXTENSION_NAME() {
+    static get EXTENSION_NAME () {
         return 'micro:bit';
     }
 
     /**
      * @return {string} - the ID of this extension.
      */
-    static get EXTENSION_ID() {
+    static get EXTENSION_ID () {
         return 'microbit';
     }
 
     /**
      * @return {number} - the tilt sensor counts as "tilted" if its tilt angle meets or exceeds this threshold.
      */
-    static get TILT_THRESHOLD() {
+    static get TILT_THRESHOLD () {
         return 15;
     }
 
     /**
      * @return {array} - text and values for each buttons menu element
      */
-    get BUTTONS_MENU() {
+    get BUTTONS_MENU () {
         return [
             {
                 text: 'A',
@@ -448,7 +448,7 @@ class Scratch3MicroBitBlocks {
     /**
      * @return {array} - text and values for each gestures menu element
      */
-    get GESTURES_MENU() {
+    get GESTURES_MENU () {
         return [
             {
                 text: formatMessage({
@@ -480,7 +480,7 @@ class Scratch3MicroBitBlocks {
     /**
      * @return {array} - text and values for each pin state menu element
      */
-    get PIN_STATE_MENU() {
+    get PIN_STATE_MENU () {
         return [
             {
                 text: formatMessage({
@@ -504,7 +504,7 @@ class Scratch3MicroBitBlocks {
     /**
      * @return {array} - text and values for each tilt direction menu element
      */
-    get TILT_DIRECTION_MENU() {
+    get TILT_DIRECTION_MENU () {
         return [
             {
                 text: formatMessage({
@@ -544,7 +544,7 @@ class Scratch3MicroBitBlocks {
     /**
      * @return {array} - text and values for each tilt direction (plus "any") menu element
      */
-    get TILT_DIRECTION_ANY_MENU() {
+    get TILT_DIRECTION_ANY_MENU () {
         return [
             ...this.TILT_DIRECTION_MENU,
             {
@@ -562,7 +562,7 @@ class Scratch3MicroBitBlocks {
      * Construct a set of MicroBit blocks.
      * @param {Runtime} runtime - the Scratch 3.0 runtime.
      */
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The Scratch 3.0 runtime.
          * @type {Runtime}
@@ -576,7 +576,7 @@ class Scratch3MicroBitBlocks {
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         return {
             id: Scratch3MicroBitBlocks.EXTENSION_ID,
             name: Scratch3MicroBitBlocks.EXTENSION_NAME,
@@ -782,7 +782,7 @@ class Scratch3MicroBitBlocks {
      * @param {object} args - the block's arguments.
      * @return {boolean} - true if the button is pressed.
      */
-    whenButtonPressed(args) {
+    whenButtonPressed (args) {
         if (args.BTN === 'any') {
             return this._peripheral.buttonA | this._peripheral.buttonB;
         } else if (args.BTN === 'A') {
@@ -798,7 +798,7 @@ class Scratch3MicroBitBlocks {
      * @param {object} args - the block's arguments.
      * @return {boolean} - true if the button is pressed.
      */
-    isButtonPressed(args) {
+    isButtonPressed (args) {
         if (args.BTN === 'any') {
             return (this._peripheral.buttonA | this._peripheral.buttonB) !== 0;
         } else if (args.BTN === 'A') {
@@ -814,7 +814,7 @@ class Scratch3MicroBitBlocks {
      * @param {object} args - the block's arguments.
      * @return {boolean} - true if the micro:bit is moving.
      */
-    whenGesture(args) {
+    whenGesture (args) {
         const gesture = cast.toString(args.GESTURE);
         if (gesture === 'moved') {
             return (this._peripheral.gestureState >> 2) & 1;
@@ -831,7 +831,7 @@ class Scratch3MicroBitBlocks {
      * @param {object} args - the block's arguments.
      * @return {Promise} - a Promise that resolves after a tick.
      */
-    displaySymbol(args) {
+    displaySymbol (args) {
         const symbol = cast.toString(args.MATRIX).replace(/\s/g, '');
         const reducer = (accumulator, c, index) => {
             const value = c === '0' ? accumulator : accumulator + Math.pow(2, index);
@@ -864,7 +864,7 @@ class Scratch3MicroBitBlocks {
      * The number of horizontal pixels = 6px for each character in the string,
      * 1px before the string, and 5px after the string.
      */
-    displayText(args) {
+    displayText (args) {
         const text = String(args.TEXT).substring(0, 19);
         if (text.length > 0) this._peripheral.displayText(text);
         const yieldDelay = 120 * (6 * text.length + 6);
@@ -880,7 +880,7 @@ class Scratch3MicroBitBlocks {
      * Turn all 5x5 matrix LEDs off.
      * @return {Promise} - a Promise that resolves after a tick.
      */
-    displayClear() {
+    displayClear () {
         for (let i = 0; i < 5; i++) {
             this._peripheral.ledMatrixState[i] = 0;
         }
@@ -899,7 +899,7 @@ class Scratch3MicroBitBlocks {
      * @property {TiltDirection} DIRECTION - the tilt direction to test (front, back, left, right, or any).
      * @return {boolean} - true if the tilt sensor is tilted past a threshold in the specified direction.
      */
-    whenTilted(args) {
+    whenTilted (args) {
         return this._isTilted(args.DIRECTION);
     }
 
@@ -909,7 +909,7 @@ class Scratch3MicroBitBlocks {
      * @property {TiltDirection} DIRECTION - the tilt direction to test (front, back, left, right, or any).
      * @return {boolean} - true if the tilt sensor is tilted past a threshold in the specified direction.
      */
-    isTilted(args) {
+    isTilted (args) {
         return this._isTilted(args.DIRECTION);
     }
 
@@ -919,7 +919,7 @@ class Scratch3MicroBitBlocks {
      * @return {number} - the tilt sensor's angle in the specified direction.
      * Note that getTiltAngle(front) = -getTiltAngle(back) and getTiltAngle(left) = -getTiltAngle(right).
      */
-    getTiltAngle(args) {
+    getTiltAngle (args) {
         return this._getTiltAngle(args.DIRECTION);
     }
 
@@ -929,15 +929,15 @@ class Scratch3MicroBitBlocks {
      * @return {boolean} - true if the tilt sensor is tilted past a threshold in the specified direction.
      * @private
      */
-    _isTilted(direction) {
+    _isTilted (direction) {
         switch (direction) {
-            case MicroBitTiltDirection.ANY:
-                return (
-                    Math.abs(this._peripheral.tiltX / 10) >= Scratch3MicroBitBlocks.TILT_THRESHOLD ||
+        case MicroBitTiltDirection.ANY:
+            return (
+                Math.abs(this._peripheral.tiltX / 10) >= Scratch3MicroBitBlocks.TILT_THRESHOLD ||
                     Math.abs(this._peripheral.tiltY / 10) >= Scratch3MicroBitBlocks.TILT_THRESHOLD
-                );
-            default:
-                return this._getTiltAngle(direction) >= Scratch3MicroBitBlocks.TILT_THRESHOLD;
+            );
+        default:
+            return this._getTiltAngle(direction) >= Scratch3MicroBitBlocks.TILT_THRESHOLD;
         }
     }
 
@@ -947,18 +947,18 @@ class Scratch3MicroBitBlocks {
      * Note that getTiltAngle(front) = -getTiltAngle(back) and getTiltAngle(left) = -getTiltAngle(right).
      * @private
      */
-    _getTiltAngle(direction) {
+    _getTiltAngle (direction) {
         switch (direction) {
-            case MicroBitTiltDirection.FRONT:
-                return Math.round(this._peripheral.tiltY / -10);
-            case MicroBitTiltDirection.BACK:
-                return Math.round(this._peripheral.tiltY / 10);
-            case MicroBitTiltDirection.LEFT:
-                return Math.round(this._peripheral.tiltX / -10);
-            case MicroBitTiltDirection.RIGHT:
-                return Math.round(this._peripheral.tiltX / 10);
-            default:
-                log.warn(`Unknown tilt direction in _getTiltAngle: ${direction}`);
+        case MicroBitTiltDirection.FRONT:
+            return Math.round(this._peripheral.tiltY / -10);
+        case MicroBitTiltDirection.BACK:
+            return Math.round(this._peripheral.tiltY / 10);
+        case MicroBitTiltDirection.LEFT:
+            return Math.round(this._peripheral.tiltX / -10);
+        case MicroBitTiltDirection.RIGHT:
+            return Math.round(this._peripheral.tiltX / 10);
+        default:
+            log.warn(`Unknown tilt direction in _getTiltAngle: ${direction}`);
         }
     }
 
@@ -967,7 +967,7 @@ class Scratch3MicroBitBlocks {
      * @return {boolean} - the touch pin state.
      * @private
      */
-    whenPinConnected(args) {
+    whenPinConnected (args) {
         const pin = parseInt(args.PIN, 10);
         if (isNaN(pin)) return;
         if (pin < 0 || pin > 2) return false;

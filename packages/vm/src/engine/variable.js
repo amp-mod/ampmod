@@ -14,28 +14,28 @@ class Variable {
      * @param {boolean} isCloud Whether the variable is stored in the cloud.
      * @constructor
      */
-    constructor(id, name, type, isCloud) {
+    constructor (id, name, type, isCloud) {
         /** @type {string} */
         this.id = id || uid();
         this.name = name;
         this.type = type;
         this.isCloud = isCloud;
         switch (this.type) {
-            case Variable.SCALAR_TYPE:
-                this.value = 0;
-                break;
-            case Variable.LIST_TYPE:
-                this.value = [];
-                break;
-            case Variable.BROADCAST_MESSAGE_TYPE:
-                this.value = this.name;
-                break;
-            default:
-                throw new Error(`Invalid variable type: ${this.type}`);
+        case Variable.SCALAR_TYPE:
+            this.value = 0;
+            break;
+        case Variable.LIST_TYPE:
+            this.value = [];
+            break;
+        case Variable.BROADCAST_MESSAGE_TYPE:
+            this.value = this.name;
+            break;
+        default:
+            throw new Error(`Invalid variable type: ${this.type}`);
         }
     }
 
-    toXML(isLocal) {
+    toXML (isLocal) {
         isLocal = isLocal === true;
         return `<variable type="${this.type}" id="${this.id}" islocal="${
             isLocal
@@ -48,7 +48,7 @@ class Variable {
      * for compatibility with blockly.
      * @const {string}
      */
-    static get SCALAR_TYPE() {
+    static get SCALAR_TYPE () {
         return ''; // used by compiler
     }
 
@@ -56,7 +56,7 @@ class Variable {
      * Type representation for list variables.
      * @const {string}
      */
-    static get LIST_TYPE() {
+    static get LIST_TYPE () {
         return 'list'; // used by compiler
     }
 
@@ -64,7 +64,7 @@ class Variable {
      * Type representation for list variables.
      * @const {string}
      */
-    static get BROADCAST_MESSAGE_TYPE() {
+    static get BROADCAST_MESSAGE_TYPE () {
         return 'broadcast_msg';
     }
 }

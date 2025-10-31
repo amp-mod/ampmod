@@ -11,7 +11,7 @@ class BT extends JSONRPC {
      * @param {object} resetCallback - a callback for resetting extension state.
      * @param {object} messageCallback - a callback for message sending.
      */
-    constructor(runtime, extensionId, peripheralOptions, connectCallback, resetCallback = null, messageCallback) {
+    constructor (runtime, extensionId, peripheralOptions, connectCallback, resetCallback = null, messageCallback) {
         super();
 
         this._socket = runtime.getScratchLinkSocket('BT');
@@ -40,7 +40,7 @@ class BT extends JSONRPC {
      * Request connection to the peripheral.
      * If the web socket is not yet open, request when the socket promise resolves.
      */
-    requestPeripheral() {
+    requestPeripheral () {
         this._availablePeripherals = {};
         if (this._discoverTimeoutID) {
             window.clearTimeout(this._discoverTimeoutID);
@@ -55,7 +55,7 @@ class BT extends JSONRPC {
      * @param {number} id - the id of the peripheral to connect to
      * @param {string} pin - an optional pin for pairing
      */
-    connectPeripheral(id, pin = null) {
+    connectPeripheral (id, pin = null) {
         const params = {peripheralId: id};
         if (pin) {
             params.pin = pin;
@@ -74,7 +74,7 @@ class BT extends JSONRPC {
     /**
      * Close the websocket.
      */
-    disconnect() {
+    disconnect () {
         if (this._connected) {
             this._connected = false;
         }
@@ -94,11 +94,11 @@ class BT extends JSONRPC {
     /**
      * @return {bool} whether the peripheral is connected.
      */
-    isConnected() {
+    isConnected () {
         return this._connected;
     }
 
-    sendMessage(options) {
+    sendMessage (options) {
         return this.sendRemoteRequest('send', options).catch(e => {
             this.handleDisconnectError(e);
         });
@@ -110,34 +110,34 @@ class BT extends JSONRPC {
      * @param {object} params - a received list of parameters.
      * @return {object} - optional return value.
      */
-    didReceiveCall(method, params) {
+    didReceiveCall (method, params) {
         // TODO: Add peripheral 'undiscover' handling
         switch (method) {
-            case 'didDiscoverPeripheral':
-                this._availablePeripherals[params.peripheralId] = params;
-                this._runtime.emit(this._runtime.constructor.PERIPHERAL_LIST_UPDATE, this._availablePeripherals);
-                if (this._discoverTimeoutID) {
-                    window.clearTimeout(this._discoverTimeoutID);
-                }
-                break;
-            case 'userDidPickPeripheral':
-                this._availablePeripherals[params.peripheralId] = params;
-                this._runtime.emit(this._runtime.constructor.USER_PICKED_PERIPHERAL, this._availablePeripherals);
-                if (this._discoverTimeoutID) {
-                    window.clearTimeout(this._discoverTimeoutID);
-                }
-                break;
-            case 'userDidNotPickPeripheral':
-                this._runtime.emit(this._runtime.constructor.PERIPHERAL_SCAN_TIMEOUT);
-                if (this._discoverTimeoutID) {
-                    window.clearTimeout(this._discoverTimeoutID);
-                }
-                break;
-            case 'didReceiveMessage':
-                this._messageCallback(params); // TODO: refine?
-                break;
-            default:
-                return 'nah';
+        case 'didDiscoverPeripheral':
+            this._availablePeripherals[params.peripheralId] = params;
+            this._runtime.emit(this._runtime.constructor.PERIPHERAL_LIST_UPDATE, this._availablePeripherals);
+            if (this._discoverTimeoutID) {
+                window.clearTimeout(this._discoverTimeoutID);
+            }
+            break;
+        case 'userDidPickPeripheral':
+            this._availablePeripherals[params.peripheralId] = params;
+            this._runtime.emit(this._runtime.constructor.USER_PICKED_PERIPHERAL, this._availablePeripherals);
+            if (this._discoverTimeoutID) {
+                window.clearTimeout(this._discoverTimeoutID);
+            }
+            break;
+        case 'userDidNotPickPeripheral':
+            this._runtime.emit(this._runtime.constructor.PERIPHERAL_SCAN_TIMEOUT);
+            if (this._discoverTimeoutID) {
+                window.clearTimeout(this._discoverTimeoutID);
+            }
+            break;
+        case 'didReceiveMessage':
+            this._messageCallback(params); // TODO: refine?
+            break;
+        default:
+            return 'nah';
         }
     }
 
@@ -152,7 +152,7 @@ class BT extends JSONRPC {
      * Disconnect the socket, and if the extension using this socket has a
      * reset callback, call it. Finally, emit an error to the runtime.
      */
-    handleDisconnectError(/* e */) {
+    handleDisconnectError (/* e */) {
         // log.error(`BT error: ${JSON.stringify(e)}`);
 
         if (!this._connected) return;
@@ -169,7 +169,7 @@ class BT extends JSONRPC {
         });
     }
 
-    _handleRequestError(/* e */) {
+    _handleRequestError (/* e */) {
         // log.error(`BT error: ${JSON.stringify(e)}`);
 
         this._runtime.emit(this._runtime.constructor.PERIPHERAL_REQUEST_ERROR, {
@@ -178,7 +178,7 @@ class BT extends JSONRPC {
         });
     }
 
-    _handleDiscoverTimeout() {
+    _handleDiscoverTimeout () {
         if (this._discoverTimeoutID) {
             window.clearTimeout(this._discoverTimeoutID);
         }

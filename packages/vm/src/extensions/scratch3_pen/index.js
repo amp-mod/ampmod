@@ -43,7 +43,7 @@ const ColorParam = {
  * @constructor
  */
 class Scratch3PenBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -75,7 +75,7 @@ class Scratch3PenBlocks {
      * The default pen state, to be used when a target has no existing pen state.
      * @type {PenState}
      */
-    static get DEFAULT_PEN_STATE() {
+    static get DEFAULT_PEN_STATE () {
         return {
             penDown: false,
             color: 66.66,
@@ -96,7 +96,7 @@ class Scratch3PenBlocks {
      * off-stage sprite can fill it.
      * @type {{min: number, max: number}}
      */
-    static get PEN_SIZE_RANGE() {
+    static get PEN_SIZE_RANGE () {
         return {min: 1, max: 1200};
     }
 
@@ -104,7 +104,7 @@ class Scratch3PenBlocks {
      * The key to load & store a target's pen-related state.
      * @type {string}
      */
-    static get STATE_KEY() {
+    static get STATE_KEY () {
         // tw: We've hardcoded this value in various places for slight performance gains
         // Make sure to update those if this changes.
         return 'Scratch.pen';
@@ -116,7 +116,7 @@ class Scratch3PenBlocks {
      * @returns {number} the clamped size.
      * @private
      */
-    _clampPenSize(requestedSize) {
+    _clampPenSize (requestedSize) {
         if (
             (this.runtime.renderer && this.runtime.renderer.useHighQualityRender) ||
             !this.runtime.runtimeOptions.miscLimits
@@ -136,7 +136,7 @@ class Scratch3PenBlocks {
      * @returns {int} the Skin ID of the pen layer, or -1 on failure.
      * @private
      */
-    _getPenLayerID() {
+    _getPenLayerID () {
         const renderer = this.runtime.renderer;
         if (this._penSkinId < 0 && renderer) {
             this._penSkinId = renderer.createPenSkin();
@@ -154,7 +154,7 @@ class Scratch3PenBlocks {
      * @returns {PenState} the mutable pen state associated with that target. This will be created if necessary.
      * @private
      */
-    _getPenState(target) {
+    _getPenState (target) {
         let penState = target._customState['Scratch.pen'];
         if (!penState) {
             penState = Clone.simple(Scratch3PenBlocks.DEFAULT_PEN_STATE);
@@ -170,7 +170,7 @@ class Scratch3PenBlocks {
      * @listens Runtime#event:targetWasCreated
      * @private
      */
-    _onTargetCreated(newTarget, sourceTarget) {
+    _onTargetCreated (newTarget, sourceTarget) {
         if (sourceTarget) {
             const penState = sourceTarget.getCustomState(Scratch3PenBlocks.STATE_KEY);
             if (penState) {
@@ -190,7 +190,7 @@ class Scratch3PenBlocks {
      * @param {boolean} isForce - whether the movement was forced.
      * @private
      */
-    _onTargetMoved(target, oldX, oldY, isForce) {
+    _onTargetMoved (target, oldX, oldY, isForce) {
         // Only move the pen if the movement isn't forced (ie. dragged).
         if (!isForce) {
             const penSkinId = this._getPenLayerID();
@@ -208,7 +208,7 @@ class Scratch3PenBlocks {
      * @returns {number} the wrapped value.
      * @private
      */
-    _wrapColor(value) {
+    _wrapColor (value) {
         return MathUtil.wrapClamp(value, 0, 100);
     }
 
@@ -217,7 +217,7 @@ class Scratch3PenBlocks {
      * @returns {array} of the localized text and values for each menu element
      * @private
      */
-    _initColorParam() {
+    _initColorParam () {
         return [
             {
                 text: formatMessage({
@@ -260,7 +260,7 @@ class Scratch3PenBlocks {
      * @returns {number} the clamped value.
      * @private
      */
-    _clampColorParam(value) {
+    _clampColorParam (value) {
         return MathUtil.clamp(value, 0, 100);
     }
 
@@ -272,7 +272,7 @@ class Scratch3PenBlocks {
      * @returns {number} the transparency value.
      * @private
      */
-    _alphaToTransparency(alpha) {
+    _alphaToTransparency (alpha) {
         return (1.0 - alpha) * 100.0;
     }
 
@@ -284,14 +284,14 @@ class Scratch3PenBlocks {
      * @returns {number} the alpha value.
      * @private
      */
-    _transparencyToAlpha(transparency) {
+    _transparencyToAlpha (transparency) {
         return 1.0 - transparency / 100.0;
     }
 
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         return {
             id: 'pen',
             name: formatMessage({
@@ -559,7 +559,7 @@ class Scratch3PenBlocks {
     /**
      * The pen "clear" block clears the pen layer's contents.
      */
-    clear() {
+    clear () {
         // used by compiler
         const penSkinId = this._getPenLayerID();
         if (penSkinId >= 0) {
@@ -573,10 +573,10 @@ class Scratch3PenBlocks {
      * @param {object} args - the block arguments.
      * @param {object} util - utility object provided by the runtime.
      */
-    stamp(args, util) {
+    stamp (args, util) {
         this._stamp(util.target);
     }
-    _stamp(target) {
+    _stamp (target) {
         // used by compiler
         const penSkinId = this._getPenLayerID();
         if (penSkinId >= 0) {
@@ -590,10 +590,10 @@ class Scratch3PenBlocks {
      * @param {object} args - the block arguments.
      * @param {object} util - utility object provided by the runtime.
      */
-    penDown(args, util) {
+    penDown (args, util) {
         this._penDown(util.target);
     }
-    _penDown(target) {
+    _penDown (target) {
         // used by compiler
         const penState = this._getPenState(target);
 
@@ -609,7 +609,7 @@ class Scratch3PenBlocks {
         }
     }
 
-    isPenDown(args, util) {
+    isPenDown (args, util) {
         return this._getPenState(util.target).penDown;
     }
 
@@ -618,10 +618,10 @@ class Scratch3PenBlocks {
      * @param {object} args - the block arguments.
      * @param {object} util - utility object provided by the runtime.
      */
-    penUp(args, util) {
+    penUp (args, util) {
         this._penUp(util.target);
     }
-    _penUp(target) {
+    _penUp (target) {
         // used by compiler
         const penState = this._getPenState(target);
 
@@ -638,10 +638,10 @@ class Scratch3PenBlocks {
      *  @property {int} COLOR - the color to set, expressed as a 24-bit RGB value (0xRRGGBB).
      * @param {object} util - utility object provided by the runtime.
      */
-    setPenColorToColor(args, util) {
+    setPenColorToColor (args, util) {
         this._setPenColorToColor(args.COLOR, util.target);
     }
-    _setPenColorToColor(color, target) {
+    _setPenColorToColor (color, target) {
         // used by compiler
         const penState = this._getPenState(target);
         const rgb = Cast.toRgbColorObject(color);
@@ -667,7 +667,7 @@ class Scratch3PenBlocks {
      * @param {PenState} penState - the pen state to update.
      * @private
      */
-    _updatePenColor(penState) {
+    _updatePenColor (penState) {
         const rgb = Color.hsvToRgb({
             h: (penState.color * 360) / 100,
             s: penState.saturation / 100,
@@ -687,23 +687,23 @@ class Scratch3PenBlocks {
      * @param {boolean} change - if true change param by value, if false set param to value.
      * @private
      */
-    _setOrChangeColorParam(param, value, penState, change) {
+    _setOrChangeColorParam (param, value, penState, change) {
         // used by compiler
         switch (param) {
-            case ColorParam.COLOR:
-                penState.color = this._wrapColor(value + (change ? penState.color : 0));
-                break;
-            case ColorParam.SATURATION:
-                penState.saturation = this._clampColorParam(value + (change ? penState.saturation : 0));
-                break;
-            case ColorParam.BRIGHTNESS:
-                penState.brightness = this._clampColorParam(value + (change ? penState.brightness : 0));
-                break;
-            case ColorParam.TRANSPARENCY:
-                penState.transparency = this._clampColorParam(value + (change ? penState.transparency : 0));
-                break;
-            default:
-                log.warn(`Tried to set or change unknown color parameter: ${param}`);
+        case ColorParam.COLOR:
+            penState.color = this._wrapColor(value + (change ? penState.color : 0));
+            break;
+        case ColorParam.SATURATION:
+            penState.saturation = this._clampColorParam(value + (change ? penState.saturation : 0));
+            break;
+        case ColorParam.BRIGHTNESS:
+            penState.brightness = this._clampColorParam(value + (change ? penState.brightness : 0));
+            break;
+        case ColorParam.TRANSPARENCY:
+            penState.transparency = this._clampColorParam(value + (change ? penState.transparency : 0));
+            break;
+        default:
+            log.warn(`Tried to set or change unknown color parameter: ${param}`);
         }
         this._updatePenColor(penState);
     }
@@ -716,7 +716,7 @@ class Scratch3PenBlocks {
      *  @property {number} VALUE - the amount to change the selected parameter by.
      * @param {object} util - utility object provided by the runtime.
      */
-    changePenColorParamBy(args, util) {
+    changePenColorParamBy (args, util) {
         const penState = this._getPenState(util.target);
         this._setOrChangeColorParam(args.COLOR_PARAM, Cast.toNumber(args.VALUE), penState, true);
     }
@@ -729,26 +729,26 @@ class Scratch3PenBlocks {
      *  @property {number} VALUE - the amount to set the selected parameter to.
      * @param {object} util - utility object provided by the runtime.
      */
-    setPenColorParamTo(args, util) {
+    setPenColorParamTo (args, util) {
         const penState = this._getPenState(util.target);
         this._setOrChangeColorParam(args.COLOR_PARAM, Cast.toNumber(args.VALUE), penState, false);
     }
 
-    getPenColorParam(args, util) {
+    getPenColorParam (args, util) {
         const penState = this._getPenState(util.target);
         switch (args.COLOR_PARAM) {
-            case ColorParam.COLOR:
-                return penState.color;
-                break;
-            case ColorParam.SATURATION:
-                return penState.saturation;
-                break;
-            case ColorParam.BRIGHTNESS:
-                return penState.brightness;
-                break;
-            case ColorParam.TRANSPARENCY:
-                return penState.transparency;
-                break;
+        case ColorParam.COLOR:
+            return penState.color;
+            break;
+        case ColorParam.SATURATION:
+            return penState.saturation;
+            break;
+        case ColorParam.BRIGHTNESS:
+            return penState.brightness;
+            break;
+        case ColorParam.TRANSPARENCY:
+            return penState.transparency;
+            break;
         }
     }
 
@@ -758,10 +758,10 @@ class Scratch3PenBlocks {
      *  @property {number} SIZE - the amount of desired size change.
      * @param {object} util - utility object provided by the runtime.
      */
-    changePenSizeBy(args, util) {
+    changePenSizeBy (args, util) {
         this._changePenSizeBy(Cast.toNumber(args.SIZE), util.target);
     }
-    _changePenSizeBy(size, target) {
+    _changePenSizeBy (size, target) {
         // used by compiler
         const penAttributes = this._getPenState(target).penAttributes;
         penAttributes.diameter = this._clampPenSize(penAttributes.diameter + size);
@@ -773,16 +773,16 @@ class Scratch3PenBlocks {
      *  @property {number} SIZE - the amount of desired size change.
      * @param {object} util - utility object provided by the runtime.
      */
-    setPenSizeTo(args, util) {
+    setPenSizeTo (args, util) {
         this._setPenSizeTo(Cast.toNumber(args.SIZE), util.target);
     }
-    _setPenSizeTo(size, target) {
+    _setPenSizeTo (size, target) {
         // used by compiler
         const penAttributes = this._getPenState(target).penAttributes;
         penAttributes.diameter = this._clampPenSize(size);
     }
 
-    getPenSize(args, util) {
+    getPenSize (args, util) {
         return this._getPenState(util.target).penAttributes.diameter;
     }
 
@@ -793,10 +793,10 @@ class Scratch3PenBlocks {
      *  @property {number} HUE - the amount to set the hue to.
      * @param {object} util - utility object provided by the runtime.
      */
-    setPenHueToNumber(args, util) {
+    setPenHueToNumber (args, util) {
         this._setPenHueToNumber(Cast.toNumber(args.HUE), util.target);
     }
-    _setPenHueToNumber(hueValue, target) {
+    _setPenHueToNumber (hueValue, target) {
         const penState = this._getPenState(target);
         const colorValue = hueValue / 2;
         this._setOrChangeColorParam(ColorParam.COLOR, colorValue, penState, false);
@@ -810,10 +810,10 @@ class Scratch3PenBlocks {
      *  @property {number} HUE - the amount of desired hue change.
      * @param {object} util - utility object provided by the runtime.
      */
-    changePenHueBy(args, util) {
+    changePenHueBy (args, util) {
         this._changePenHueBy(Cast.toNumber(args.HUE), util.target);
     }
-    _changePenHueBy(hueChange, target) {
+    _changePenHueBy (hueChange, target) {
         // used by compiler
         const penState = this._getPenState(target);
         const colorChange = hueChange / 2;
@@ -831,10 +831,10 @@ class Scratch3PenBlocks {
      *  @property {number} SHADE - the amount to set the shade to.
      * @param {object} util - utility object provided by the runtime.
      */
-    setPenShadeToNumber(args, util) {
+    setPenShadeToNumber (args, util) {
         this._setPenShadeToNumber(Cast.toNumber(args.SHADE), util.target);
     }
-    _setPenShadeToNumber(shade, target) {
+    _setPenShadeToNumber (shade, target) {
         const penState = this._getPenState(target);
         let newShade = Cast.toNumber(shade);
 
@@ -855,10 +855,10 @@ class Scratch3PenBlocks {
      *  @property {number} SHADE - the amount of desired shade change.
      * @param {object} util - utility object provided by the runtime.
      */
-    changePenShadeBy(args, util) {
+    changePenShadeBy (args, util) {
         this._changePenShadeBy(args.SHADE, util.target);
     }
-    _changePenShadeBy(shade, target) {
+    _changePenShadeBy (shade, target) {
         const penState = this._getPenState(target);
         const shadeChange = Cast.toNumber(shade);
         this._setPenShadeToNumber(penState._shade + shadeChange, target);
@@ -869,7 +869,7 @@ class Scratch3PenBlocks {
      * @param {object} penState - update the HSV & RGB values in this pen state from its hue & shade values.
      * @private
      */
-    _legacyUpdatePenColor(penState) {
+    _legacyUpdatePenColor (penState) {
         // Create the new color in RGB using the scratch 2 "shade" model
         let rgb = Color.hsvToRgb({
             h: (penState.color * 360) / 100,

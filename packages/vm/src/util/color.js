@@ -14,12 +14,12 @@ class Color {
      */
 
     /** @type {RGBObject} */
-    static get RGB_BLACK() {
+    static get RGB_BLACK () {
         return {r: 0, g: 0, b: 0};
     }
 
     /** @type {RGBObject} */
-    static get RGB_WHITE() {
+    static get RGB_WHITE () {
         return {r: 255, g: 255, b: 255};
     }
 
@@ -28,7 +28,7 @@ class Color {
      * @param {number} decimal RGB color as a decimal.
      * @return {string} RGB color as #RRGGBB hex string.
      */
-    static decimalToHex(decimal) {
+    static decimalToHex (decimal) {
         if (decimal < 0) {
             decimal += 0xffffff + 1;
         }
@@ -42,7 +42,7 @@ class Color {
      * @param {number} decimal RGB color as decimal.
      * @return {RGBObject} rgb - {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      */
-    static decimalToRgb(decimal) {
+    static decimalToRgb (decimal) {
         const a = (decimal >> 24) & 0xff;
         const r = (decimal >> 16) & 0xff;
         const g = (decimal >> 8) & 0xff;
@@ -55,7 +55,7 @@ class Color {
      * @param {!string} hex Hex representation of the color.
      * @return {RGBObject} null on failure, or rgb: {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      */
-    static hexToRgb(hex) {
+    static hexToRgb (hex) {
         if (hex.startsWith('#')) {
             hex = hex.substring(1);
         }
@@ -87,7 +87,7 @@ class Color {
      * @param {RGBObject} rgb - {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      * @return {!string} Hex representation of the color.
      */
-    static rgbToHex(rgb) {
+    static rgbToHex (rgb) {
         return Color.decimalToHex(Color.rgbToDecimal(rgb));
     }
 
@@ -96,7 +96,7 @@ class Color {
      * @param {RGBObject} rgb - {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      * @return {!number} Number representing the color.
      */
-    static rgbToDecimal(rgb) {
+    static rgbToDecimal (rgb) {
         return (rgb.r << 16) + (rgb.g << 8) + rgb.b;
     }
 
@@ -105,7 +105,7 @@ class Color {
      * @param {!string} hex Hex representation of the color.
      * @return {!number} Number representing the color.
      */
-    static hexToDecimal(hex) {
+    static hexToDecimal (hex) {
         return Color.rgbToDecimal(Color.hexToRgb(hex));
     }
 
@@ -114,7 +114,7 @@ class Color {
      * @param {HSVObject} hsv - {h: hue [0,360), s: saturation [0,1], v: value [0,1]}
      * @return {RGBObject} rgb - {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      */
-    static hsvToRgb(hsv) {
+    static hsvToRgb (hsv) {
         let h = hsv.h % 360;
         if (h < 0) h += 360;
         const s = Math.max(0, Math.min(hsv.s, 1));
@@ -131,37 +131,37 @@ class Color {
         let b;
 
         switch (i) {
-            default:
-            case 0:
-                r = v;
-                g = t;
-                b = p;
-                break;
-            case 1:
-                r = q;
-                g = v;
-                b = p;
-                break;
-            case 2:
-                r = p;
-                g = v;
-                b = t;
-                break;
-            case 3:
-                r = p;
-                g = q;
-                b = v;
-                break;
-            case 4:
-                r = t;
-                g = p;
-                b = v;
-                break;
-            case 5:
-                r = v;
-                g = p;
-                b = q;
-                break;
+        default:
+        case 0:
+            r = v;
+            g = t;
+            b = p;
+            break;
+        case 1:
+            r = q;
+            g = v;
+            b = p;
+            break;
+        case 2:
+            r = p;
+            g = v;
+            b = t;
+            break;
+        case 3:
+            r = p;
+            g = q;
+            b = v;
+            break;
+        case 4:
+            r = t;
+            g = p;
+            b = v;
+            break;
+        case 5:
+            r = v;
+            g = p;
+            b = q;
+            break;
         }
 
         return {
@@ -176,7 +176,7 @@ class Color {
      * @param {RGBObject} rgb - {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      * @return {HSVObject} hsv - {h: hue [0,360), s: saturation [0,1], v: value [0,1]}
      */
-    static rgbToHsv(rgb) {
+    static rgbToHsv (rgb) {
         const r = rgb.r / 255;
         const g = rgb.g / 255;
         const b = rgb.b / 255;
@@ -203,7 +203,7 @@ class Color {
      * @param {number} fraction1 - the interpolation parameter. If this is 0.5, for example, mix the two colors equally.
      * @return {RGBObject} the interpolated color.
      */
-    static mixRgb(rgb0, rgb1, fraction1) {
+    static mixRgb (rgb0, rgb1, fraction1) {
         if (fraction1 <= 0) return rgb0;
         if (fraction1 >= 1) return rgb1;
         const fraction0 = 1 - fraction1;

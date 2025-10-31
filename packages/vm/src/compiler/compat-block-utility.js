@@ -3,36 +3,36 @@
 const BlockUtility = require('../engine/block-utility');
 
 class CompatibilityLayerBlockUtility extends BlockUtility {
-    constructor() {
+    constructor () {
         super();
         this._stackFrame = {};
         this._startedBranch = null;
     }
 
-    get stackFrame() {
+    get stackFrame () {
         return this.thread?.compatibilityStackFrame;
     }
 
-    startBranch(branchNumber, isLoop) {
+    startBranch (branchNumber, isLoop) {
         this._startedBranch = [branchNumber, isLoop];
     }
 
-    startProcedure() {
+    startProcedure () {
         throw new Error('startProcedure is not supported by this BlockUtility');
     }
 
     // Parameters are not used by compiled scripts.
-    initParams() {
+    initParams () {
         throw new Error('initParams is not supported by this BlockUtility');
     }
-    pushParam() {
+    pushParam () {
         throw new Error('pushParam is not supported by this BlockUtility');
     }
-    getParam() {
+    getParam () {
         throw new Error('getParam is not supported by this BlockUtility');
     }
 
-    init(thread, fakeBlockId, stackFrame) {
+    init (thread, fakeBlockId, stackFrame) {
         this.thread = thread;
         this.sequencer = thread.target.runtime.sequencer;
         this._startedBranch = null;

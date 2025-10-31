@@ -27,7 +27,7 @@ const defaultBuiltinExtensions = {
     future: () => {
         // future was moved to gui
         class FutureCompat {
-            getInfo() {
+            getInfo () {
                 return {
                     id: 'future'
                 };
@@ -56,7 +56,7 @@ class ExtensionManager {
     /**
      * @param {VirtualMachine} vm - reference to the VM instance
      */
-    constructor(vm) {
+    constructor (vm) {
         /**
          * Reference to the VM runtime
          * @type {Runtime}
@@ -129,7 +129,7 @@ class ExtensionManager {
      * @param {string} extensionID
      * @returns {boolean}
      */
-    isExtensionLoaded(extensionID) {
+    isExtensionLoaded (extensionID) {
         return this._loadedExtensions.has(extensionID);
     }
 
@@ -138,7 +138,7 @@ class ExtensionManager {
      * @param {string} extensionId
      * @returns {boolean}
      */
-    isBuiltinExtension(extensionId) {
+    isBuiltinExtension (extensionId) {
         return Object.prototype.hasOwnProperty.call(this.builtinExtensions, extensionId);
     }
 
@@ -146,7 +146,7 @@ class ExtensionManager {
      * Asynchronously load an internal extension (core or non-core) by ID
      * @param {string} extensionId
      */
-    async loadExtensionIdAsync(extensionId) {
+    async loadExtensionIdAsync (extensionId) {
         if (!this.isBuiltinExtension(extensionId)) {
             log.warn(`Could not find extension ${extensionId} in the built-in extensions.`);
             return;
@@ -174,7 +174,7 @@ class ExtensionManager {
      * "Synchronous" wrapper for loading an extension (calls async version and logs errors)
      * @param {string} extensionId
      */
-    loadExtensionIdSync(extensionId) {
+    loadExtensionIdSync (extensionId) {
         this.loadExtensionIdAsync(extensionId).catch(e => {
             log.error(`Failed to load extension ${extensionId} in sync mode:`, e);
         });
@@ -185,7 +185,7 @@ class ExtensionManager {
      * @param {string} extensionId
      * @param {Function} extensionClass
      */
-    addBuiltinExtension(extensionId, extensionClass) {
+    addBuiltinExtension (extensionId, extensionClass) {
         this.builtinExtensions[extensionId] = () => extensionClass;
     }
 
@@ -194,7 +194,7 @@ class ExtensionManager {
      * @param {string} extensionURL
      * @returns {Promise<void>}
      */
-    async loadExtensionURL(extensionURL) {
+    async loadExtensionURL (extensionURL) {
         if (this.isBuiltinExtension(extensionURL)) {
             await this.loadExtensionIdAsync(extensionURL);
             return;
@@ -250,7 +250,7 @@ class ExtensionManager {
         }).catch(error => this._failedLoadingExtensionScript(error));
     }
 
-    _isValidExtensionURL(extensionURL) {
+    _isValidExtensionURL (extensionURL) {
         try {
             const parsedURL = new URL(extensionURL);
             return ['http:', 'https:', 'file:', 'data:'].includes(parsedURL.protocol);
@@ -263,7 +263,7 @@ class ExtensionManager {
      * Allocate a worker to the next pending extension
      * @returns {[number, string]} [workerId, extensionURL]
      */
-    allocateWorker() {
+    allocateWorker () {
         const id = this.nextExtensionWorker++;
         const workerInfo = this.pendingExtensions.shift();
         this.pendingWorkers[id] = workerInfo;
@@ -275,7 +275,7 @@ class ExtensionManager {
      * Synchronously collect extension metadata from a service
      * @param {string} serviceName
      */
-    registerExtensionServiceSync(serviceName) {
+    registerExtensionServiceSync (serviceName) {
         const info = dispatch.callSync(serviceName, 'getInfo');
         this._registerExtensionInfo(serviceName, info);
     }
@@ -284,7 +284,7 @@ class ExtensionManager {
      * Collect extension metadata asynchronously from a service
      * @param {string} serviceName
      */
-    registerExtensionService(serviceName) {
+    registerExtensionService (serviceName) {
         dispatch.call(serviceName, 'getInfo').then(info => {
             this._loadedExtensions.set(info.id, serviceName);
             this._registerExtensionInfo(serviceName, info);
@@ -292,7 +292,7 @@ class ExtensionManager {
         });
     }
 
-    _finishedLoadingExtensionScript() {
+    _finishedLoadingExtensionScript () {
         this.loadingAsyncExtensions--;
         if (this.loadingAsyncExtensions === 0) {
             this.asyncExtensionsLoadedCallbacks.forEach(cb => cb.resolve());
@@ -300,7 +300,7 @@ class ExtensionManager {
         }
     }
 
-    _failedLoadingExtensionScript(error) {
+    _failedLoadingExtensionScript (error) {
         this.loadingAsyncExtensions--;
         this.asyncExtensionsLoadedCallbacks.forEach(cb => cb.reject(error));
         this.asyncExtensionsLoadedCallbacks = [];
@@ -312,7 +312,7 @@ class ExtensionManager {
      * @param {number} id
      * @param {Error=} error
      */
-    onWorkerInit(id, error) {
+    onWorkerInit (id, error) {
         const workerInfo = this.pendingWorkers[id];
         delete this.pendingWorkers[id];
         if (error) workerInfo.reject(error);
@@ -324,7 +324,7 @@ class ExtensionManager {
      * @param {object} extensionObject
      * @returns {string} serviceName
      */
-    _registerInternalExtension(extensionObject) {
+    _registerInternalExtension (extensionObject) {
         const info = extensionObject.getInfo();
         const fakeWorkerId = this.nextExtensionWorker++;
         const serviceName = `extension_${fakeWorkerId}_${info.id}`;
@@ -333,14 +333,14 @@ class ExtensionManager {
         return serviceName;
     }
 
-    _registerExtensionInfo(serviceName, extensionInfo) {
+    _registerExtensionInfo (serviceName, extensionInfo) {
         extensionInfo = this._prepareExtensionInfo(serviceName, extensionInfo);
         dispatch.call('runtime', '_registerExtensionPrimitives', extensionInfo).catch(e => {
             log.error(`Failed to register primitives for ${serviceName}:`, e);
         });
     }
 
-    _prepareExtensionInfo(serviceName, info) {
+    _prepareExtensionInfo (serviceName, info) {
         info = {...info};
         if (!/^[a-z0-9]+$/i.test(info.id)) throw new Error('Invalid extension id');
         info.name = info.name || info.id;
@@ -351,7 +351,7 @@ class ExtensionManager {
         return info;
     }
 
-    _prepareMenuInfo(serviceName, menus) {
+    _prepareMenuInfo (serviceName, menus) {
         for (const name of Object.keys(menus)) {
             let menu = menus[name];
             if (!menu.items) menu = {items: menu};
@@ -365,7 +365,7 @@ class ExtensionManager {
         return menus;
     }
 
-    _getExtensionMenuItems(extensionObject, funcName) {
+    _getExtensionMenuItems (extensionObject, funcName) {
         const editingTarget = this.runtime.getEditingTarget() || this.runtime.getTargetForStage();
         const context = this.runtime.makeMessageContextForTarget(editingTarget);
         const menuItems = extensionObject[funcName].call(extensionObject, editingTarget?.id).map(item => {
@@ -378,7 +378,7 @@ class ExtensionManager {
         return menuItems;
     }
 
-    _prepareBlockInfo(serviceName, blockInfo) {
+    _prepareBlockInfo (serviceName, blockInfo) {
         if (blockInfo.blockType === BlockType.XML) return {...blockInfo, xml: String(blockInfo.xml) || ''};
         blockInfo = {
             blockType: BlockType.COMMAND,
@@ -392,12 +392,12 @@ class ExtensionManager {
         const funcName = blockInfo.func || blockInfo.opcode;
         const serviceObj = dispatch.services[serviceName];
 
-        const callFunc = dispatch._isRemoteService(serviceName)
-            ? (args, util, realBlockInfo) =>
-                  dispatch
-                      .call(serviceName, funcName, args, util, realBlockInfo)
-                      .then(r => (['number', 'string', 'boolean'].includes(typeof r) ? r : `${r}`))
-            : (args, util, realBlockInfo) => serviceObj[funcName]?.(args, util, realBlockInfo);
+        const callFunc = dispatch._isRemoteService(serviceName) ?
+            (args, util, realBlockInfo) =>
+                dispatch
+                    .call(serviceName, funcName, args, util, realBlockInfo)
+                    .then(r => (['number', 'string', 'boolean'].includes(typeof r) ? r : `${r}`)) :
+            (args, util, realBlockInfo) => serviceObj[funcName]?.(args, util, realBlockInfo);
 
         blockInfo.func = (args, util) =>
             callFunc(args, util, blockInfo.isDynamic ? args?.mutation?.blockInfo : blockInfo);
@@ -409,7 +409,7 @@ class ExtensionManager {
      * @param {string} [optExtensionId] Optional extension ID
      * @returns {Promise<void[]>}
      */
-    refreshBlocks(optExtensionId) {
+    refreshBlocks (optExtensionId) {
         const refresh = serviceName =>
             dispatch
                 .call(serviceName, 'getInfo')
@@ -432,12 +432,12 @@ class ExtensionManager {
         return Promise.all(allPromises);
     }
 
-    allAsyncExtensionsLoaded() {
+    allAsyncExtensionsLoaded () {
         if (this.loadingAsyncExtensions === 0) return;
         return new Promise((resolve, reject) => this.asyncExtensionsLoadedCallbacks.push({resolve, reject}));
     }
 
-    getExtensionURLs() {
+    getExtensionURLs () {
         const urls = {};
         for (const [id, serviceName] of this._loadedExtensions.entries()) {
             if (this.isBuiltinExtension(id)) continue;
@@ -448,7 +448,7 @@ class ExtensionManager {
         return urls;
     }
 
-    isExtensionURLLoaded(url) {
+    isExtensionURLLoaded (url) {
         return Object.values(this.workerURLs).includes(url);
     }
 }

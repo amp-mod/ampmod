@@ -38,36 +38,36 @@ test('clone-cleanup', t => {
     const testNextStep = () => {
         ++testStep;
         switch (testStep) {
-            case 0:
-                // Project has started, main thread running, no clones yet
-                verifyCounts(0, 1);
-                break;
+        case 0:
+            // Project has started, main thread running, no clones yet
+            verifyCounts(0, 1);
+            break;
 
-            case 1:
-                // 10 clones have been created, main thread still running
-                verifyCounts(10, 1);
-                break;
+        case 1:
+            // 10 clones have been created, main thread still running
+            verifyCounts(10, 1);
+            break;
 
-            case 2:
-                // The first batch of clones has deleted themselves; main thread still running
-                verifyCounts(0, 1);
-                break;
+        case 2:
+            // The first batch of clones has deleted themselves; main thread still running
+            verifyCounts(0, 1);
+            break;
 
-            case 3:
-                // The second batch of clones has been created and the main thread is about to end
-                verifyCounts(10, 1);
+        case 3:
+            // The second batch of clones has been created and the main thread is about to end
+            verifyCounts(10, 1);
 
-                // After the main thread ends, do one last test step
-                setTimeout(() => testNextStep(), 1000);
-                break;
+            // After the main thread ends, do one last test step
+            setTimeout(() => testNextStep(), 1000);
+            break;
 
-            case 4:
-                // The second batch of clones has deleted themselves; everything is finished
-                verifyCounts(0, 0);
+        case 4:
+            // The second batch of clones has deleted themselves; everything is finished
+            verifyCounts(0, 0);
 
-                vm.quit();
-                t.end();
-                break;
+            vm.quit();
+            t.end();
+            break;
         }
     };
 

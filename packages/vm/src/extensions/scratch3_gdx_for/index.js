@@ -121,7 +121,7 @@ class GdxFor {
      * @param {Runtime} runtime - the Scratch 3.0 runtime
      * @param {string} extensionId - the id of the extension
      */
-    constructor(runtime, extensionId) {
+    constructor (runtime, extensionId) {
         /**
          * The Scratch 3.0 runtime used to trigger the green flag button.
          * @type {Runtime}
@@ -179,7 +179,7 @@ class GdxFor {
     /**
      * Called by the runtime when user wants to scan for a peripheral.
      */
-    scan() {
+    scan () {
         if (this._ble) {
             this._ble.disconnect();
         }
@@ -200,7 +200,7 @@ class GdxFor {
      * Called by the runtime when user wants to connect to a certain peripheral.
      * @param {number} id - the id of the peripheral to connect to.
      */
-    connect(id) {
+    connect (id) {
         if (this._ble) {
             this._ble.connectPeripheral(id);
         }
@@ -210,7 +210,7 @@ class GdxFor {
      * Called by the runtime when a user exits the connection popup.
      * Disconnect from the GDX FOR.
      */
-    disconnect() {
+    disconnect () {
         if (this._ble) {
             this._ble.disconnect();
         }
@@ -221,7 +221,7 @@ class GdxFor {
     /**
      * Reset all the state and timeout/interval ids.
      */
-    reset() {
+    reset () {
         this._sensors = {
             force: 0,
             accelerationX: 0,
@@ -242,7 +242,7 @@ class GdxFor {
      * Return true if connected to the goforce device.
      * @return {boolean} - whether the goforce is connected.
      */
-    isConnected() {
+    isConnected () {
         let connected = false;
         if (this._ble) {
             connected = this._ble.isConnected();
@@ -254,7 +254,7 @@ class GdxFor {
      * Starts reading data from peripheral after BLE has connected to it.
      * @private
      */
-    _onConnect() {
+    _onConnect () {
         const adapter = new ScratchLinkDeviceAdapter(this._ble, BLEUUID);
         godirect.createDevice(adapter, {open: true, startMeasurements: false}).then(device => {
             // Setup device
@@ -290,38 +290,38 @@ class GdxFor {
      * @param {object} sensor - goforce device sensor whose value has changed
      * @private
      */
-    _onSensorValueChanged(sensor) {
+    _onSensorValueChanged (sensor) {
         switch (sensor.number) {
-            case GDXFOR_SENSOR.FORCE:
-                // Normalize the force, which can be measured between -50 and 50 N,
-                // to be a value between -100 and 100.
-                this._sensors.force = MathUtil.clamp(sensor.value * 2, -100, 100);
-                break;
-            case GDXFOR_SENSOR.ACCELERATION_X:
-                this._sensors.accelerationX = sensor.value;
-                break;
-            case GDXFOR_SENSOR.ACCELERATION_Y:
-                this._sensors.accelerationY = sensor.value;
-                break;
-            case GDXFOR_SENSOR.ACCELERATION_Z:
-                this._sensors.accelerationZ = sensor.value;
-                break;
-            case GDXFOR_SENSOR.SPIN_SPEED_X:
-                this._sensors.spinSpeedX = this._spinSpeedFromGyro(sensor.value);
-                break;
-            case GDXFOR_SENSOR.SPIN_SPEED_Y:
-                this._sensors.spinSpeedY = this._spinSpeedFromGyro(sensor.value);
-                break;
-            case GDXFOR_SENSOR.SPIN_SPEED_Z:
-                this._sensors.spinSpeedZ = this._spinSpeedFromGyro(sensor.value);
-                break;
+        case GDXFOR_SENSOR.FORCE:
+            // Normalize the force, which can be measured between -50 and 50 N,
+            // to be a value between -100 and 100.
+            this._sensors.force = MathUtil.clamp(sensor.value * 2, -100, 100);
+            break;
+        case GDXFOR_SENSOR.ACCELERATION_X:
+            this._sensors.accelerationX = sensor.value;
+            break;
+        case GDXFOR_SENSOR.ACCELERATION_Y:
+            this._sensors.accelerationY = sensor.value;
+            break;
+        case GDXFOR_SENSOR.ACCELERATION_Z:
+            this._sensors.accelerationZ = sensor.value;
+            break;
+        case GDXFOR_SENSOR.SPIN_SPEED_X:
+            this._sensors.spinSpeedX = this._spinSpeedFromGyro(sensor.value);
+            break;
+        case GDXFOR_SENSOR.SPIN_SPEED_Y:
+            this._sensors.spinSpeedY = this._spinSpeedFromGyro(sensor.value);
+            break;
+        case GDXFOR_SENSOR.SPIN_SPEED_Z:
+            this._sensors.spinSpeedZ = this._spinSpeedFromGyro(sensor.value);
+            break;
         }
         // cancel disconnect timeout and start a new one
         window.clearInterval(this._timeoutID);
         this._timeoutID = window.setInterval(() => this._ble.handleDisconnectError(BLEDataStoppedError), BLETimeout);
     }
 
-    _spinSpeedFromGyro(val) {
+    _spinSpeedFromGyro (val) {
         const framesPerSec = 1000 / this._runtime.currentStepTime;
         val = MathUtil.radToDeg(val);
         val = val / framesPerSec; // convert to from degrees per sec to degrees per frame
@@ -329,11 +329,11 @@ class GdxFor {
         return val;
     }
 
-    getForce() {
+    getForce () {
         return this._sensors.force;
     }
 
-    getTiltFrontBack(back = false) {
+    getTiltFrontBack (back = false) {
         const x = this.getAccelerationX();
         const y = this.getAccelerationY();
         const z = this.getAccelerationZ();
@@ -362,7 +362,7 @@ class GdxFor {
         return value;
     }
 
-    getTiltLeftRight(right = false) {
+    getTiltLeftRight (right = false) {
         const x = this.getAccelerationX();
         const y = this.getAccelerationY();
         const z = this.getAccelerationZ();
@@ -391,27 +391,27 @@ class GdxFor {
         return value;
     }
 
-    getAccelerationX() {
+    getAccelerationX () {
         return this._sensors.accelerationX;
     }
 
-    getAccelerationY() {
+    getAccelerationY () {
         return this._sensors.accelerationY;
     }
 
-    getAccelerationZ() {
+    getAccelerationZ () {
         return this._sensors.accelerationZ;
     }
 
-    getSpinSpeedX() {
+    getSpinSpeedX () {
         return this._sensors.spinSpeedX;
     }
 
-    getSpinSpeedY() {
+    getSpinSpeedY () {
         return this._sensors.spinSpeedY;
     }
 
-    getSpinSpeedZ() {
+    getSpinSpeedZ () {
         return this._sensors.spinSpeedZ;
     }
 }
@@ -469,18 +469,18 @@ class Scratch3GdxForBlocks {
     /**
      * @return {string} - the name of this extension.
      */
-    static get EXTENSION_NAME() {
+    static get EXTENSION_NAME () {
         return 'Force and Acceleration';
     }
 
     /**
      * @return {string} - the ID of this extension.
      */
-    static get EXTENSION_ID() {
+    static get EXTENSION_ID () {
         return 'gdxfor';
     }
 
-    get AXIS_MENU() {
+    get AXIS_MENU () {
         return [
             {
                 text: 'x',
@@ -497,7 +497,7 @@ class Scratch3GdxForBlocks {
         ];
     }
 
-    get TILT_MENU() {
+    get TILT_MENU () {
         return [
             {
                 text: formatMessage({
@@ -534,7 +534,7 @@ class Scratch3GdxForBlocks {
         ];
     }
 
-    get TILT_MENU_ANY() {
+    get TILT_MENU_ANY () {
         return [
             ...this.TILT_MENU,
             {
@@ -548,7 +548,7 @@ class Scratch3GdxForBlocks {
         ];
     }
 
-    get PUSH_PULL_MENU() {
+    get PUSH_PULL_MENU () {
         return [
             {
                 text: formatMessage({
@@ -569,7 +569,7 @@ class Scratch3GdxForBlocks {
         ];
     }
 
-    get GESTURE_MENU() {
+    get GESTURE_MENU () {
         return [
             {
                 text: formatMessage({
@@ -610,7 +610,7 @@ class Scratch3GdxForBlocks {
      * Construct a set of GDX-FOR blocks.
      * @param {Runtime} runtime - the Scratch 3.0 runtime.
      */
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The Scratch 3.0 runtime.
          * @type {Runtime}
@@ -624,7 +624,7 @@ class Scratch3GdxForBlocks {
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo() {
+    getInfo () {
         return {
             id: Scratch3GdxForBlocks.EXTENSION_ID,
             name: Scratch3GdxForBlocks.EXTENSION_NAME,
@@ -790,39 +790,39 @@ class Scratch3GdxForBlocks {
         };
     }
 
-    whenForcePushedOrPulled(args) {
+    whenForcePushedOrPulled (args) {
         switch (args.PUSH_PULL) {
-            case PushPullValues.PUSHED:
-                return this._peripheral.getForce() < FORCE_THRESHOLD * -1;
-            case PushPullValues.PULLED:
-                return this._peripheral.getForce() > FORCE_THRESHOLD;
-            default:
-                log.warn(`unknown push/pull value in whenForcePushedOrPulled: ${args.PUSH_PULL}`);
-                return false;
+        case PushPullValues.PUSHED:
+            return this._peripheral.getForce() < FORCE_THRESHOLD * -1;
+        case PushPullValues.PULLED:
+            return this._peripheral.getForce() > FORCE_THRESHOLD;
+        default:
+            log.warn(`unknown push/pull value in whenForcePushedOrPulled: ${args.PUSH_PULL}`);
+            return false;
         }
     }
 
-    getForce() {
+    getForce () {
         return Math.round(this._peripheral.getForce());
     }
 
-    whenGesture(args) {
+    whenGesture (args) {
         switch (args.GESTURE) {
-            case GestureValues.SHAKEN:
-                return this.gestureMagnitude() > SHAKEN_THRESHOLD;
-            case GestureValues.STARTED_FALLING:
-                return this.isFreeFalling();
-            case GestureValues.TURNED_FACE_UP:
-                return this._isFacing(GestureValues.TURNED_FACE_UP);
-            case GestureValues.TURNED_FACE_DOWN:
-                return this._isFacing(GestureValues.TURNED_FACE_DOWN);
-            default:
-                log.warn(`unknown gesture value in whenGesture: ${args.GESTURE}`);
-                return false;
+        case GestureValues.SHAKEN:
+            return this.gestureMagnitude() > SHAKEN_THRESHOLD;
+        case GestureValues.STARTED_FALLING:
+            return this.isFreeFalling();
+        case GestureValues.TURNED_FACE_UP:
+            return this._isFacing(GestureValues.TURNED_FACE_UP);
+        case GestureValues.TURNED_FACE_DOWN:
+            return this._isFacing(GestureValues.TURNED_FACE_DOWN);
+        default:
+            log.warn(`unknown gesture value in whenGesture: ${args.GESTURE}`);
+            return false;
         }
     }
 
-    _isFacing(direction) {
+    _isFacing (direction) {
         if (typeof this._facingUp === 'undefined') {
             this._facingUp = false;
         }
@@ -842,42 +842,42 @@ class Scratch3GdxForBlocks {
         this._facingDown = this._peripheral.getAccelerationZ() < threshold * -1;
 
         switch (direction) {
-            case GestureValues.TURNED_FACE_UP:
-                return this._facingUp;
-            case GestureValues.TURNED_FACE_DOWN:
-                return this._facingDown;
-            default:
-                return false;
+        case GestureValues.TURNED_FACE_UP:
+            return this._facingUp;
+        case GestureValues.TURNED_FACE_DOWN:
+            return this._facingDown;
+        default:
+            return false;
         }
     }
 
-    whenTilted(args) {
+    whenTilted (args) {
         return this._isTilted(args.TILT);
     }
 
-    isTilted(args) {
+    isTilted (args) {
         return this._isTilted(args.TILT);
     }
 
-    getTilt(args) {
+    getTilt (args) {
         return this._getTiltAngle(args.TILT);
     }
 
-    _isTilted(direction) {
+    _isTilted (direction) {
         switch (direction) {
-            case TiltAxisValues.ANY:
-                return (
-                    this._getTiltAngle(TiltAxisValues.FRONT) > TILT_THRESHOLD ||
+        case TiltAxisValues.ANY:
+            return (
+                this._getTiltAngle(TiltAxisValues.FRONT) > TILT_THRESHOLD ||
                     this._getTiltAngle(TiltAxisValues.BACK) > TILT_THRESHOLD ||
                     this._getTiltAngle(TiltAxisValues.LEFT) > TILT_THRESHOLD ||
                     this._getTiltAngle(TiltAxisValues.RIGHT) > TILT_THRESHOLD
-                );
-            default:
-                return this._getTiltAngle(direction) > TILT_THRESHOLD;
+            );
+        default:
+            return this._getTiltAngle(direction) > TILT_THRESHOLD;
         }
     }
 
-    _getTiltAngle(direction) {
+    _getTiltAngle (direction) {
         // Tilt values are calculated using acceleration due to gravity,
         // so we need to return 0 when the peripheral is not connected.
         if (!this._peripheral.isConnected()) {
@@ -885,42 +885,42 @@ class Scratch3GdxForBlocks {
         }
 
         switch (direction) {
-            case TiltAxisValues.FRONT:
-                return Math.round(this._peripheral.getTiltFrontBack(true));
-            case TiltAxisValues.BACK:
-                return Math.round(this._peripheral.getTiltFrontBack(false));
-            case TiltAxisValues.LEFT:
-                return Math.round(this._peripheral.getTiltLeftRight(true));
-            case TiltAxisValues.RIGHT:
-                return Math.round(this._peripheral.getTiltLeftRight(false));
-            default:
-                log.warn(`Unknown direction in getTilt: ${direction}`);
+        case TiltAxisValues.FRONT:
+            return Math.round(this._peripheral.getTiltFrontBack(true));
+        case TiltAxisValues.BACK:
+            return Math.round(this._peripheral.getTiltFrontBack(false));
+        case TiltAxisValues.LEFT:
+            return Math.round(this._peripheral.getTiltLeftRight(true));
+        case TiltAxisValues.RIGHT:
+            return Math.round(this._peripheral.getTiltLeftRight(false));
+        default:
+            log.warn(`Unknown direction in getTilt: ${direction}`);
         }
     }
 
-    getSpinSpeed(args) {
+    getSpinSpeed (args) {
         switch (args.DIRECTION) {
-            case AxisValues.X:
-                return Math.round(this._peripheral.getSpinSpeedX());
-            case AxisValues.Y:
-                return Math.round(this._peripheral.getSpinSpeedY());
-            case AxisValues.Z:
-                return Math.round(this._peripheral.getSpinSpeedZ());
-            default:
-                log.warn(`Unknown direction in getSpinSpeed: ${args.DIRECTION}`);
+        case AxisValues.X:
+            return Math.round(this._peripheral.getSpinSpeedX());
+        case AxisValues.Y:
+            return Math.round(this._peripheral.getSpinSpeedY());
+        case AxisValues.Z:
+            return Math.round(this._peripheral.getSpinSpeedZ());
+        default:
+            log.warn(`Unknown direction in getSpinSpeed: ${args.DIRECTION}`);
         }
     }
 
-    getAcceleration(args) {
+    getAcceleration (args) {
         switch (args.DIRECTION) {
-            case AxisValues.X:
-                return Math.round(this._peripheral.getAccelerationX());
-            case AxisValues.Y:
-                return Math.round(this._peripheral.getAccelerationY());
-            case AxisValues.Z:
-                return Math.round(this._peripheral.getAccelerationZ());
-            default:
-                log.warn(`Unknown direction in getAcceleration: ${args.DIRECTION}`);
+        case AxisValues.X:
+            return Math.round(this._peripheral.getAccelerationX());
+        case AxisValues.Y:
+            return Math.round(this._peripheral.getAccelerationY());
+        case AxisValues.Z:
+            return Math.round(this._peripheral.getAccelerationZ());
+        default:
+            log.warn(`Unknown direction in getAcceleration: ${args.DIRECTION}`);
         }
     }
 
@@ -930,11 +930,11 @@ class Scratch3GdxForBlocks {
      * @param {number} z - z axis vector
      * @return {number} - the magnitude of a three dimension vector.
      */
-    magnitude(x, y, z) {
+    magnitude (x, y, z) {
         return Math.sqrt(x * x + y * y + z * z);
     }
 
-    accelMagnitude() {
+    accelMagnitude () {
         return this.magnitude(
             this._peripheral.getAccelerationX(),
             this._peripheral.getAccelerationY(),
@@ -942,11 +942,11 @@ class Scratch3GdxForBlocks {
         );
     }
 
-    gestureMagnitude() {
+    gestureMagnitude () {
         return this.accelMagnitude() - GRAVITY;
     }
 
-    spinMagnitude() {
+    spinMagnitude () {
         return this.magnitude(
             this._peripheral.getSpinSpeedX(),
             this._peripheral.getSpinSpeedY(),
@@ -954,7 +954,7 @@ class Scratch3GdxForBlocks {
         );
     }
 
-    isFreeFalling() {
+    isFreeFalling () {
         // When the peripheral is not connected, the acceleration magnitude
         // is 0 instead of ~9.8, which ends up calculating as a positive
         // free fall; so we need to return 'false' here to prevent returning 'true'.

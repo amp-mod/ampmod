@@ -27,7 +27,7 @@ const loadScripts = url => {
 };
 
 class ExtensionWorker {
-    constructor() {
+    constructor () {
         this.nextExtensionId = 0;
 
         this.initialRegistrations = [];
@@ -59,7 +59,7 @@ class ExtensionWorker {
         this.extensions = [];
     }
 
-    register(extensionObject) {
+    register (extensionObject) {
         const extensionId = this.nextExtensionId++;
         this.extensions.push(extensionObject);
         const serviceName = `extension.${this.workerId}.${extensionId}`;

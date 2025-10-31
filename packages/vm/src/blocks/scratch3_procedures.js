@@ -1,5 +1,5 @@
 class Scratch3ProcedureBlocks {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -11,7 +11,7 @@ class Scratch3ProcedureBlocks {
      * Retrieve the block primitives implemented by this package.
      * @return {object.<string, Function>} Mapping of opcode to Function.
      */
-    getPrimitives() {
+    getPrimitives () {
         return {
             procedures_definition: this.definition,
             procedures_call: this.call,
@@ -21,11 +21,11 @@ class Scratch3ProcedureBlocks {
         };
     }
 
-    definition() {
+    definition () {
         // No-op: execute the blocks.
     }
 
-    call(args, util) {
+    call (args, util) {
         const stackFrame = util.stackFrame;
         const isReporter = !!args.mutation.return;
 
@@ -92,7 +92,7 @@ class Scratch3ProcedureBlocks {
         util.startProcedure(procedureCode);
     }
 
-    return(args, util) {
+    return (args, util) {
         util.stopThisScript();
         // If used outside of a custom block, there may be no stackframe.
         if (util.thread.peekStackFrame()) {
@@ -100,7 +100,7 @@ class Scratch3ProcedureBlocks {
         }
     }
 
-    argumentReporterStringNumber(args, util) {
+    argumentReporterStringNumber (args, util) {
         const value = util.getParam(args.VALUE);
         if (value === null) {
             // tw: support legacy block
@@ -114,7 +114,7 @@ class Scratch3ProcedureBlocks {
         return value;
     }
 
-    argumentReporterBoolean(args, util) {
+    argumentReporterBoolean (args, util) {
         const value = util.getParam(args.VALUE);
         if (value === null) {
             // tw: implement is compiled? and is turbowarp?

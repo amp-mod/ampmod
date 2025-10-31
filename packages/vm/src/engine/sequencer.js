@@ -40,7 +40,7 @@ let stepThreadsInnerProfilerId = -1;
 let executeProfilerId = -1;
 
 class Sequencer {
-    constructor(runtime) {
+    constructor (runtime) {
         /**
          * A utility timer for timing thread sequencing.
          * @type {!Timer}
@@ -60,7 +60,7 @@ class Sequencer {
      * Time to run a warp-mode thread, in ms.
      * @type {number}
      */
-    static get WARP_TIME() {
+    static get WARP_TIME () {
         return 500;
     }
 
@@ -68,7 +68,7 @@ class Sequencer {
      * Step through all threads in `this.runtime.threads`, running them in order.
      * @return {Array.<!Thread>} List of inactive threads after stepping.
      */
-    stepThreads() {
+    stepThreads () {
         // Work time is 75% of the thread stepping interval.
         const WORK_TIME = 0.75 * this.runtime.currentStepTime;
         // For compatibility with Scatch 2, update the millisecond clock
@@ -172,7 +172,7 @@ class Sequencer {
      * Step the requested thread for as long as necessary.
      * @param {!Thread} thread Thread object to step.
      */
-    stepThread(thread) {
+    stepThread (thread) {
         if (thread.isCompiled) {
             compilerExecute(thread);
             return;
@@ -287,7 +287,7 @@ class Sequencer {
      * @param {number} branchNum Which branch to step to (i.e., 1, 2).
      * @param {boolean} isLoop Whether this block is a loop.
      */
-    stepToBranch(thread, branchNum, isLoop) {
+    stepToBranch (thread, branchNum, isLoop) {
         if (!branchNum) {
             branchNum = 1;
         }
@@ -307,7 +307,7 @@ class Sequencer {
      * @param {!Thread} thread Thread object to step to procedure.
      * @param {!string} procedureCode Procedure code of procedure to step to.
      */
-    stepToProcedure(thread, procedureCode) {
+    stepToProcedure (thread, procedureCode) {
         const definition = thread.target.blocks.getProcedureDefinition(procedureCode);
         if (!definition) {
             return;
@@ -351,7 +351,7 @@ class Sequencer {
      * Retire a thread in the middle, without considering further blocks.
      * @param {!Thread} thread Thread object to retire.
      */
-    retireThread(thread) {
+    retireThread (thread) {
         thread.stack = [];
         thread.stackFrame = [];
         thread.requestScriptGlowInFrame = false;

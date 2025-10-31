@@ -11,20 +11,20 @@ const soon = (() => {
 })();
 
 class Emitter {
-    constructor() {
+    constructor () {
         Object.defineProperty(this, '_listeners', {
             value: {},
             enumerable: false
         });
     }
-    on(name, listener, context) {
+    on (name, listener, context) {
         if (!this._listeners[name]) {
             this._listeners[name] = [];
         }
 
         this._listeners[name].push(listener, context);
     }
-    off(name, listener, context) {
+    off (name, listener, context) {
         if (this._listeners[name]) {
             if (listener) {
                 for (let i = 0; i < this._listeners[name].length; i += 2) {
@@ -43,7 +43,7 @@ class Emitter {
             }
         }
     }
-    emit(name, ...args) {
+    emit (name, ...args) {
         if (this._listeners[name]) {
             for (let i = 0; i < this._listeners[name].length; i += 2) {
                 this._listeners[name][i].call(this._listeners[name][i + 1] || this, ...args);
@@ -53,7 +53,7 @@ class Emitter {
 }
 
 class BenchFrameStream extends Emitter {
-    constructor(frame) {
+    constructor (frame) {
         super();
 
         this.frame = frame;
@@ -62,7 +62,7 @@ class BenchFrameStream extends Emitter {
         });
     }
 
-    send(message) {
+    send (message) {
         this.frame.send(message);
     }
 }
@@ -79,21 +79,21 @@ const BENCH_MESSAGE_TYPE = {
 };
 
 class BenchUtil {
-    constructor(frame) {
+    constructor (frame) {
         this.frame = frame;
         this.benchStream = new BenchFrameStream(frame);
     }
 
-    setFrameLocation(url) {
+    setFrameLocation (url) {
         this.frame.contentWindow.location.assign(url);
     }
 
-    startBench(args) {
+    startBench (args) {
         this.benchArgs = args;
         this.setFrameLocation(`index.html#${benchmarkUrlArgs(args)}`);
     }
 
-    pauseBench() {
+    pauseBench () {
         new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
             this.benchStream.emit('message', {
                 type: BENCH_MESSAGE_TYPE.INACTIVE
@@ -101,11 +101,11 @@ class BenchUtil {
         });
     }
 
-    resumeBench() {
+    resumeBench () {
         this.startBench(this.benchArgs);
     }
 
-    renderResults(results) {
+    renderResults (results) {
         this.setFrameLocation(`index.html#view/${btoa(JSON.stringify(results))}`);
     }
 }
@@ -121,7 +121,7 @@ const BENCH_STATUS = {
 };
 
 class BenchResult {
-    constructor({fixture, status = BENCH_STATUS.INACTIVE, frames = null, opcodes = null}) {
+    constructor ({fixture, status = BENCH_STATUS.INACTIVE, frames = null, opcodes = null}) {
         this.fixture = fixture;
         this.status = status;
         this.frames = frames;
@@ -130,7 +130,7 @@ class BenchResult {
 }
 
 class BenchFixture extends Emitter {
-    constructor({projectId, warmUpTime = 4000, recordingTime = 6000}) {
+    constructor ({projectId, warmUpTime = 4000, recordingTime = 6000}) {
         super();
 
         this.projectId = projectId;
@@ -138,11 +138,11 @@ class BenchFixture extends Emitter {
         this.recordingTime = recordingTime;
     }
 
-    get id() {
+    get id () {
         return `${this.projectId}-${this.warmUpTime}-${this.recordingTime}`;
     }
 
-    run(util) {
+    run (util) {
         return new Promise(resolve => {
             util.benchStream.on(
                 'message',
@@ -178,7 +178,7 @@ class BenchFixture extends Emitter {
 }
 
 class BenchSuiteResult extends Emitter {
-    constructor({suite, results = []}) {
+    constructor ({suite, results = []}) {
         super();
 
         this.suite = suite;
@@ -196,17 +196,17 @@ class BenchSuiteResult extends Emitter {
 }
 
 class BenchSuite extends Emitter {
-    constructor(fixtures = []) {
+    constructor (fixtures = []) {
         super();
 
         this.fixtures = fixtures;
     }
 
-    add(fixture) {
+    add (fixture) {
         this.fixtures.push(fixture);
     }
 
-    run(util) {
+    run (util) {
         return new Promise(resolve => {
             const fixtures = this.fixtures.slice();
             const results = [];
@@ -219,7 +219,8 @@ class BenchSuite extends Emitter {
                 const fixture = fixtures.shift();
                 if (fixture) {
                     fixture.on('result', emitResult, this);
-                    fixture.run(util).then(push).then(pop);
+                    fixture.run(util).then(push)
+                        .then(pop);
                 } else {
                     resolve(new BenchSuiteResult({suite: this, results}));
                 }
@@ -230,7 +231,7 @@ class BenchSuite extends Emitter {
 }
 
 class BenchRunner extends Emitter {
-    constructor({frame, suite}) {
+    constructor ({frame, suite}) {
         super();
 
         this.frame = frame;
@@ -238,7 +239,7 @@ class BenchRunner extends Emitter {
         this.util = new BenchUtil(frame);
     }
 
-    run() {
+    run () {
         return this.suite.run(this.util);
     }
 }
@@ -254,27 +255,27 @@ const viewNames = {
 };
 
 class BenchResultView {
-    constructor({result, benchUtil}) {
+    constructor ({result, benchUtil}) {
         this.result = result;
         this.compare = null;
         this.benchUtil = benchUtil;
         this.dom = document.createElement('div');
     }
 
-    update(result) {
+    update (result) {
         soon().then(() => this.render(result));
     }
 
-    resume() {
+    resume () {
         this.benchUtil.resumeBench();
     }
 
-    setFrameLocation(loc) {
+    setFrameLocation (loc) {
         this.benchUtil.pauseBench();
         this.benchUtil.setFrameLocation(loc);
     }
 
-    act(ev) {
+    act (ev) {
         if (ev.type === 'click' && ev.button === 0 && !(ev.altKey || ev.ctrlKey || ev.shiftKey || ev.metaKey)) {
             let target = ev.target;
             while (target && target.tagName.toLowerCase() !== 'a') {
@@ -291,17 +292,17 @@ class BenchResultView {
         }
     }
 
-    render(newResult = this.result, compareResult = this.compare) {
+    render (newResult = this.result, compareResult = this.compare) {
         const newResultFrames = (newResult.frames ? newResult.frames : []).filter(i => i);
         const blockFunctionFrame = newResultFrames.find(frame => frame.name === 'blockFunction');
         const stepThreadsInnerFrame = newResultFrames.find(frame => frame.name === 'Sequencer.stepThreads#inner');
 
-        const blocksPerSecond = blockFunctionFrame
-            ? (blockFunctionFrame.executions / (stepThreadsInnerFrame.totalTime / 1000)) | 0
-            : 0;
-        const stepsPerSecond = stepThreadsInnerFrame
-            ? (stepThreadsInnerFrame.executions / (stepThreadsInnerFrame.totalTime / 1000)) | 0
-            : 0;
+        const blocksPerSecond = blockFunctionFrame ?
+            (blockFunctionFrame.executions / (stepThreadsInnerFrame.totalTime / 1000)) | 0 :
+            0;
+        const stepsPerSecond = stepThreadsInnerFrame ?
+            (stepThreadsInnerFrame.executions / (stepThreadsInnerFrame.totalTime / 1000)) | 0 :
+            0;
 
         const compareResultFrames = compareResult && compareResult.frames ? compareResult.frames : [];
         const blockFunctionCompareFrame = compareResultFrames.find(frame => frame.name === 'blockFunction');
@@ -309,12 +310,12 @@ class BenchResultView {
             frame => frame.name === 'Sequencer.stepThreads#inner'
         );
 
-        const compareBlocksPerSecond = blockFunctionCompareFrame
-            ? (blockFunctionCompareFrame.executions / (stepThreadsInnerCompareFrame.totalTime / 1000)) | 0
-            : 0;
-        const compareStepsPerSecond = stepThreadsInnerCompareFrame
-            ? (stepThreadsInnerCompareFrame.executions / (stepThreadsInnerCompareFrame.totalTime / 1000)) | 0
-            : 0;
+        const compareBlocksPerSecond = blockFunctionCompareFrame ?
+            (blockFunctionCompareFrame.executions / (stepThreadsInnerCompareFrame.totalTime / 1000)) | 0 :
+            0;
+        const compareStepsPerSecond = stepThreadsInnerCompareFrame ?
+            (stepThreadsInnerCompareFrame.executions / (stepThreadsInnerCompareFrame.totalTime / 1000)) | 0 :
+            0;
 
         const statusName = viewNames[newResult.status];
 
@@ -365,7 +366,7 @@ class BenchResultView {
 }
 
 class BenchSuiteResultView {
-    constructor({runner}) {
+    constructor ({runner}) {
         const {suite, util} = runner;
 
         this.runner = runner;
@@ -385,7 +386,7 @@ class BenchSuiteResultView {
         });
     }
 
-    render() {
+    render () {
         this.dom.innerHTML = `<div class="legend">
             <span>Project ID</span>
             <div class="result-status">

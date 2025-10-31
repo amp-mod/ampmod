@@ -170,7 +170,7 @@ const handlePromise = (primitiveReportedValue, sequencer, thread, blockCached, l
  * @param {object} cached default set of cached values
  */
 class BlockCached {
-    constructor(blockContainer, cached) {
+    constructor (blockContainer, cached) {
         /**
          * Block id in its parent set of blocks.
          * @type {string}

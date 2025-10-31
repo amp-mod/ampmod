@@ -82,20 +82,20 @@ test('type assertions', async t => {
         for (const block of blocks) {
             if (block.opcode === StackOpcode.COMPATIBILITY_LAYER) {
                 switch (block.inputs.opcode) {
-                    case 'typeassert_assert':
-                        yield {block, region};
-                        break;
-                    case 'typeassert_region': {
-                        const newRegionNameInput = block.inputs.inputs.NAME;
-                        if (newRegionNameInput.opcode !== InputOpcode.CONSTANT) {
-                            throw new Error('Region block inputs must be a constant.');
-                        }
-                        yield* enumerateAssertions(
-                            block.inputs.substacks['1'].blocks,
-                            (region ? `${region}, ` : '') + newRegionNameInput.inputs.value
-                        );
-                        break;
+                case 'typeassert_assert':
+                    yield {block, region};
+                    break;
+                case 'typeassert_region': {
+                    const newRegionNameInput = block.inputs.inputs.NAME;
+                    if (newRegionNameInput.opcode !== InputOpcode.CONSTANT) {
+                        throw new Error('Region block inputs must be a constant.');
                     }
+                    yield* enumerateAssertions(
+                        block.inputs.substacks['1'].blocks,
+                        (region ? `${region}, ` : '') + newRegionNameInput.inputs.value
+                    );
+                    break;
+                }
                 }
             } else {
                 for (const inputName in block.inputs) {
@@ -130,29 +130,29 @@ test('type assertions', async t => {
             let nounType;
 
             switch (noun) {
-                case 'zero':
-                    nounType = InputType.NUMBER_ZERO;
-                    break;
-                case 'infinity':
-                    nounType = InputType.NUMBER_POS_INF;
-                    break;
-                case 'NaN':
-                    nounType = InputType.NUMBER_NAN;
-                    break;
-                case 'a number':
-                    nounType = InputType.NUMBER;
-                    break;
-                case 'a string':
-                    nounType = InputType.STRING;
-                    break;
-                case 'number interpretable':
-                    nounType = InputType.NUMBER_INTERPRETABLE;
-                    break;
-                case 'anything':
-                    nounType = InputType.ANY;
-                    break;
-                default:
-                    throw new Error(`$Invalid noun menu option ${noun}`);
+            case 'zero':
+                nounType = InputType.NUMBER_ZERO;
+                break;
+            case 'infinity':
+                nounType = InputType.NUMBER_POS_INF;
+                break;
+            case 'NaN':
+                nounType = InputType.NUMBER_NAN;
+                break;
+            case 'a number':
+                nounType = InputType.NUMBER;
+                break;
+            case 'a string':
+                nounType = InputType.STRING;
+                break;
+            case 'number interpretable':
+                nounType = InputType.NUMBER_INTERPRETABLE;
+                break;
+            case 'anything':
+                nounType = InputType.ANY;
+                break;
+            default:
+                throw new Error(`$Invalid noun menu option ${noun}`);
             }
 
             let message;
@@ -166,20 +166,20 @@ test('type assertions', async t => {
             }
 
             switch (adverb) {
-                case 'never':
-                    t.ok(!valueInput.isSometimesType(nounType), message);
-                    break;
-                case 'always':
-                    t.ok(valueInput.isAlwaysType(nounType), message);
-                    break;
-                case 'sometimes':
-                    t.ok(valueInput.isSometimesType(nounType), message);
-                    break;
-                case 'exactly':
-                    t.equal(valueInput.type, nounType, message);
-                    break;
-                default:
-                    throw new Error(`$Invalid adverb menu option ${adverb}`);
+            case 'never':
+                t.ok(!valueInput.isSometimesType(nounType), message);
+                break;
+            case 'always':
+                t.ok(valueInput.isAlwaysType(nounType), message);
+                break;
+            case 'sometimes':
+                t.ok(valueInput.isSometimesType(nounType), message);
+                break;
+            case 'exactly':
+                t.equal(valueInput.type, nounType, message);
+                break;
+            default:
+                throw new Error(`$Invalid adverb menu option ${adverb}`);
             }
         }
     };

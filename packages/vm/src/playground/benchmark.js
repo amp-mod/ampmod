@@ -8,13 +8,13 @@ if (window.performance) {
 }
 
 class LoadingMiddleware {
-    constructor() {
+    constructor () {
         this.middleware = [];
         this.host = null;
         this.original = null;
     }
 
-    install(host, original) {
+    install (host, original) {
         this.host = host;
         this.original = original;
         const {middleware} = this;
@@ -30,7 +30,7 @@ class LoadingMiddleware {
         };
     }
 
-    push(middleware) {
+    push (middleware) {
         this.middleware.push(middleware);
     }
 }
@@ -137,7 +137,7 @@ const getAssetUrl = function (asset) {
 };
 
 class LoadingProgress {
-    constructor(callback) {
+    constructor (callback) {
         this.dataLoaded = 0;
         this.contentTotal = 0;
         this.contentComplete = 0;
@@ -148,14 +148,14 @@ class LoadingProgress {
         this.callback = callback;
     }
 
-    sampleMemory() {
+    sampleMemory () {
         if (window.performance && window.performance.memory) {
             this.memoryCurrent = window.performance.memory.usedJSHeapSize;
             this.memoryPeak = Math.max(this.memoryCurrent, this.memoryPeak);
         }
     }
 
-    attachHydrateMiddleware(middleware) {
+    attachHydrateMiddleware (middleware) {
         const _this = this;
         middleware.push((args, next) => {
             _this.hydrateTotal += 1;
@@ -170,7 +170,7 @@ class LoadingProgress {
         });
     }
 
-    on(storage, vm) {
+    on (storage, vm) {
         const _this = this;
 
         this.attachHydrateMiddleware(costumeMiddleware);
@@ -249,7 +249,7 @@ class LoadingProgress {
 }
 
 class StatTable {
-    constructor({table, keys, viewOf, isSlow}) {
+    constructor ({table, keys, viewOf, isSlow}) {
         this.table = table;
         if (keys) {
             this.keys = keys;
@@ -262,7 +262,7 @@ class StatTable {
         }
     }
 
-    render() {
+    render () {
         const table = this.table;
         Array.from(table.children).forEach(node => table.removeChild(node));
         const keys = this.keys();
@@ -276,20 +276,20 @@ class StatTable {
 }
 
 class StatView {
-    constructor(name) {
+    constructor (name) {
         this.name = name;
         this.executions = 0;
         this.selfTime = 0;
         this.totalTime = 0;
     }
 
-    update(selfTime, totalTime, count) {
+    update (selfTime, totalTime, count) {
         this.executions += count;
         this.selfTime += selfTime;
         this.totalTime += totalTime;
     }
 
-    render({table, isSlow}) {
+    render ({table, isSlow}) {
         const row = document.createElement('tr');
         let cell = document.createElement('td');
         cell.innerText = this.name;
@@ -331,7 +331,7 @@ class StatView {
 }
 
 class RunningStats {
-    constructor(profiler) {
+    constructor (profiler) {
         this.stepThreadsInnerId = profiler.idByName('Sequencer.stepThreads#inner');
         this.blockFunctionId = profiler.idByName('blockFunction');
         this.stpeThreadsId = profiler.idByName('Sequencer.stepThreads');
@@ -343,7 +343,7 @@ class RunningStats {
         };
     }
 
-    update(id, arg, selfTime, totalTime, count) {
+    update (id, arg, selfTime, totalTime, count) {
         if (id === this.stpeThreadsId) {
             this.recordedTime += totalTime;
         } else if (id === this.stepThreadsInnerId) {
@@ -357,7 +357,7 @@ class RunningStats {
 const WORK_TIME = 0.75;
 
 class RunningStatsView {
-    constructor({runningStats, maxRecordedTime, dom}) {
+    constructor ({runningStats, maxRecordedTime, dom}) {
         this.recordedTimeDom = dom.getElementsByClassName('profile-count-amount-recorded')[0];
         this.stepsLoopedDom = dom.getElementsByClassName('profile-count-steps-looped')[0];
         this.blocksExecutedDom = dom.getElementsByClassName('profile-count-blocks-executed')[0];
@@ -367,7 +367,7 @@ class RunningStatsView {
         this.runningStats = runningStats;
     }
 
-    render() {
+    render () {
         const {runningStats, recordedTimeDom, stepsLoopedDom, blocksExecutedDom} = this;
         const {executed} = runningStats;
         const fractionWorked = runningStats.recordedTime / this.maxWorkedTime;
@@ -378,13 +378,13 @@ class RunningStatsView {
 }
 
 class Frames {
-    constructor(profiler) {
+    constructor (profiler) {
         this.profiler = profiler;
 
         this.frames = [];
     }
 
-    update(id, arg, selfTime, totalTime, count) {
+    update (id, arg, selfTime, totalTime, count) {
         if (id < 0) return;
         if (!this.frames[id]) {
             this.frames[id] = new StatView(this.profiler.nameById(id));
@@ -404,36 +404,36 @@ const frameOrder = [
 ];
 
 class FramesTable extends StatTable {
-    constructor(options) {
+    constructor (options) {
         super(options);
 
         this.profiler = options.profiler;
         this.frames = options.frames;
     }
 
-    keys() {
+    keys () {
         const keys = Object.keys(this.frames.frames).map(id => this.profiler.nameById(Number(id)));
         keys.sort((a, b) => frameOrder.indexOf(a) - frameOrder.indexOf(b));
         return keys;
     }
 
-    viewOf(key) {
+    viewOf (key) {
         return this.frames.frames[this.profiler.idByName(key)];
     }
 
-    isSlow() {
+    isSlow () {
         return false;
     }
 }
 
 class Opcodes {
-    constructor(profiler) {
+    constructor (profiler) {
         this.blockFunctionId = profiler.idByName('blockFunction');
 
         this.opcodes = {};
     }
 
-    update(id, arg, selfTime, totalTime, count) {
+    update (id, arg, selfTime, totalTime, count) {
         if (id === this.blockFunctionId) {
             if (!this.opcodes[arg]) {
                 this.opcodes[arg] = new StatView(arg);
@@ -444,7 +444,7 @@ class Opcodes {
 }
 
 class OpcodeTable extends StatTable {
-    constructor(options) {
+    constructor (options) {
         super(options);
 
         this.profiler = options.profiler;
@@ -452,17 +452,17 @@ class OpcodeTable extends StatTable {
         this.frames = options.frames;
     }
 
-    keys() {
+    keys () {
         const keys = Object.keys(this.opcodes.opcodes);
         keys.sort();
         return keys;
     }
 
-    viewOf(key) {
+    viewOf (key) {
         return this.opcodes.opcodes[key];
     }
 
-    isSlow(key) {
+    isSlow (key) {
         const blockFunctionTotalTime = this.frames.frames[this.profiler.idByName('blockFunction')].totalTime;
         const rowTotalTime = this.opcodes.opcodes[key].totalTime;
         const percentOfRun = rowTotalTime / blockFunctionTotalTime;
@@ -471,7 +471,7 @@ class OpcodeTable extends StatTable {
 }
 
 class ProfilerRun {
-    constructor({vm, maxRecordedTime, warmUpTime}) {
+    constructor ({vm, maxRecordedTime, warmUpTime}) {
         this.vm = vm;
         this.maxRecordedTime = maxRecordedTime;
         this.warmUpTime = warmUpTime;
@@ -517,7 +517,7 @@ class ProfilerRun {
         };
     }
 
-    run() {
+    run () {
         this.projectId = loadProject();
 
         window.parent.postMessage(
@@ -579,7 +579,7 @@ class ProfilerRun {
         });
     }
 
-    render(json) {
+    render (json) {
         const {fixture} = json;
         document.querySelector('[type=text]').value = [
             fixture.projectId,
