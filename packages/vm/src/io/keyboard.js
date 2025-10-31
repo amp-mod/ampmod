@@ -1,29 +1,29 @@
-const Cast = require("../util/cast");
+const Cast = require('../util/cast');
 
 /**
  * Names used internally for keys used in scratch, also known as "scratch keys".
  * @enum {string}
  */
 const KEY_NAME = {
-    SPACE: "space",
-    LEFT: "left arrow",
-    UP: "up arrow",
-    RIGHT: "right arrow",
-    DOWN: "down arrow",
-    ENTER: "enter",
+    SPACE: 'space',
+    LEFT: 'left arrow',
+    UP: 'up arrow',
+    RIGHT: 'right arrow',
+    DOWN: 'down arrow',
+    ENTER: 'enter',
     // tw: extra keys
-    BACKSPACE: "backspace",
-    DELETE: "delete",
-    SHIFT: "shift",
-    CAPS_LOCK: "caps lock",
-    SCROLL_LOCK: "scroll lock",
-    CONTROL: "control",
-    ESCAPE: "escape",
-    INSERT: "insert",
-    HOME: "home",
-    END: "end",
-    PAGE_UP: "page up",
-    PAGE_DOWN: "page down",
+    BACKSPACE: 'backspace',
+    DELETE: 'delete',
+    SHIFT: 'shift',
+    CAPS_LOCK: 'caps lock',
+    SCROLL_LOCK: 'scroll lock',
+    CONTROL: 'control',
+    ESCAPE: 'escape',
+    INSERT: 'insert',
+    HOME: 'home',
+    END: 'end',
+    PAGE_UP: 'page up',
+    PAGE_DOWN: 'page down'
 };
 
 /**
@@ -51,7 +51,7 @@ class Keyboard {
          */
         this.runtime = runtime;
         // tw: track last pressed key
-        this.lastKeyPressed = "";
+        this.lastKeyPressed = '';
         this._numeralKeyCodesToStringKey = new Map();
     }
 
@@ -64,51 +64,51 @@ class Keyboard {
         keyString = Cast.toString(keyString);
         // Convert space and arrow keys to their Scratch key names.
         switch (keyString) {
-            case " ":
+            case ' ':
                 return KEY_NAME.SPACE;
-            case "ArrowLeft":
-            case "Left":
+            case 'ArrowLeft':
+            case 'Left':
                 return KEY_NAME.LEFT;
-            case "ArrowUp":
-            case "Up":
+            case 'ArrowUp':
+            case 'Up':
                 return KEY_NAME.UP;
-            case "Right":
-            case "ArrowRight":
+            case 'Right':
+            case 'ArrowRight':
                 return KEY_NAME.RIGHT;
-            case "Down":
-            case "ArrowDown":
+            case 'Down':
+            case 'ArrowDown':
                 return KEY_NAME.DOWN;
-            case "Enter":
+            case 'Enter':
                 return KEY_NAME.ENTER;
             // tw: extra keys
-            case "Backspace":
+            case 'Backspace':
                 return KEY_NAME.BACKSPACE;
-            case "Delete":
+            case 'Delete':
                 return KEY_NAME.DELETE;
-            case "Shift":
+            case 'Shift':
                 return KEY_NAME.SHIFT;
-            case "CapsLock":
+            case 'CapsLock':
                 return KEY_NAME.CAPS_LOCK;
-            case "ScrollLock":
+            case 'ScrollLock':
                 return KEY_NAME.SCROLL_LOCK;
-            case "Control":
+            case 'Control':
                 return KEY_NAME.CONTROL;
-            case "Escape":
+            case 'Escape':
                 return KEY_NAME.ESCAPE;
-            case "Insert":
+            case 'Insert':
                 return KEY_NAME.INSERT;
-            case "Home":
+            case 'Home':
                 return KEY_NAME.HOME;
-            case "End":
+            case 'End':
                 return KEY_NAME.END;
-            case "PageUp":
+            case 'PageUp':
                 return KEY_NAME.PAGE_UP;
-            case "PageDown":
+            case 'PageDown':
                 return KEY_NAME.PAGE_DOWN;
         }
         // Ignore modifier keys
         if (keyString.length > 1) {
-            return "";
+            return '';
         }
         // tw: toUpperCase() happens later. We need to track key case.
         return keyString;
@@ -121,7 +121,7 @@ class Keyboard {
      */
     _keyArgToScratchKey(keyArg) {
         // If a number was dropped in, try to convert from ASCII to Scratch key.
-        if (typeof keyArg === "number") {
+        if (typeof keyArg === 'number') {
             // Check for the ASCII range containing numbers, some punctuation,
             // and uppercase letters.
             if (keyArg >= 48 && keyArg <= 90) {
@@ -156,16 +156,16 @@ class Keyboard {
         }
 
         // Check for the space character.
-        if (keyArg === " ") {
+        if (keyArg === ' ') {
             return KEY_NAME.SPACE;
         }
         // tw: support Scratch 2 hacked blocks
         // There are more hacked blocks but most of them get mangled by Scratch 2 -> Scratch 3 conversion
-        if (keyArg === "\r") {
+        if (keyArg === '\r') {
             // this probably belongs upstream
             return KEY_NAME.ENTER;
         }
-        if (keyArg === "\u001b") {
+        if (keyArg === '\u001b') {
             return KEY_NAME.ESCAPE;
         }
 
@@ -187,16 +187,13 @@ class Keyboard {
         if (!data.key) return;
         // tw: convert single letter keys to uppercase because of changes in _keyStringToScratchKey
         const scratchKeyCased = this._keyStringToScratchKey(data.key);
-        const scratchKey =
-            scratchKeyCased.length === 1
-                ? scratchKeyCased.toUpperCase()
-                : scratchKeyCased;
-        if (scratchKey === "") return;
+        const scratchKey = scratchKeyCased.length === 1 ? scratchKeyCased.toUpperCase() : scratchKeyCased;
+        if (scratchKey === '') return;
         const index = this._keysPressed.indexOf(scratchKey);
         if (data.isDown) {
             // tw: track last pressed key
             this.lastKeyPressed = scratchKeyCased;
-            this.runtime.emit("KEY_PRESSED", scratchKey);
+            this.runtime.emit('KEY_PRESSED', scratchKey);
             // If not already present, add to the list.
             if (index < 0) {
                 this._keysPressed.push(scratchKey);
@@ -206,14 +203,12 @@ class Keyboard {
             this._keysPressed.splice(index, 1);
         }
         // Fix for https://github.com/LLK/scratch-vm/issues/2271
-        if (Object.prototype.hasOwnProperty.call(data, "keyCode")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'keyCode')) {
             const keyCode = data.keyCode;
             if (this._numeralKeyCodesToStringKey.has(keyCode)) {
-                const lastKeyOfSameCode =
-                    this._numeralKeyCodesToStringKey.get(keyCode);
+                const lastKeyOfSameCode = this._numeralKeyCodesToStringKey.get(keyCode);
                 if (lastKeyOfSameCode !== scratchKey) {
-                    const indexToUnpress =
-                        this._keysPressed.indexOf(lastKeyOfSameCode);
+                    const indexToUnpress = this._keysPressed.indexOf(lastKeyOfSameCode);
                     if (indexToUnpress !== -1) {
                         this._keysPressed.splice(indexToUnpress, 1);
                     }
@@ -229,7 +224,7 @@ class Keyboard {
      * @return {boolean} Is the specified key down?
      */
     getKeyIsDown(keyArg) {
-        if (keyArg === "any") {
+        if (keyArg === 'any') {
             return this._keysPressed.length > 0;
         }
         const scratchKey = this._keyArgToScratchKey(keyArg);

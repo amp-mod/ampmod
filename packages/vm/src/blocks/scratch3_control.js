@@ -1,4 +1,4 @@
-const Cast = require("../util/cast");
+const Cast = require('../util/cast');
 
 class Scratch3ControlBlocks {
     constructor(runtime) {
@@ -14,7 +14,7 @@ class Scratch3ControlBlocks {
          */
         this._counter = 0; // used by compiler
 
-        this.runtime.on("RUNTIME_DISPOSED", this.clearCounter.bind(this));
+        this.runtime.on('RUNTIME_DISPOSED', this.clearCounter.bind(this));
     }
 
     /**
@@ -41,22 +41,22 @@ class Scratch3ControlBlocks {
             control_clear_counter: this.clearCounter,
             control_all_at_once: this.allAtOnce,
             control_ternary: this.ternary,
-            control_async: this.async,
+            control_async: this.async
         };
     }
 
     getHats() {
         return {
             control_start_as_clone: {
-                restartExistingThreads: false,
-            },
+                restartExistingThreads: false
+            }
         };
     }
 
     repeat(args, util) {
         const times = Math.round(Cast.toNumber(args.TIMES));
         // Initialize loop
-        if (typeof util.stackFrame.loopCounter === "undefined") {
+        if (typeof util.stackFrame.loopCounter === 'undefined') {
             util.stackFrame.loopCounter = times;
         }
         // Only execute once per frame.
@@ -87,12 +87,9 @@ class Scratch3ControlBlocks {
     }
 
     forEach(args, util) {
-        const variable = util.target.lookupOrCreateVariable(
-            args.VARIABLE.id,
-            args.VARIABLE.name
-        );
+        const variable = util.target.lookupOrCreateVariable(args.VARIABLE.id, args.VARIABLE.name);
 
-        if (typeof util.stackFrame.index === "undefined") {
+        if (typeof util.stackFrame.index === 'undefined') {
             util.stackFrame.index = 0;
         }
 
@@ -144,14 +141,11 @@ class Scratch3ControlBlocks {
 
     stop(args, util) {
         const option = args.STOP_OPTION;
-        if (option === "all") {
+        if (option === 'all') {
             util.stopAll();
-        } else if (
-            option === "other scripts in sprite" ||
-            option === "other scripts in stage"
-        ) {
+        } else if (option === 'other scripts in sprite' || option === 'other scripts in stage') {
             util.stopOtherTargetThreads();
-        } else if (option === "this script") {
+        } else if (option === 'this script') {
             util.stopThisScript();
         }
     }
@@ -163,7 +157,7 @@ class Scratch3ControlBlocks {
         // used by compiler
         // Set clone target
         let cloneTarget;
-        if (cloneOption === "_myself_") {
+        if (cloneOption === '_myself_') {
             cloneTarget = target;
         } else {
             cloneTarget = this.runtime.getSpriteTargetByName(cloneOption);
@@ -217,9 +211,7 @@ class Scratch3ControlBlocks {
     }
 
     ternary(args, util) {
-        return Cast.toBoolean(args.CONDITION)
-            ? Cast.toString(args.LEFT)
-            : Cast.toString(args.RIGHT);
+        return Cast.toBoolean(args.CONDITION) ? Cast.toString(args.LEFT) : Cast.toString(args.RIGHT);
     }
 
     isClone(args, util) {

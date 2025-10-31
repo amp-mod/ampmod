@@ -1,18 +1,18 @@
 class StageLayering {
     static get BACKGROUND_LAYER() {
-        return "background";
+        return 'background';
     }
 
     static get VIDEO_LAYER() {
-        return "video";
+        return 'video';
     }
 
     static get PEN_LAYER() {
-        return "pen";
+        return 'pen';
     }
 
     static get SPRITE_LAYER() {
-        return "sprite";
+        return 'sprite';
     }
 
     // Order of layer groups relative to each other,
@@ -21,7 +21,7 @@ class StageLayering {
             StageLayering.BACKGROUND_LAYER,
             StageLayering.VIDEO_LAYER,
             StageLayering.PEN_LAYER,
-            StageLayering.SPRITE_LAYER,
+            StageLayering.SPRITE_LAYER
         ];
     }
 }

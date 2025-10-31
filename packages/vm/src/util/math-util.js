@@ -59,9 +59,7 @@ class MathUtil {
             case 270:
                 return -Infinity;
             default:
-                return (
-                    Math.round(Math.tan((Math.PI * angle) / 180) * 1e10) / 1e10
-                );
+                return Math.round(Math.tan((Math.PI * angle) / 180) * 1e10) / 1e10;
         }
     }
 

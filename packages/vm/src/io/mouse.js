@@ -1,4 +1,4 @@
-const MathUtil = require("../util/math-util");
+const MathUtil = require('../util/math-util');
 
 const roundToThreeDecimals = number => Math.round(number * 1000) / 1000;
 
@@ -30,8 +30,8 @@ class Mouse {
         // but should act the same way.
         // Intentionally not checking isStage to make it work when sharing blocks.
         // @todo the blocks should be converted from one to another when shared
-        this.runtime.startHats("event_whenthisspriteclicked", null, target);
-        this.runtime.startHats("event_whenstageclicked", null, target);
+        this.runtime.startHats('event_whenthisspriteclicked', null, target);
+        this.runtime.startHats('event_whenstageclicked', null, target);
     }
 
     /**
@@ -46,13 +46,7 @@ class Mouse {
             const drawableID = this.runtime.renderer.pick(x, y);
             for (let i = 0; i < this.runtime.targets.length; i++) {
                 const target = this.runtime.targets[i];
-                if (
-                    Object.prototype.hasOwnProperty.call(
-                        target,
-                        "drawableID"
-                    ) &&
-                    target.drawableID === drawableID
-                ) {
+                if (Object.prototype.hasOwnProperty.call(target, 'drawableID') && target.drawableID === drawableID) {
                     return target;
                 }
             }
@@ -66,7 +60,7 @@ class Mouse {
      * @param  {object} data Data from DOM event.
      */
     postData(data) {
-        if (typeof data.x === "number") {
+        if (typeof data.x === 'number') {
             this._clientX = data.x;
             this._scratchX = MathUtil.clamp(
                 this.runtime.stageWidth * (data.x / data.canvasWidth - 0.5),
@@ -74,7 +68,7 @@ class Mouse {
                 this.runtime.stageWidth / 2
             );
         }
-        if (typeof data.y === "number") {
+        if (typeof data.y === 'number') {
             this._clientY = data.y;
             this._scratchY = MathUtil.clamp(
                 -this.runtime.stageHeight * (data.y / data.canvasHeight - 0.5),
@@ -82,9 +76,9 @@ class Mouse {
                 this.runtime.stageHeight / 2
             );
         }
-        if (typeof data.isDown !== "undefined") {
+        if (typeof data.isDown !== 'undefined') {
             // If no button specified, default to left button for compatibility
-            const button = typeof data.button === "undefined" ? 0 : data.button;
+            const button = typeof data.button === 'undefined' ? 0 : data.button;
             if (data.isDown) {
                 this._buttons.add(button);
             } else {
@@ -101,15 +95,7 @@ class Mouse {
             if (data.wasDragged) return;
 
             // Do not activate click hats for clicks outside canvas bounds
-            if (
-                !(
-                    data.x > 0 &&
-                    data.x < data.canvasWidth &&
-                    data.y > 0 &&
-                    data.y < data.canvasHeight
-                )
-            )
-                return;
+            if (!(data.x > 0 && data.x < data.canvasWidth && data.y > 0 && data.y < data.canvasHeight)) return;
 
             // target will not exist if project is still loading
             const target = this._pickTarget(data.x, data.y);

@@ -1,10 +1,10 @@
-const RenderedTarget = require("./rendered-target");
-const Blocks = require("../engine/blocks");
-const { loadSoundFromAsset } = require("../import/load-sound");
-const { loadCostumeFromAsset } = require("../import/load-costume");
-const newBlockIds = require("../util/new-block-ids");
-const StringUtil = require("../util/string-util");
-const StageLayering = require("../engine/stage-layering");
+const RenderedTarget = require('./rendered-target');
+const Blocks = require('../engine/blocks');
+const {loadSoundFromAsset} = require('../import/load-sound');
+const {loadCostumeFromAsset} = require('../import/load-costume');
+const newBlockIds = require('../util/new-block-ids');
+const StringUtil = require('../util/string-util');
+const StageLayering = require('../engine/stage-layering');
 
 class Sprite {
     /**
@@ -26,7 +26,7 @@ class Sprite {
          * Human-readable name for this sprite (and all clones).
          * @type {string}
          */
-        this.name = "";
+        this.name = '';
         /**
          * List of costumes for this sprite.
          * Each entry is an object, e.g.,
@@ -84,13 +84,10 @@ class Sprite {
      */
     addCostumeAt(costumeObject, index) {
         if (!costumeObject.name) {
-            costumeObject.name = "";
+            costumeObject.name = '';
         }
         const usedNames = this.costumes_.map(costume => costume.name);
-        costumeObject.name = StringUtil.unusedName(
-            costumeObject.name,
-            usedNames
-        );
+        costumeObject.name = StringUtil.unusedName(costumeObject.name, usedNames);
         this.costumes_.splice(index, 0, costumeObject);
     }
 
@@ -116,10 +113,7 @@ class Sprite {
         newClone.initAudio();
         if (newClone.isOriginal) {
             // Default to the sprite layer group if optLayerGroup is not provided
-            const layerGroup =
-                typeof optLayerGroup === "string"
-                    ? optLayerGroup
-                    : StageLayering.SPRITE_LAYER;
+            const layerGroup = typeof optLayerGroup === 'string' ? optLayerGroup : StageLayering.SPRITE_LAYER;
             newClone.initDrawable(layerGroup);
             this.runtime.fireTargetWasCreated(newClone);
         } else {
@@ -144,9 +138,7 @@ class Sprite {
     duplicate() {
         const newSprite = new Sprite(null, this.runtime);
         const blocksContainer = this.blocks._blocks;
-        const originalBlocks = Object.keys(blocksContainer).map(
-            key => blocksContainer[key]
-        );
+        const originalBlocks = Object.keys(blocksContainer).map(key => blocksContainer[key]);
         const copiedBlocks = JSON.parse(JSON.stringify(originalBlocks));
         newBlockIds(copiedBlocks);
         copiedBlocks.forEach(block => {
@@ -167,14 +159,7 @@ class Sprite {
         newSprite.sounds = this.sounds.map(sound => {
             const newSound = Object.assign({}, sound);
             const soundAsset = sound.asset;
-            assetPromises.push(
-                loadSoundFromAsset(
-                    newSound,
-                    soundAsset,
-                    this.runtime,
-                    newSprite.soundBank
-                )
-            );
+            assetPromises.push(loadSoundFromAsset(newSound, soundAsset, this.runtime, newSprite.soundBank));
             return newSound;
         });
 

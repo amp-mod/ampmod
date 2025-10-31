@@ -1,5 +1,5 @@
-const Thread = require("./thread");
-const Timer = require("../util/timer");
+const Thread = require('./thread');
+const Timer = require('../util/timer');
 
 /**
  * @fileoverview
@@ -23,7 +23,7 @@ class BlockUtility {
         this.thread = thread;
 
         this._nowObj = {
-            now: () => this.sequencer.runtime.currentMSecs,
+            now: () => this.sequencer.runtime.currentMSecs
         };
     }
 
@@ -160,9 +160,7 @@ class BlockUtility {
      * @return {Array.<string>} List of param names for a procedure.
      */
     getProcedureParamNamesAndIds(procedureCode) {
-        return this.thread.target.blocks.getProcedureParamNamesAndIds(
-            procedureCode
-        );
+        return this.thread.target.blocks.getProcedureParamNamesAndIds(procedureCode);
     }
 
     /**
@@ -171,9 +169,7 @@ class BlockUtility {
      * @return {Array.<string>} List of param names for a procedure.
      */
     getProcedureParamNamesIdsAndDefaults(procedureCode) {
-        return this.thread.target.blocks.getProcedureParamNamesIdsAndDefaults(
-            procedureCode
-        );
+        return this.thread.target.blocks.getProcedureParamNamesIdsAndDefaults(procedureCode);
     }
 
     /**
@@ -214,11 +210,7 @@ class BlockUtility {
         // and confuse the calling block when we return to it.
         const callerThread = this.thread;
         const callerSequencer = this.sequencer;
-        const result = this.sequencer.runtime.startHats(
-            requestedHat,
-            optMatchFields,
-            optTarget
-        );
+        const result = this.sequencer.runtime.startHats(requestedHat, optMatchFields, optTarget);
 
         // Restore thread and sequencer to prior values before we return to the calling block.
         this.thread = callerThread;
@@ -236,10 +228,7 @@ class BlockUtility {
      */
     ioQuery(device, func, args) {
         // Find the I/O device and execute the query/function call.
-        if (
-            this.sequencer.runtime.ioDevices[device] &&
-            this.sequencer.runtime.ioDevices[device][func]
-        ) {
+        if (this.sequencer.runtime.ioDevices[device] && this.sequencer.runtime.ioDevices[device][func]) {
             const devObject = this.sequencer.runtime.ioDevices[device];
             // TODO: verify correct `this` after switching from apply to spread
             // eslint-disable-next-line prefer-spread

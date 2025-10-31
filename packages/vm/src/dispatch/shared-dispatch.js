@@ -1,4 +1,4 @@
-const log = require("../util/log");
+const log = require('../util/log');
 
 /**
  * @typedef {object} DispatchCallMessage - a message to the dispatch system representing a service method call
@@ -76,16 +76,10 @@ class SharedDispatch {
      */
     transferCall(service, method, transfer, ...args) {
         try {
-            const { provider, isRemote } = this._getServiceProvider(service);
+            const {provider, isRemote} = this._getServiceProvider(service);
             if (provider) {
                 if (isRemote) {
-                    return this._remoteTransferCall(
-                        provider,
-                        service,
-                        method,
-                        transfer,
-                        ...args
-                    );
+                    return this._remoteTransferCall(provider, service, method, transfer, ...args);
                 }
 
                 // TODO: verify correct `this` after switching from apply to spread
@@ -118,13 +112,7 @@ class SharedDispatch {
      * @returns {Promise} - a promise for the return value of the service method.
      */
     _remoteCall(provider, service, method, ...args) {
-        return this._remoteTransferCall(
-            provider,
-            service,
-            method,
-            null,
-            ...args
-        );
+        return this._remoteTransferCall(provider, service, method, null, ...args);
     }
 
     /**
@@ -144,21 +132,15 @@ class SharedDispatch {
             // tw: upstream's logic is broken
             // Args is actually a 3 length list of [args, util, real block info]
             // We only want to send args. The others will throw errors when they try to be cloned
-            if (
-                args.length > 0 &&
-                typeof args[args.length - 1].func === "function"
-            ) {
+            if (args.length > 0 && typeof args[args.length - 1].func === 'function') {
                 args.pop();
                 args.pop();
             }
 
             if (transfer) {
-                provider.postMessage(
-                    { service, method, responseId, args },
-                    transfer
-                );
+                provider.postMessage({service, method, responseId, args}, transfer);
             } else {
-                provider.postMessage({ service, method, responseId, args });
+                provider.postMessage({service, method, responseId, args});
             }
         });
     }
@@ -208,38 +190,30 @@ class SharedDispatch {
         message.args = message.args || [];
         let promise;
         if (message.service) {
-            if (message.service === "dispatch") {
+            if (message.service === 'dispatch') {
                 promise = this._onDispatchMessage(worker, message);
             } else {
-                promise = this.call(
-                    message.service,
-                    message.method,
-                    ...message.args
-                );
+                promise = this.call(message.service, message.method, ...message.args);
             }
-        } else if (typeof message.responseId === "undefined") {
-            log.error(
-                `Dispatch caught malformed message from a worker: ${JSON.stringify(event)}`
-            );
+        } else if (typeof message.responseId === 'undefined') {
+            log.error(`Dispatch caught malformed message from a worker: ${JSON.stringify(event)}`);
         } else {
             this._deliverResponse(message.responseId, message);
         }
         if (promise) {
-            if (typeof message.responseId === "undefined") {
-                log.error(
-                    `Dispatch message missing required response ID: ${JSON.stringify(event)}`
-                );
+            if (typeof message.responseId === 'undefined') {
+                log.error(`Dispatch message missing required response ID: ${JSON.stringify(event)}`);
             } else {
                 promise.then(
                     result =>
                         worker.postMessage({
                             responseId: message.responseId,
-                            result,
+                            result
                         }),
                     error =>
                         worker.postMessage({
                             responseId: message.responseId,
-                            error: `${error}`,
+                            error: `${error}`
                         })
                 );
             }
@@ -254,9 +228,7 @@ class SharedDispatch {
      * @protected
      */
     _getServiceProvider(service) {
-        throw new Error(
-            `Could not get provider for ${service}: _getServiceProvider not implemented`
-        );
+        throw new Error(`Could not get provider for ${service}: _getServiceProvider not implemented`);
     }
 
     /**
@@ -268,9 +240,7 @@ class SharedDispatch {
      * @private
      */
     _onDispatchMessage(worker, message) {
-        throw new Error(
-            `Unimplemented dispatch message handler cannot handle ${message.method} method`
-        );
+        throw new Error(`Unimplemented dispatch message handler cannot handle ${message.method} method`);
     }
 }
 

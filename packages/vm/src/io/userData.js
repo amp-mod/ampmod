@@ -1,6 +1,6 @@
 class UserData {
     constructor() {
-        this._username = "";
+        this._username = '';
     }
 
     /**

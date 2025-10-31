@@ -1,4 +1,4 @@
-const Cast = require("../util/cast");
+const Cast = require('../util/cast');
 
 class AmpModArraysBlocks {
     constructor(runtime) {
@@ -16,7 +16,7 @@ class AmpModArraysBlocks {
             arrays_behind: this.addBack, // kept swapped
             arrays_at: this.insertAt,
             arrays_range: this.range,
-            arrays_delimited_to_array: this.delimitedToArray,
+            arrays_delimited_to_array: this.delimitedToArray
         };
     }
 
@@ -25,7 +25,7 @@ class AmpModArraysBlocks {
     }
 
     itemOf(args) {
-        return Cast.toList(args.ARRAY)[Cast.toNumber(args.INDEX) - 1] ?? "";
+        return Cast.toList(args.ARRAY)[Cast.toNumber(args.INDEX) - 1] ?? '';
     }
 
     itemNoOf(args) {

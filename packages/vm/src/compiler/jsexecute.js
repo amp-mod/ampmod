@@ -9,15 +9,15 @@
 /* eslint-disable max-len */
 
 const globalState = {
-    Timer: require("../util/timer"),
-    Cast: require("../util/cast"),
-    log: require("../util/log"),
-    blockUtility: require("./compat-block-utility"),
+    Timer: require('../util/timer'),
+    Cast: require('../util/cast'),
+    log: require('../util/log'),
+    blockUtility: require('./compat-block-utility'),
     /** @type{import("../engine/thread")?} */
-    thread: null,
+    thread: null
 };
 
-let baseRuntime = "";
+let baseRuntime = '';
 const runtimeFunctions = {};
 
 /**
@@ -625,9 +625,9 @@ const insertRuntime = source => {
 const scopedEval = source => {
     const withRuntime = insertRuntime(source);
     try {
-        return new Function("globalState", withRuntime)(globalState);
+        return new Function('globalState', withRuntime)(globalState);
     } catch (e) {
-        globalState.log.error("was unable to compile script", withRuntime);
+        globalState.log.error('was unable to compile script', withRuntime);
         throw e;
     }
 };

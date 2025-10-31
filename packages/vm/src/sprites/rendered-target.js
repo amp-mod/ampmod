@@ -1,9 +1,9 @@
-const MathUtil = require("../util/math-util");
-const StringUtil = require("../util/string-util");
-const Cast = require("../util/cast");
-const Clone = require("../util/clone");
-const Target = require("../engine/target");
-const StageLayering = require("../engine/stage-layering");
+const MathUtil = require('../util/math-util');
+const StringUtil = require('../util/string-util');
+const Cast = require('../util/cast');
+const Clone = require('../util/clone');
+const Target = require('../engine/target');
+const StageLayering = require('../engine/stage-layering');
 
 /**
  * Rendered target: instance of a sprite (clone), or the stage.
@@ -55,7 +55,7 @@ class RenderedTarget extends Target {
             pixelate: 0,
             mosaic: 0,
             brightness: 0,
-            ghost: 0,
+            ghost: 0
         };
 
         /**
@@ -180,27 +180,25 @@ class RenderedTarget extends Target {
         }
         // If we're a clone, start the hats.
         if (!this.isOriginal) {
-            this.runtime.startHats("control_start_as_clone", null, this);
+            this.runtime.startHats('control_start_as_clone', null, this);
         }
     }
 
     get audioPlayer() {
         /* eslint-disable no-console */
-        console.warn(
-            "get audioPlayer deprecated, please update to use .sprite.soundBank methods"
-        );
-        console.warn(new Error("stack for debug").stack);
+        console.warn('get audioPlayer deprecated, please update to use .sprite.soundBank methods');
+        console.warn(new Error('stack for debug').stack);
         /* eslint-enable no-console */
         const bank = this.sprite.soundBank;
         const audioPlayerProxy = {
-            playSound: soundId => bank.play(this, soundId),
+            playSound: soundId => bank.play(this, soundId)
         };
 
-        Object.defineProperty(this, "audioPlayer", {
+        Object.defineProperty(this, 'audioPlayer', {
             configurable: false,
             enumerable: true,
             writable: false,
-            value: audioPlayerProxy,
+            value: audioPlayerProxy
         });
 
         return audioPlayerProxy;
@@ -216,7 +214,7 @@ class RenderedTarget extends Target {
      * @type {string}
      */
     static get ROTATION_STYLE_ALL_AROUND() {
-        return "all around";
+        return 'all around';
     }
 
     /**
@@ -224,7 +222,7 @@ class RenderedTarget extends Target {
      * @type {string}
      */
     static get ROTATION_STYLE_LEFT_RIGHT() {
-        return "left-right";
+        return 'left-right';
     }
 
     /**
@@ -241,9 +239,9 @@ class RenderedTarget extends Target {
      */
     static get VIDEO_STATE() {
         return {
-            OFF: "off",
-            ON: "on",
-            ON_FLIPPED: "on-flipped",
+            OFF: 'off',
+            ON: 'on',
+            ON_FLIPPED: 'on-flipped'
         };
     }
 
@@ -267,10 +265,7 @@ class RenderedTarget extends Target {
         const oldY = this.y;
         if (this.renderer) {
             const position = this.runtime.runtimeOptions.fencing
-                ? this.renderer.getFencedPositionOfDrawable(this.drawableID, [
-                      x,
-                      y,
-                  ])
+                ? this.renderer.getFencedPositionOfDrawable(this.drawableID, [x, y])
                 : [x, y];
             this.x = position[0];
             this.y = position[1];
@@ -301,15 +296,13 @@ class RenderedTarget extends Target {
         if (this.rotationStyle === RenderedTarget.ROTATION_STYLE_NONE) {
             // Force rendered direction to be 90.
             finalDirection = 90;
-        } else if (
-            this.rotationStyle === RenderedTarget.ROTATION_STYLE_LEFT_RIGHT
-        ) {
+        } else if (this.rotationStyle === RenderedTarget.ROTATION_STYLE_LEFT_RIGHT) {
             // Force rendered direction to be 90, and flip drawable if needed.
             finalDirection = 90;
             const scaleFlip = this.direction < 0 ? -1 : 1;
             finalScale = [scaleFlip * this.size, this.size];
         }
-        return { direction: finalDirection, scale: finalScale };
+        return {direction: finalDirection, scale: finalScale};
     }
 
     /**
@@ -327,13 +320,8 @@ class RenderedTarget extends Target {
         // Keep direction between -179 and +180.
         this.direction = MathUtil.wrapClamp(direction, -179, 180);
         if (this.renderer) {
-            const { direction: renderedDirection, scale } =
-                this._getRenderedDirectionAndScale();
-            this.renderer.updateDrawableDirectionScale(
-                this.drawableID,
-                renderedDirection,
-                scale
-            );
+            const {direction: renderedDirection, scale} = this._getRenderedDirectionAndScale();
+            this.renderer.updateDrawableDirectionScale(this.drawableID, renderedDirection, scale);
             if (this.visible) {
                 this.emitVisualChange();
                 this.runtime.requestRedraw();
@@ -384,28 +372,17 @@ class RenderedTarget extends Target {
         if (this.renderer) {
             // Clamp to scales relative to costume and stage size.
             // See original ScratchSprite.as:setSize.
-            const costumeSize = this.renderer.getCurrentSkinSize(
-                this.drawableID
-            );
+            const costumeSize = this.renderer.getCurrentSkinSize(this.drawableID);
             const origW = costumeSize[0];
             const origH = costumeSize[1];
             const fencing = this.runtime.runtimeOptions.fencing;
-            const minScale = fencing
-                ? Math.min(1, Math.max(5 / origW, 5 / origH))
-                : 0;
+            const minScale = fencing ? Math.min(1, Math.max(5 / origW, 5 / origH)) : 0;
             const maxScale = fencing
-                ? Math.min(
-                      (1.5 * this.runtime.stageWidth) / origW,
-                      (1.5 * this.runtime.stageHeight) / origH
-                  )
+                ? Math.min((1.5 * this.runtime.stageWidth) / origW, (1.5 * this.runtime.stageHeight) / origH)
                 : Infinity;
             this.size = MathUtil.clamp(size / 100, minScale, maxScale) * 100;
-            const { direction, scale } = this._getRenderedDirectionAndScale();
-            this.renderer.updateDrawableDirectionScale(
-                this.drawableID,
-                direction,
-                scale
-            );
+            const {direction, scale} = this._getRenderedDirectionAndScale();
+            this.renderer.updateDrawableDirectionScale(this.drawableID, direction, scale);
             if (this.visible) {
                 this.emitVisualChange();
                 this.runtime.requestRedraw();
@@ -425,15 +402,10 @@ class RenderedTarget extends Target {
      */
     setEffect(effectName, value) {
         // used by compiler
-        if (!Object.prototype.hasOwnProperty.call(this.effects, effectName))
-            return;
+        if (!Object.prototype.hasOwnProperty.call(this.effects, effectName)) return;
         this.effects[effectName] = value;
         if (this.renderer) {
-            this.renderer.updateDrawableEffect(
-                this.drawableID,
-                effectName,
-                value
-            );
+            this.renderer.updateDrawableEffect(this.drawableID, effectName, value);
             if (this.visible) {
                 this.emitVisualChange();
                 this.runtime.requestRedraw();
@@ -447,24 +419,13 @@ class RenderedTarget extends Target {
     clearEffects() {
         // used by compiler
         for (const effectName in this.effects) {
-            if (!Object.prototype.hasOwnProperty.call(this.effects, effectName))
-                continue;
+            if (!Object.prototype.hasOwnProperty.call(this.effects, effectName)) continue;
             this.effects[effectName] = 0;
         }
         if (this.renderer) {
             for (const effectName in this.effects) {
-                if (
-                    !Object.prototype.hasOwnProperty.call(
-                        this.effects,
-                        effectName
-                    )
-                )
-                    continue;
-                this.renderer.updateDrawableEffect(
-                    this.drawableID,
-                    effectName,
-                    0
-                );
+                if (!Object.prototype.hasOwnProperty.call(this.effects, effectName)) continue;
+                this.renderer.updateDrawableEffect(this.drawableID, effectName, 0);
             }
             if (this.visible) {
                 this.emitVisualChange();
@@ -484,11 +445,7 @@ class RenderedTarget extends Target {
             index = 0;
         }
 
-        this.currentCostume = MathUtil.wrapClamp(
-            index,
-            0,
-            this.sprite.costumes.length - 1
-        );
+        this.currentCostume = MathUtil.wrapClamp(index, 0, this.sprite.costumes.length - 1);
         if (this.renderer) {
             const costume = this.sprite.costumes[this.currentCostume];
             this.renderer.updateDrawableSkinId(this.drawableID, costume.skinId);
@@ -507,13 +464,10 @@ class RenderedTarget extends Target {
      * @param {?int} index Index at which to add costume
      */
     addCostume(costumeObject, index) {
-        if (typeof index === "number" && !isNaN(index)) {
+        if (typeof index === 'number' && !isNaN(index)) {
             this.sprite.addCostumeAt(costumeObject, index);
         } else {
-            this.sprite.addCostumeAt(
-                costumeObject,
-                this.sprite.costumes.length
-            );
+            this.sprite.addCostumeAt(costumeObject, this.sprite.costumes.length);
         }
     }
 
@@ -536,14 +490,10 @@ class RenderedTarget extends Target {
             const targets = this.runtime.targets;
             for (let i = 0; i < targets.length; i++) {
                 const currTarget = targets[i];
-                currTarget.blocks.updateAssetName(
-                    oldName,
-                    newUnusedName,
-                    "backdrop"
-                );
+                currTarget.blocks.updateAssetName(oldName, newUnusedName, 'backdrop');
             }
         } else {
-            this.blocks.updateAssetName(oldName, newUnusedName, "costume");
+            this.blocks.updateAssetName(oldName, newUnusedName, 'costume');
         }
     }
 
@@ -564,10 +514,7 @@ class RenderedTarget extends Target {
 
         const deletedCostume = this.sprite.deleteCostumeAt(index);
 
-        if (
-            index === this.currentCostume &&
-            index === originalCostumeCount - 1
-        ) {
+        if (index === this.currentCostume && index === originalCostumeCount - 1) {
             this.setCostume(index - 1);
         } else if (index < this.currentCostume) {
             this.setCostume(this.currentCostume - 1);
@@ -587,7 +534,7 @@ class RenderedTarget extends Target {
     addSound(soundObject, index) {
         const usedNames = this.sprite.sounds.map(sound => sound.name);
         soundObject.name = StringUtil.unusedName(soundObject.name, usedNames);
-        if (typeof index === "number" && !isNaN(index)) {
+        if (typeof index === 'number' && !isNaN(index)) {
             this.sprite.sounds.splice(index, 0, soundObject);
         } else {
             this.sprite.sounds.push(soundObject);
@@ -600,13 +547,11 @@ class RenderedTarget extends Target {
      * @param {string} newName - the desired new name of the sound (will be modified if already in use).
      */
     renameSound(soundIndex, newName) {
-        const usedNames = this.sprite.sounds
-            .filter((sound, index) => soundIndex !== index)
-            .map(sound => sound.name);
+        const usedNames = this.sprite.sounds.filter((sound, index) => soundIndex !== index).map(sound => sound.name);
         const oldName = this.sprite.sounds[soundIndex].name;
         const newUnusedName = StringUtil.unusedName(newName, usedNames);
         this.sprite.sounds[soundIndex].name = newUnusedName;
-        this.blocks.updateAssetName(oldName, newUnusedName, "sound");
+        this.blocks.updateAssetName(oldName, newUnusedName, 'sound');
     }
 
     /**
@@ -639,12 +584,8 @@ class RenderedTarget extends Target {
             this.rotationStyle = RenderedTarget.ROTATION_STYLE_LEFT_RIGHT;
         }
         if (this.renderer) {
-            const { direction, scale } = this._getRenderedDirectionAndScale();
-            this.renderer.updateDrawableDirectionScale(
-                this.drawableID,
-                direction,
-                scale
-            );
+            const {direction, scale} = this._getRenderedDirectionAndScale();
+            this.renderer.updateDrawableDirectionScale(this.drawableID, direction, scale);
             if (this.visible) {
                 this.emitVisualChange();
                 this.runtime.requestRedraw();
@@ -693,11 +634,7 @@ class RenderedTarget extends Target {
      */
     reorderCostume(costumeIndex, newIndex) {
         newIndex = MathUtil.clamp(newIndex, 0, this.sprite.costumes.length - 1);
-        costumeIndex = MathUtil.clamp(
-            costumeIndex,
-            0,
-            this.sprite.costumes.length - 1
-        );
+        costumeIndex = MathUtil.clamp(costumeIndex, 0, this.sprite.costumes.length - 1);
 
         if (newIndex === costumeIndex) return false;
 
@@ -720,11 +657,7 @@ class RenderedTarget extends Target {
      */
     reorderSound(soundIndex, newIndex) {
         newIndex = MathUtil.clamp(newIndex, 0, this.sprite.sounds.length - 1);
-        soundIndex = MathUtil.clamp(
-            soundIndex,
-            0,
-            this.sprite.sounds.length - 1
-        );
+        soundIndex = MathUtil.clamp(soundIndex, 0, this.sprite.sounds.length - 1);
 
         if (newIndex === soundIndex) return false;
 
@@ -748,34 +681,17 @@ class RenderedTarget extends Target {
      */
     updateAllDrawableProperties() {
         if (this.renderer) {
-            const { direction, scale } = this._getRenderedDirectionAndScale();
-            this.renderer.updateDrawablePosition(this.drawableID, [
-                this.x,
-                this.y,
-            ]);
-            this.renderer.updateDrawableDirectionScale(
-                this.drawableID,
-                direction,
-                scale
-            );
+            const {direction, scale} = this._getRenderedDirectionAndScale();
+            this.renderer.updateDrawablePosition(this.drawableID, [this.x, this.y]);
+            this.renderer.updateDrawableDirectionScale(this.drawableID, direction, scale);
             this.renderer.updateDrawableVisible(this.drawableID, this.visible);
 
             const costume = this.getCostumes()[this.currentCostume];
             this.renderer.updateDrawableSkinId(this.drawableID, costume.skinId);
 
             for (const effectName in this.effects) {
-                if (
-                    !Object.prototype.hasOwnProperty.call(
-                        this.effects,
-                        effectName
-                    )
-                )
-                    continue;
-                this.renderer.updateDrawableEffect(
-                    this.drawableID,
-                    effectName,
-                    this.effects[effectName]
-                );
+                if (!Object.prototype.hasOwnProperty.call(this.effects, effectName)) continue;
+                this.renderer.updateDrawableEffect(this.drawableID, effectName, this.effects[effectName]);
             }
 
             if (this.visible) {
@@ -834,12 +750,12 @@ class RenderedTarget extends Target {
      */
     isTouchingObject(requestedObject) {
         // used by compiler
-        if (requestedObject === "_mouse_") {
+        if (requestedObject === '_mouse_') {
             if (!this.runtime.ioDevices.mouse) return false;
             const mouseX = this.runtime.ioDevices.mouse.getClientX();
             const mouseY = this.runtime.ioDevices.mouse.getClientY();
             return this.isTouchingPoint(mouseX, mouseY);
-        } else if (requestedObject === "_edge_") {
+        } else if (requestedObject === '_edge_') {
             return this.isTouchingEdge();
         }
         return this.isTouchingSprite(requestedObject);
@@ -896,10 +812,7 @@ class RenderedTarget extends Target {
         const drawableCandidates = firstClone.sprite.clones
             .filter(clone => !clone.dragging)
             .map(clone => clone.drawableID);
-        return this.renderer.isTouchingDrawables(
-            this.drawableID,
-            drawableCandidates
-        );
+        return this.renderer.isTouchingDrawables(this.drawableID, drawableCandidates);
     }
 
     /**
@@ -924,11 +837,7 @@ class RenderedTarget extends Target {
     colorIsTouchingColor(targetRgb, maskRgb) {
         // used by compiler
         if (this.renderer) {
-            return this.renderer.isTouchingColor(
-                this.drawableID,
-                targetRgb,
-                maskRgb
-            );
+            return this.renderer.isTouchingColor(this.drawableID, targetRgb, maskRgb);
         }
         return false;
     }
@@ -948,11 +857,7 @@ class RenderedTarget extends Target {
         if (this.renderer) {
             // Let the renderer re-order the sprite based on its knowledge
             // of what layers are present
-            this.renderer.setDrawableOrder(
-                this.drawableID,
-                Infinity,
-                StageLayering.SPRITE_LAYER
-            );
+            this.renderer.setDrawableOrder(this.drawableID, Infinity, StageLayering.SPRITE_LAYER);
         }
 
         this.runtime.setExecutablePosition(this, Infinity);
@@ -966,12 +871,7 @@ class RenderedTarget extends Target {
         if (this.renderer) {
             // Let the renderer re-order the sprite based on its knowledge
             // of what layers are present
-            this.renderer.setDrawableOrder(
-                this.drawableID,
-                -Infinity,
-                StageLayering.SPRITE_LAYER,
-                false
-            );
+            this.renderer.setDrawableOrder(this.drawableID, -Infinity, StageLayering.SPRITE_LAYER, false);
         }
 
         this.runtime.setExecutablePosition(this, -Infinity);
@@ -984,12 +884,7 @@ class RenderedTarget extends Target {
     goForwardLayers(nLayers) {
         // used by compiler
         if (this.renderer) {
-            this.renderer.setDrawableOrder(
-                this.drawableID,
-                nLayers,
-                StageLayering.SPRITE_LAYER,
-                true
-            );
+            this.renderer.setDrawableOrder(this.drawableID, nLayers, StageLayering.SPRITE_LAYER, true);
         }
 
         this.runtime.moveExecutable(this, nLayers);
@@ -1002,12 +897,7 @@ class RenderedTarget extends Target {
     goBackwardLayers(nLayers) {
         // used by compiler
         if (this.renderer) {
-            this.renderer.setDrawableOrder(
-                this.drawableID,
-                -nLayers,
-                StageLayering.SPRITE_LAYER,
-                true
-            );
+            this.renderer.setDrawableOrder(this.drawableID, -nLayers, StageLayering.SPRITE_LAYER, true);
         }
 
         this.runtime.moveExecutable(this, -nLayers);
@@ -1019,17 +909,8 @@ class RenderedTarget extends Target {
      */
     goBehindOther(other) {
         if (this.renderer) {
-            const otherLayer = this.renderer.setDrawableOrder(
-                other.drawableID,
-                0,
-                StageLayering.SPRITE_LAYER,
-                true
-            );
-            this.renderer.setDrawableOrder(
-                this.drawableID,
-                otherLayer,
-                StageLayering.SPRITE_LAYER
-            );
+            const otherLayer = this.renderer.setDrawableOrder(other.drawableID, 0, StageLayering.SPRITE_LAYER, true);
+            this.renderer.setDrawableOrder(this.drawableID, otherLayer, StageLayering.SPRITE_LAYER);
         }
 
         const executionPosition = this.runtime.executableTargets.indexOf(other);
@@ -1050,7 +931,7 @@ class RenderedTarget extends Target {
                 left: -this.runtime.stageWidth / 2,
                 right: this.runtime.stageWidth / 2,
                 top: this.runtime.stageHeight / 2,
-                bottom: -this.runtime.stageHeight / 2,
+                bottom: -this.runtime.stageHeight / 2
             };
         }
         const bounds = this.getBounds();
@@ -1100,9 +981,7 @@ class RenderedTarget extends Target {
         newClone.rotationStyle = this.rotationStyle;
         newClone.effects = Clone.simple(this.effects);
         newClone.variables = this.duplicateVariables();
-        newClone._edgeActivatedHatValues = Clone.simple(
-            this._edgeActivatedHatValues
-        );
+        newClone._edgeActivatedHatValues = Clone.simple(this._edgeActivatedHatValues);
         newClone.initDrawable(StageLayering.SPRITE_LAYER);
         newClone.updateAllDrawableProperties();
         return newClone;
@@ -1153,31 +1032,25 @@ class RenderedTarget extends Target {
      * @param {object} data An object with sprite info data to set.
      */
     postSpriteInfo(data) {
-        const force = Object.prototype.hasOwnProperty.call(data, "force")
-            ? data.force
-            : null;
-        const isXChanged = Object.prototype.hasOwnProperty.call(data, "x");
-        const isYChanged = Object.prototype.hasOwnProperty.call(data, "y");
+        const force = Object.prototype.hasOwnProperty.call(data, 'force') ? data.force : null;
+        const isXChanged = Object.prototype.hasOwnProperty.call(data, 'x');
+        const isYChanged = Object.prototype.hasOwnProperty.call(data, 'y');
         if (isXChanged || isYChanged) {
-            this.setXY(
-                isXChanged ? data.x : this.x,
-                isYChanged ? data.y : this.y,
-                force
-            );
+            this.setXY(isXChanged ? data.x : this.x, isYChanged ? data.y : this.y, force);
         }
-        if (Object.prototype.hasOwnProperty.call(data, "direction")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'direction')) {
             this.setDirection(data.direction);
         }
-        if (Object.prototype.hasOwnProperty.call(data, "draggable")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'draggable')) {
             this.setDraggable(data.draggable);
         }
-        if (Object.prototype.hasOwnProperty.call(data, "rotationStyle")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'rotationStyle')) {
             this.setRotationStyle(data.rotationStyle);
         }
-        if (Object.prototype.hasOwnProperty.call(data, "visible")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'visible')) {
             this.setVisible(data.visible);
         }
-        if (Object.prototype.hasOwnProperty.call(data, "size")) {
+        if (Object.prototype.hasOwnProperty.call(data, 'size')) {
             this.setSize(data.size);
         }
     }
@@ -1225,7 +1098,7 @@ class RenderedTarget extends Target {
             tempo: this.tempo,
             volume: this.volume,
             videoTransparency: this.videoTransparency,
-            videoState: this.videoState,
+            videoState: this.videoState
         };
     }
 
@@ -1242,9 +1115,7 @@ class RenderedTarget extends Target {
         if (this.renderer && this.drawableID !== null) {
             this.renderer.destroyDrawable(
                 this.drawableID,
-                this.isStage
-                    ? StageLayering.BACKGROUND_LAYER
-                    : StageLayering.SPRITE_LAYER
+                this.isStage ? StageLayering.BACKGROUND_LAYER : StageLayering.SPRITE_LAYER
             );
             if (this.visible) {
                 this.emitVisualChange();

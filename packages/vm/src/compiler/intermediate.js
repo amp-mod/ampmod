@@ -1,8 +1,8 @@
 // @ts-check
 
-const Cast = require("../util/cast");
-const { InputOpcode, InputType } = require("./enums.js");
-const log = require("../util/log");
+const Cast = require('../util/cast');
+const {InputOpcode, InputType} = require('./enums.js');
+const log = require('../util/log');
 
 /**
  * @fileoverview Common intermediates shared amongst parts of the compiler.
@@ -60,17 +60,11 @@ class IntermediateStackBlock {
  */
 class IntermediateInput {
     static getNumberInputType(number) {
-        if (typeof number !== "number") throw new Error("Expected a number.");
+        if (typeof number !== 'number') throw new Error('Expected a number.');
         if (number === Infinity) return InputType.NUMBER_POS_INF;
         if (number === -Infinity) return InputType.NUMBER_NEG_INF;
-        if (number < 0)
-            return Number.isInteger(number)
-                ? InputType.NUMBER_NEG_INT
-                : InputType.NUMBER_NEG_FRACT;
-        if (number > 0)
-            return Number.isInteger(number)
-                ? InputType.NUMBER_POS_INT
-                : InputType.NUMBER_POS_FRACT;
+        if (number < 0) return Number.isInteger(number) ? InputType.NUMBER_NEG_INT : InputType.NUMBER_NEG_FRACT;
+        if (number > 0) return Number.isInteger(number) ? InputType.NUMBER_POS_INT : InputType.NUMBER_POS_FRACT;
         if (Number.isNaN(number)) return InputType.NUMBER_NAN;
         if (Object.is(number, -0)) return InputType.NUMBER_NEG_ZERO;
         return InputType.NUMBER_ZERO;
@@ -112,8 +106,7 @@ class IntermediateInput {
     isConstant(value) {
         if (this.opcode !== InputOpcode.CONSTANT) return false;
         let equal = this.inputs.value === value;
-        if (!equal && typeof value === "number")
-            equal = +this.inputs.value === value;
+        if (!equal && typeof value === 'number') equal = +this.inputs.value === value;
         return equal;
     }
 
@@ -188,8 +181,7 @@ class IntermediateInput {
                     if (numberValue) {
                         this.inputs.value = numberValue;
                     } else if (Object.is(numberValue, -0)) {
-                        /* numberValue is one of 0, -0, or NaN */ this.inputs.value =
-                            -0;
+                        /* numberValue is one of 0, -0, or NaN */ this.inputs.value = -0;
                     } else {
                         this.inputs.value = 0; // Convert NaN to 0
                     }
@@ -197,13 +189,11 @@ class IntermediateInput {
                         // Round numberValue to an integer
                         this.inputs.value |= 0;
                     }
-                    this.type = IntermediateInput.getNumberInputType(
-                        this.inputs.value
-                    );
+                    this.type = IntermediateInput.getNumberInputType(this.inputs.value);
                     break;
                 }
                 case InputOpcode.CAST_STRING:
-                    this.inputs.value += "";
+                    this.inputs.value += '';
                     this.type = InputType.STRING;
                     break;
                 case InputOpcode.CAST_COLOR:
@@ -214,7 +204,7 @@ class IntermediateInput {
             return this;
         }
 
-        return new IntermediateInput(castOpcode, targetType, { target: this });
+        return new IntermediateInput(castOpcode, targetType, {target: this});
     }
 }
 
@@ -235,9 +225,7 @@ const stringifyType = type => {
                 }
             }
 
-            formatFlags = formatFlags.filter(
-                value => (InputType[value] & testFormat) !== InputType[value]
-            );
+            formatFlags = formatFlags.filter(value => (InputType[value] & testFormat) !== InputType[value]);
             formatFlags.push(enumValue);
         }
     }
@@ -253,7 +241,7 @@ const stringifyType = type => {
     }
 
     if (str === null) {
-        return "INVALID";
+        return 'INVALID';
     }
 
     return str;
@@ -301,13 +289,13 @@ class IntermediateScript {
          * This procedure's variant, if any.
          * @type {string}
          */
-        this.procedureVariant = "";
+        this.procedureVariant = '';
 
         /**
          * This procedure's code, if any.
          * @type {string}
          */
-        this.procedureCode = "";
+        this.procedureCode = '';
 
         /**
          * List of names of arguments accepted by this function, if it is a procedure.
@@ -390,9 +378,7 @@ class IntermediateRepresentation {
      * @returns {IntermediateScript | undefined}
      */
     getProcedure(proccode) {
-        return Object.values(this.procedures).find(
-            procedure => procedure.procedureCode === proccode
-        );
+        return Object.values(this.procedures).find(procedure => procedure.procedureCode === proccode);
     }
 }
 
@@ -402,5 +388,5 @@ module.exports = {
     IntermediateStack,
     IntermediateScript,
     IntermediateRepresentation,
-    stringifyType,
+    stringifyType
 };

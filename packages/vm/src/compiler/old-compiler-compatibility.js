@@ -17,13 +17,9 @@
  *    they use. Can not rely on the default JS generator.
  */
 
-const { InputOpcode, InputType } = require("./enums");
+const {InputOpcode, InputType} = require('./enums');
 // eslint-disable-next-line no-unused-vars
-const {
-    IntermediateInput,
-    IntermediateStackBlock,
-    IntermediateStack,
-} = require("./intermediate");
+const {IntermediateInput, IntermediateStackBlock, IntermediateStack} = require('./intermediate');
 
 class IRGeneratorStub {
     // Doesn't seem like extensions override anything, though the class may
@@ -54,11 +50,7 @@ class ScriptTreeGeneratorStub {
              * @returns opaque object
              */
             descendInputOfBlock(parentBlock, inputName) {
-                const node = real.descendInputOfBlock(
-                    parentBlock,
-                    inputName,
-                    true
-                );
+                const node = real.descendInputOfBlock(parentBlock, inputName, true);
                 return node;
             },
 
@@ -68,17 +60,14 @@ class ScriptTreeGeneratorStub {
              * @returns opaque object
              */
             descendSubstack(parentBlock, substackName) {
-                const substack = real.descendSubstack(
-                    parentBlock,
-                    substackName
-                );
+                const substack = real.descendSubstack(parentBlock, substackName);
                 return substack;
             },
 
             analyzeLoop() {
                 // TODO: not always necessary
                 real.script.yields = true;
-            },
+            }
         };
     }
 
@@ -115,7 +104,7 @@ class ScriptTreeGeneratorStub {
                 InputOpcode.OLD_COMPILER_COMPATIBILITY_LAYER,
                 InputType.ANY,
                 {
-                    oldNode: node,
+                    oldNode: node
                 },
                 true
             );
@@ -133,7 +122,7 @@ class ScriptTreeGeneratorStub {
             return new IntermediateStackBlock(
                 InputOpcode.OLD_COMPILER_COMPATIBILITY_LAYER,
                 {
-                    oldNode: node,
+                    oldNode: node
                 },
                 true
             );
@@ -280,7 +269,7 @@ class JSGeneratorStub {
                 real.source = newSource;
             },
 
-            localVariables: new VariablePool("oldCompilerLocal"),
+            localVariables: new VariablePool('oldCompilerLocal'),
 
             /**
              * @param {IntermediateInput} intermediate
@@ -303,7 +292,7 @@ class JSGeneratorStub {
             yieldNotWarp: () => real.yieldNotWarp(),
             yieldStuckOrNotWarp: () => real.yieldStuckOrNotWarp(),
             yielded: () => real.yielded(),
-            requestRedraw: () => real.requestRedraw(),
+            requestRedraw: () => real.requestRedraw()
         };
     }
 
@@ -357,7 +346,7 @@ JSGeneratorStub.unstable_exports = {
     TYPE_NUMBER_NAN,
     VariablePool,
     TypedInput,
-    Frame,
+    Frame
 };
 
 const oldCompilerCompatibility = {
@@ -365,7 +354,7 @@ const oldCompilerCompatibility = {
     IRGeneratorStub,
     ScriptTreeGeneratorStub,
     TypedInput,
-    JSGeneratorStub,
+    JSGeneratorStub
 };
 
 module.exports = oldCompilerCompatibility;

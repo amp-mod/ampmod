@@ -1,7 +1,7 @@
-const EventEmitter = require("events");
-const AssetUtil = require("../util/tw-asset-util");
-const StringUtil = require("../util/string-util");
-const log = require("../util/log");
+const EventEmitter = require('events');
+const AssetUtil = require('../util/tw-asset-util');
+const StringUtil = require('../util/string-util');
+const log = require('../util/log');
 
 /*
  * In general in this file, note that font names in browsers are case-insensitive
@@ -20,7 +20,7 @@ const log = require("../util/log");
  * @param {string} font
  * @returns {string}
  */
-const removeInvalidCharacters = font => font.replace(/[^-\w ]/g, "");
+const removeInvalidCharacters = font => font.replace(/[^-\w ]/g, '');
 
 /**
  * @param {InternalFont[]} fonts Modified in-place
@@ -29,9 +29,7 @@ const removeInvalidCharacters = font => font.replace(/[^-\w ]/g, "");
  */
 const addOrUpdateFont = (fonts, newFont) => {
     let oldFont;
-    const oldIndex = fonts.findIndex(
-        i => i.family.toLowerCase() === newFont.family.toLowerCase()
-    );
+    const oldIndex = fonts.findIndex(i => i.family.toLowerCase() === newFont.family.toLowerCase());
     if (oldIndex !== -1) {
         oldFont = fonts[oldIndex];
         fonts.splice(oldIndex, 1);
@@ -66,15 +64,13 @@ class FontManager extends EventEmitter {
      */
     restrictFont(family) {
         if (!this.isValidSystemFont(family)) {
-            throw new Error("Invalid font");
+            throw new Error('Invalid font');
         }
 
         this.restrictedFonts.add(family.toLowerCase());
 
         const oldLength = this.fonts.length;
-        this.fonts = this.fonts.filter(
-            font => font.system || this.isValidCustomFont(font.family)
-        );
+        this.fonts = this.fonts.filter(font => font.system || this.isValidCustomFont(font.family));
         if (this.fonts.length !== oldLength) {
             this.updateRenderer();
             this.changed();
@@ -94,10 +90,7 @@ class FontManager extends EventEmitter {
      * @returns {boolean} true if the family is valid for a custom font
      */
     isValidCustomFont(family) {
-        return (
-            /^[-\w ]+$/.test(family) &&
-            !this.restrictedFonts.has(family.toLowerCase())
-        );
+        return /^[-\w ]+$/.test(family) && !this.restrictedFonts.has(family.toLowerCase());
     }
 
     /**
@@ -123,10 +116,10 @@ class FontManager extends EventEmitter {
      * @returns {string}
      */
     getUnusedCustomFont(family) {
-        return StringUtil.caseInsensitiveUnusedName(
-            removeInvalidCharacters(family),
-            [...this.fonts.map(i => i.family), ...this.restrictedFonts]
-        );
+        return StringUtil.caseInsensitiveUnusedName(removeInvalidCharacters(family), [
+            ...this.fonts.map(i => i.family),
+            ...this.restrictedFonts
+        ]);
     }
 
     /**
@@ -134,13 +127,11 @@ class FontManager extends EventEmitter {
      * @returns {boolean}
      */
     hasFont(family) {
-        return !!this.fonts.find(
-            i => i.family.toLowerCase() === family.toLowerCase()
-        );
+        return !!this.fonts.find(i => i.family.toLowerCase() === family.toLowerCase());
     }
 
     changed() {
-        this.emit("change");
+        this.emit('change');
     }
 
     /**
@@ -149,12 +140,12 @@ class FontManager extends EventEmitter {
      */
     addSystemFont(family, fallback) {
         if (!this.isValidSystemFont(family)) {
-            throw new Error("Invalid system font family");
+            throw new Error('Invalid system font family');
         }
         const oldFont = addOrUpdateFont(this.fonts, {
             system: true,
             family,
-            fallback,
+            fallback
         });
         if (oldFont && !oldFont.system) {
             this.updateRenderer();
@@ -169,13 +160,13 @@ class FontManager extends EventEmitter {
      */
     addCustomFont(family, fallback, asset) {
         if (!this.isValidCustomFont(family)) {
-            throw new Error("Invalid custom font family");
+            throw new Error('Invalid custom font family');
         }
         addOrUpdateFont(this.fonts, {
             system: false,
             family,
             fallback,
-            asset,
+            asset
         });
         this.updateRenderer();
         this.changed();
@@ -190,7 +181,7 @@ class FontManager extends EventEmitter {
             name: font.family,
             family: `"${font.family}", ${font.fallback}`,
             data: font.asset ? font.asset.data : null,
-            format: font.asset ? font.asset.dataFormat : null,
+            format: font.asset ? font.asset.dataFormat : null
         }));
     }
 
@@ -243,7 +234,7 @@ class FontManager extends EventEmitter {
             const serialized = {
                 system: font.system,
                 family: font.family,
-                fallback: font.fallback,
+                fallback: font.fallback
             };
 
             if (!font.system) {
@@ -278,7 +269,7 @@ class FontManager extends EventEmitter {
         }
 
         for (const font of json) {
-            if (!font || typeof font !== "object") {
+            if (!font || typeof font !== 'object') {
                 continue;
             }
 
@@ -287,9 +278,9 @@ class FontManager extends EventEmitter {
                 const family = font.family;
                 const fallback = font.fallback;
                 if (
-                    typeof system !== "boolean" ||
-                    typeof family !== "string" ||
-                    typeof fallback !== "string" ||
+                    typeof system !== 'boolean' ||
+                    typeof family !== 'string' ||
+                    typeof fallback !== 'string' ||
                     this.hasFont(family)
                 ) {
                     continue;
@@ -299,7 +290,7 @@ class FontManager extends EventEmitter {
                     this.addSystemFont(family, fallback);
                 } else {
                     const md5ext = font.md5ext;
-                    if (typeof md5ext !== "string") {
+                    if (typeof md5ext !== 'string') {
                         continue;
                     }
 
@@ -312,7 +303,7 @@ class FontManager extends EventEmitter {
                     this.addCustomFont(family, fallback, asset);
                 }
             } catch (e) {
-                log.error("could not add font", e);
+                log.error('could not add font', e);
             }
         }
     }

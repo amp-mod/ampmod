@@ -1,4 +1,4 @@
-const StageLayering = require("../engine/stage-layering");
+const StageLayering = require('../engine/stage-layering');
 
 class Video {
     constructor(runtime) {
@@ -42,11 +42,11 @@ class Video {
     }
 
     static get FORMAT_IMAGE_DATA() {
-        return "image-data";
+        return 'image-data';
     }
 
     static get FORMAT_CANVAS() {
-        return "canvas";
+        return 'canvas';
     }
 
     /**
@@ -114,14 +114,14 @@ class Video {
         dimensions = Video.DIMENSIONS,
         mirror = this.mirror,
         format = Video.FORMAT_IMAGE_DATA,
-        cacheTimeout = this._frameCacheTimeout,
+        cacheTimeout = this._frameCacheTimeout
     }) {
         if (this.provider)
             return this.provider.getFrame({
                 dimensions,
                 mirror,
                 format,
-                cacheTimeout,
+                cacheTimeout
             });
         return null;
     }
@@ -136,7 +136,7 @@ class Video {
         if (this._drawable !== -1) {
             this.runtime.renderer.updateDrawableEffect(
                 this._drawable,
-                "ghost",
+                'ghost',
                 this._forceTransparentPreview ? 100 : ghost
             );
         }
@@ -144,25 +144,18 @@ class Video {
 
     _disablePreview() {
         if (this._skinId !== -1) {
-            this.runtime.renderer.updateBitmapSkin(
-                this._skinId,
-                new ImageData(...Video.DIMENSIONS),
-                1
-            );
+            this.runtime.renderer.updateBitmapSkin(this._skinId, new ImageData(...Video.DIMENSIONS), 1);
             this.runtime.renderer.updateDrawableVisible(this._drawable, false);
         }
         this._renderPreviewFrame = null;
     }
 
     _setupPreview() {
-        const { renderer } = this.runtime;
+        const {renderer} = this.runtime;
         if (!renderer) return;
 
         if (this._skinId === -1 && this._drawable === -1) {
-            this._skinId = renderer.createBitmapSkin(
-                new ImageData(...Video.DIMENSIONS),
-                1
-            );
+            this._skinId = renderer.createBitmapSkin(new ImageData(...Video.DIMENSIONS), 1);
             this._drawable = renderer.createDrawable(StageLayering.VIDEO_LAYER);
             renderer.updateDrawableSkinId(this._drawable, this._skinId);
             // TW: Video probably contains the user's face. This is private information.
@@ -177,11 +170,7 @@ class Video {
 
         // if we haven't already created and started a preview frame render loop, do so
         if (!this._renderPreviewFrame) {
-            renderer.updateDrawableEffect(
-                this._drawable,
-                "ghost",
-                this._forceTransparentPreview ? 100 : this._ghost
-            );
+            renderer.updateDrawableEffect(this._drawable, 'ghost', this._forceTransparentPreview ? 100 : this._ghost);
             renderer.updateDrawableVisible(this._drawable, true);
 
             this._renderPreviewFrame = () => {
@@ -190,22 +179,15 @@ class Video {
                     return;
                 }
 
-                this._renderPreviewTimeout = setTimeout(
-                    this._renderPreviewFrame,
-                    this.runtime.currentStepTime
-                );
+                this._renderPreviewTimeout = setTimeout(this._renderPreviewFrame, this.runtime.currentStepTime);
 
                 const imageData = this.getFrame({
                     format: Video.FORMAT_IMAGE_DATA,
-                    cacheTimeout: this.runtime.currentStepTime,
+                    cacheTimeout: this.runtime.currentStepTime
                 });
 
                 if (!imageData) {
-                    renderer.updateBitmapSkin(
-                        this._skinId,
-                        new ImageData(...Video.DIMENSIONS),
-                        1
-                    );
+                    renderer.updateBitmapSkin(this._skinId, new ImageData(...Video.DIMENSIONS), 1);
                     return;
                 }
 
@@ -229,7 +211,7 @@ class Video {
      * @param {object} - data passed to this IO device.
      * @property {boolean} forceTransparentPreview - whether the preview should be forced transparent.
      */
-    postData({ forceTransparentPreview }) {
+    postData({forceTransparentPreview}) {
         this._forceTransparentPreview = forceTransparentPreview;
         // Setting the ghost to the current value will pick up the forceTransparentPreview
         // flag and override the current ghost. The complexity is to prevent blocks

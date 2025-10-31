@@ -1,12 +1,13 @@
 {
-    "endOfLine": "lf",
-    "insertPragma": false,
-    "semi": true,
-    "singleQuote": false,
+    "printWidth": 120,
     "tabWidth": 4,
     "useTabs": false,
-    "bracketSpacing": true,
+    "semi": true,
+    "singleQuote": true,
+    "quoteProps": "consistent",
+    "trailingComma": "none",
+    "bracketSpacing": false,
     "jsxBracketSameLine": false,
     "arrowParens": "avoid",
-    "trailingComma": "es5"
+    "endOfLine": "lf"
 }

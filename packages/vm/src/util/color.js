@@ -15,12 +15,12 @@ class Color {
 
     /** @type {RGBObject} */
     static get RGB_BLACK() {
-        return { r: 0, g: 0, b: 0 };
+        return {r: 0, g: 0, b: 0};
     }
 
     /** @type {RGBObject} */
     static get RGB_WHITE() {
-        return { r: 255, g: 255, b: 255 };
+        return {r: 255, g: 255, b: 255};
     }
 
     /**
@@ -33,7 +33,7 @@ class Color {
             decimal += 0xffffff + 1;
         }
         let hex = Number(decimal).toString(16);
-        hex = `#${"000000".substr(0, 6 - hex.length)}${hex}`;
+        hex = `#${'000000'.substr(0, 6 - hex.length)}${hex}`;
         return hex;
     }
 
@@ -47,7 +47,7 @@ class Color {
         const r = (decimal >> 16) & 0xff;
         const g = (decimal >> 8) & 0xff;
         const b = decimal & 0xff;
-        return { r: r, g: g, b: b, a: a > 0 ? a : 255 };
+        return {r: r, g: g, b: b, a: a > 0 ? a : 255};
     }
 
     /**
@@ -56,7 +56,7 @@ class Color {
      * @return {RGBObject} null on failure, or rgb: {r: red [0,255], g: green [0,255], b: blue [0,255]}.
      */
     static hexToRgb(hex) {
-        if (hex.startsWith("#")) {
+        if (hex.startsWith('#')) {
             hex = hex.substring(1);
         }
         const parsed = parseInt(hex, 16);
@@ -67,7 +67,7 @@ class Color {
             return {
                 r: (parsed >> 16) & 0xff,
                 g: (parsed >> 8) & 0xff,
-                b: parsed & 0xff,
+                b: parsed & 0xff
             };
         } else if (hex.length === 3) {
             const r = (parsed >> 8) & 0xf;
@@ -76,7 +76,7 @@ class Color {
             return {
                 r: (r << 4) | r,
                 g: (g << 4) | g,
-                b: (b << 4) | b,
+                b: (b << 4) | b
             };
         }
         return null;
@@ -167,7 +167,7 @@ class Color {
         return {
             r: Math.floor(r * 255),
             g: Math.floor(g * 255),
-            b: Math.floor(b * 255),
+            b: Math.floor(b * 255)
         };
     }
 
@@ -193,7 +193,7 @@ class Color {
             s = (v - x) / v;
         }
 
-        return { h: h, s: s, v: v };
+        return {h: h, s: s, v: v};
     }
 
     /**
@@ -210,7 +210,7 @@ class Color {
         return {
             r: fraction0 * rgb0.r + fraction1 * rgb1.r,
             g: fraction0 * rgb0.g + fraction1 * rgb1.g,
-            b: fraction0 * rgb0.b + fraction1 * rgb1.b,
+            b: fraction0 * rgb0.b + fraction1 * rgb1.b
         };
     }
 }

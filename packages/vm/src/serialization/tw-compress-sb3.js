@@ -1,10 +1,9 @@
 // We don't generate new IDs using numbers at this time because their enumeration
 // order can affect script execution order as they always come first.
 // https://tc39.es/ecma262/#sec-ordinaryownpropertykeys
-const SOUP =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#%()*+,-./:;=?@[]^_`{|}~";
+const SOUP = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#%()*+,-./:;=?@[]^_`{|}~';
 const generateId = i => {
-    let str = "";
+    let str = '';
     while (i >= 0) {
         str = SOUP[i % SOUP.length] + str;
         i = Math.floor(i / SOUP.length) - 1;
@@ -19,7 +18,7 @@ class Pool {
         this.skippedIds = new Set();
         // IDs in Object.keys(vm.runtime.monitorBlocks._blocks) already have meaning, so make sure to skip those
         // We don't bother listing many here because most would take more than ten million items to be used
-        this.skippedIds.add("of");
+        this.skippedIds.add('of');
     }
     skip(id) {
         this.skippedIds.add(id);
@@ -99,7 +98,7 @@ const compress = projectData => {
             for (const input of Object.values(block.inputs)) {
                 for (let i = 1; i < input.length; i++) {
                     const inputValue = input[i];
-                    if (typeof inputValue === "string") {
+                    if (typeof inputValue === 'string') {
                         pool.addReference(inputValue);
                     }
                 }
@@ -138,7 +137,7 @@ const compress = projectData => {
             for (const input of Object.values(block.inputs)) {
                 for (let i = 1; i < input.length; i++) {
                     const inputValue = input[i];
-                    if (typeof inputValue === "string") {
+                    if (typeof inputValue === 'string') {
                         input[i] = pool.getNewId(inputValue);
                     }
                 }

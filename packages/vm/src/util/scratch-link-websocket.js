@@ -23,31 +23,20 @@ class ScratchLinkWebSocket {
     }
 
     open() {
-        if (
-            !(
-                this._onOpen &&
-                this._onClose &&
-                this._onError &&
-                this._handleMessage
-            )
-        ) {
-            throw new Error(
-                "Must set open, close, message and error handlers before calling open on the socket"
-            );
+        if (!(this._onOpen && this._onClose && this._onError && this._handleMessage)) {
+            throw new Error('Must set open, close, message and error handlers before calling open on the socket');
         }
 
         let pathname;
         switch (this._type) {
-            case "BLE":
-                pathname = "scratch/ble";
+            case 'BLE':
+                pathname = 'scratch/ble';
                 break;
-            case "BT":
-                pathname = "scratch/bt";
+            case 'BT':
+                pathname = 'scratch/bt';
                 break;
             default:
-                throw new Error(
-                    `Unknown ScratchLink socket Type: ${this._type}`
-                );
+                throw new Error(`Unknown ScratchLink socket Type: ${this._type}`);
         }
 
         // Try ws:// (the new way) and wss:// (the old way) simultaneously. If either connects, close the other. If we
@@ -67,14 +56,12 @@ class ScratchLinkWebSocket {
         };
 
         const ws = new WebSocket(`ws://127.0.0.1:20111/${pathname}`);
-        const wss = new WebSocket(
-            `wss://device-manager.scratch.mit.edu:20110/${pathname}`
-        );
+        const wss = new WebSocket(`wss://device-manager.scratch.mit.edu:20110/${pathname}`);
 
         const connectTimeout = setTimeout(() => {
             // neither socket succeeded before the timeout
             setSocket(ws, wss);
-            this._ws.onerror(new Event("timeout"));
+            this._ws.onerror(new Event('timeout'));
         }, 15 * 1000);
         ws.onopen = openEvent => {
             clearTimeout(connectTimeout);

@@ -44,7 +44,7 @@ class Timer {
         return {
             now: function () {
                 return new Date().getTime();
-            },
+            }
         };
     }
 
@@ -52,12 +52,7 @@ class Timer {
      * Use this object to route all time functions through single access points.
      */
     static get nowObj() {
-        if (
-            Timer.USE_PERFORMANCE &&
-            typeof self !== "undefined" &&
-            self.performance &&
-            "now" in self.performance
-        ) {
+        if (Timer.USE_PERFORMANCE && typeof self !== 'undefined' && self.performance && 'now' in self.performance) {
             return self.performance;
         } else if (Date.now) {
             return Date;

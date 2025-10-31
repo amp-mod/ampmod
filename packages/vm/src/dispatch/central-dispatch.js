@@ -1,6 +1,6 @@
-const SharedDispatch = require("./shared-dispatch");
+const SharedDispatch = require('./shared-dispatch');
 
-const log = require("../util/log");
+const log = require('../util/log');
 
 /**
  * This class serves as the central broker for message dispatch. It expects to operate on the main thread / Window and
@@ -26,7 +26,7 @@ class CentralDispatch extends SharedDispatch {
          * The constructor we will use to recognize workers.
          * @type {Function}
          */
-        this.workerClass = typeof Worker === "undefined" ? null : Worker;
+        this.workerClass = typeof Worker === 'undefined' ? null : Worker;
 
         /**
          * List of workers attached to this dispatcher.
@@ -44,12 +44,10 @@ class CentralDispatch extends SharedDispatch {
      * @returns {*} - the return value of the service method.
      */
     callSync(service, method, ...args) {
-        const { provider, isRemote } = this._getServiceProvider(service);
+        const {provider, isRemote} = this._getServiceProvider(service);
         if (provider) {
             if (isRemote) {
-                throw new Error(
-                    `Cannot use 'callSync' on remote provider for service ${service}.`
-                );
+                throw new Error(`Cannot use 'callSync' on remote provider for service ${service}.`);
             }
 
             // TODO: verify correct `this` after switching from apply to spread
@@ -67,9 +65,7 @@ class CentralDispatch extends SharedDispatch {
      */
     setServiceSync(service, provider) {
         if (Object.prototype.hasOwnProperty.call(this.services, service)) {
-            log.warn(
-                `Central dispatch replacing existing service provider for ${service}`
-            );
+            log.warn(`Central dispatch replacing existing service provider for ${service}`);
         }
         this.services[service] = provider;
     }
@@ -100,13 +96,11 @@ class CentralDispatch extends SharedDispatch {
         if (this.workers.indexOf(worker) === -1) {
             this.workers.push(worker);
             worker.onmessage = this._onMessage.bind(this, worker);
-            this._remoteCall(worker, "dispatch", "handshake").catch(e => {
+            this._remoteCall(worker, 'dispatch', 'handshake').catch(e => {
                 log.error(`Could not handshake with worker: ${e}`);
             });
         } else {
-            log.warn(
-                "Central dispatch ignoring attempt to add duplicate worker"
-            );
+            log.warn('Central dispatch ignoring attempt to add duplicate worker');
         }
     }
 
@@ -122,11 +116,7 @@ class CentralDispatch extends SharedDispatch {
         return (
             provider && {
                 provider,
-                isRemote: Boolean(
-                    (this.workerClass &&
-                        provider instanceof this.workerClass) ||
-                        provider.isRemote
-                ),
+                isRemote: Boolean((this.workerClass && provider instanceof this.workerClass) || provider.isRemote)
             }
         );
     }
@@ -142,13 +132,11 @@ class CentralDispatch extends SharedDispatch {
     _onDispatchMessage(worker, message) {
         let promise;
         switch (message.method) {
-            case "setService":
+            case 'setService':
                 promise = this.setService(message.args[0], worker);
                 break;
             default:
-                log.error(
-                    `Central dispatch received message for unknown method: ${message.method}`
-                );
+                log.error(`Central dispatch received message for unknown method: ${message.method}`);
         }
         return promise;
     }

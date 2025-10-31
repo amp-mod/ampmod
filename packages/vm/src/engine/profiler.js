@@ -53,7 +53,7 @@ const STOP_SIZE = 2;
  * Stored reference to Performance instance provided by the Browser.
  * @const {Performance}
  */
-const performance = typeof window === "object" && window.performance;
+const performance = typeof window === 'object' && window.performance;
 
 /**
  * Callback handle called by Profiler for each frame it decodes from its
@@ -295,7 +295,7 @@ class Profiler {
                 i += STOP_SIZE;
             } else {
                 this.records.length = 0;
-                throw new Error("Unable to decode Profiler records.");
+                throw new Error('Unable to decode Profiler records.');
             }
         }
 
@@ -341,7 +341,7 @@ class Profiler {
      * @return {number} The id for the passed name.
      */
     static idByName(name) {
-        if (typeof profilerNames[name] !== "number") {
+        if (typeof profilerNames[name] !== 'number') {
             profilerNames[name] = nextId++;
         }
         return profilerNames[name];
@@ -367,10 +367,7 @@ class Profiler {
      * @return {boolean} Can the Profiler run in this browser?
      */
     static available() {
-        return (
-            typeof window === "object" &&
-            typeof window.performance !== "undefined"
-        );
+        return typeof window === 'object' && typeof window.performance !== 'undefined';
     }
 }
 

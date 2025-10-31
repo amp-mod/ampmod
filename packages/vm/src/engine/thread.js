@@ -1,4 +1,4 @@
-const log = require("../util/log");
+const log = require('../util/log');
 
 /**
  * Recycle bin for empty stackFrame objects
@@ -38,7 +38,7 @@ class _StackFrame {
          * The active block that is waiting on a promise.
          * @type {string}
          */
-        this.reporting = "";
+        this.reporting = '';
 
         /**
          * Persists reported inputs during async block.
@@ -108,7 +108,7 @@ class _StackFrame {
      */
     static create(warpMode) {
         const stackFrame = _stackFrameFreeList.pop();
-        if (typeof stackFrame !== "undefined") {
+        if (typeof stackFrame !== 'undefined') {
             stackFrame.warpMode = Boolean(warpMode);
             return stackFrame;
         }
@@ -120,7 +120,7 @@ class _StackFrame {
      * @param {_StackFrame} stackFrame The frame to reset and recycle.
      */
     static release(stackFrame) {
-        if (typeof stackFrame !== "undefined") {
+        if (typeof stackFrame !== 'undefined') {
             _stackFrameFreeList.push(stackFrame.reset());
         }
     }
@@ -286,11 +286,7 @@ class Thread {
         // Might not, if we just popped the stack.
         if (this.stack.length > this.stackFrames.length) {
             const parent = this.stackFrames[this.stackFrames.length - 1];
-            this.stackFrames.push(
-                _StackFrame.create(
-                    typeof parent !== "undefined" && parent.warpMode
-                )
-            );
+            this.stackFrames.push(_StackFrame.create(typeof parent !== 'undefined' && parent.warpMode));
         }
     }
 
@@ -327,10 +323,7 @@ class Thread {
             }
 
             // Command form of procedures_call
-            if (
-                typeof block !== "undefined" &&
-                block.opcode === "procedures_call"
-            ) {
+            if (typeof block !== 'undefined' && block.opcode === 'procedures_call') {
                 // By definition, if we get here, the procedure is done, so skip ahead so
                 // the arguments won't be re-evaluated and then discarded as frozen state
                 // about which arguments have been evaluated is lost.
@@ -363,9 +356,7 @@ class Thread {
      * @return {?object} Last stack frame stored on this thread.
      */
     peekStackFrame() {
-        return this.stackFrames.length > 0
-            ? this.stackFrames[this.stackFrames.length - 1]
-            : null;
+        return this.stackFrames.length > 0 ? this.stackFrames[this.stackFrames.length - 1] : null;
     }
 
     /**
@@ -373,9 +364,7 @@ class Thread {
      * @return {?object} Second to last stack frame stored on this thread.
      */
     peekParentStackFrame() {
-        return this.stackFrames.length > 1
-            ? this.stackFrames[this.stackFrames.length - 2]
-            : null;
+        return this.stackFrames.length > 1 ? this.stackFrames[this.stackFrames.length - 2] : null;
     }
 
     /**
@@ -383,7 +372,7 @@ class Thread {
      * @param {*} value Reported value to push.
      */
     pushReportedValue(value) {
-        this.justReported = typeof value === "undefined" ? null : value;
+        this.justReported = typeof value === 'undefined' ? null : value;
     }
 
     /**
@@ -461,13 +450,8 @@ class Thread {
         for (let i = sp - 1; i >= 0; i--) {
             const block =
                 this.target.blocks.getBlock(this.stackFrames[i].op.id) ||
-                this.target.runtime.flyoutBlocks.getBlock(
-                    this.stackFrames[i].op.id
-                );
-            if (
-                block.opcode === "procedures_call" &&
-                block.mutation.proccode === procedureCode
-            ) {
+                this.target.runtime.flyoutBlocks.getBlock(this.stackFrames[i].op.id);
+            if (block.opcode === 'procedures_call' && block.mutation.proccode === procedureCode) {
                 return true;
             }
             if (--callCount < 0) return false;
@@ -484,7 +468,7 @@ class Thread {
         }
 
         // importing the compiler here avoids circular dependency issues
-        const compile = require("../compiler/compile");
+        const compile = require('../compiler/compile');
 
         this.triedToCompile = true;
 
@@ -495,11 +479,8 @@ class Thread {
 
         const topBlock = this.topBlock;
         // Flyout blocks are stored in a special block container.
-        const blocks = this.blockContainer.getBlock(topBlock)
-            ? this.blockContainer
-            : this.target.runtime.flyoutBlocks;
-        const cachedResult =
-            canCache && blocks.getCachedCompileResult(topBlock);
+        const blocks = this.blockContainer.getBlock(topBlock) ? this.blockContainer : this.target.runtime.flyoutBlocks;
+        const cachedResult = canCache && blocks.getCachedCompileResult(topBlock);
         // If there is a cached error, do not attempt to recompile.
         if (cachedResult && !cachedResult.success) {
             return;
@@ -515,11 +496,7 @@ class Thread {
                     blocks.cacheCompileResult(topBlock, result);
                 }
             } catch (error) {
-                log.error(
-                    "cannot compile script",
-                    this.target.getName(),
-                    error
-                );
+                log.error('cannot compile script', this.target.getName(), error);
                 if (canCache) {
                     blocks.cacheCompileError(topBlock, error);
                 }
@@ -530,8 +507,7 @@ class Thread {
 
         this.procedures = {};
         for (const procedureCode of Object.keys(result.procedures)) {
-            this.procedures[procedureCode] =
-                result.procedures[procedureCode](this);
+            this.procedures[procedureCode] = result.procedures[procedureCode](this);
         }
 
         this.generator = result.startingFunction(this)();

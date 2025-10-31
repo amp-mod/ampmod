@@ -1,8 +1,8 @@
-const Timer = require("../util/timer");
+const Timer = require('../util/timer');
 
 class Clock {
     constructor(runtime) {
-        this._projectTimer = new Timer({ now: () => runtime.currentMSecs });
+        this._projectTimer = new Timer({now: () => runtime.currentMSecs});
         this._projectTimer.start();
         this._pausedTime = null;
         this._paused = false;

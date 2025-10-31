@@ -21,12 +21,7 @@ class VariableUtil {
      */
     static getAllVarRefsForTargets(targets, shouldIncludeBroadcast) {
         return targets
-            .map(t =>
-                t.blocks.getAllVariableAndListReferences(
-                    null,
-                    shouldIncludeBroadcast
-                )
-            )
+            .map(t => t.blocks.getAllVariableAndListReferences(null, shouldIncludeBroadcast))
             .reduce(VariableUtil._mergeVarRefObjects, {});
     }
 

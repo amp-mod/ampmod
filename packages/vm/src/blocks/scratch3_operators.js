@@ -1,5 +1,5 @@
-const Cast = require("../util/cast.js");
-const MathUtil = require("../util/math-util.js");
+const Cast = require('../util/cast.js');
+const MathUtil = require('../util/math-util.js');
 
 class Scratch3OperatorsBlocks {
     constructor(runtime) {
@@ -35,7 +35,7 @@ class Scratch3OperatorsBlocks {
             operator_mod: this.mod,
             operator_round: this.round,
             operator_mathop: this.mathop,
-            operator_newline: this.newline,
+            operator_newline: this.newline
         };
     }
 
@@ -115,7 +115,7 @@ class Scratch3OperatorsBlocks {
         const str = Cast.toString(args.STRING);
         // Out of bounds?
         if (index < 0 || index >= str.length) {
-            return "";
+            return '';
         }
         return str.charAt(index);
     }
@@ -145,40 +145,40 @@ class Scratch3OperatorsBlocks {
     }
 
     newline() {
-        return "\n";
+        return '\n';
     }
 
     mathop(args) {
         const operator = Cast.toString(args.OPERATOR).toLowerCase();
         const n = Cast.toNumber(args.NUM);
         switch (operator) {
-            case "abs":
+            case 'abs':
                 return Math.abs(n);
-            case "floor":
+            case 'floor':
                 return Math.floor(n);
-            case "ceiling":
+            case 'ceiling':
                 return Math.ceil(n);
-            case "sqrt":
+            case 'sqrt':
                 return Math.sqrt(n);
-            case "sin":
+            case 'sin':
                 return Math.round(Math.sin((Math.PI * n) / 180) * 1e10) / 1e10;
-            case "cos":
+            case 'cos':
                 return Math.round(Math.cos((Math.PI * n) / 180) * 1e10) / 1e10;
-            case "tan":
+            case 'tan':
                 return MathUtil.tan(n);
-            case "asin":
+            case 'asin':
                 return (Math.asin(n) * 180) / Math.PI;
-            case "acos":
+            case 'acos':
                 return (Math.acos(n) * 180) / Math.PI;
-            case "atan":
+            case 'atan':
                 return (Math.atan(n) * 180) / Math.PI;
-            case "ln":
+            case 'ln':
                 return Math.log(n);
-            case "log":
+            case 'log':
                 return Math.log(n) / Math.LN10;
-            case "e ^":
+            case 'e ^':
                 return Math.exp(n);
-            case "10 ^":
+            case '10 ^':
                 return Math.pow(10, n);
         }
         return 0;

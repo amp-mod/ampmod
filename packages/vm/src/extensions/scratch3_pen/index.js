@@ -1,13 +1,13 @@
-const ArgumentType = require("../../extension-support/argument-type");
-const BlockType = require("../../extension-support/block-type");
-const TargetType = require("../../extension-support/target-type");
-const Cast = require("../../util/cast");
-const Clone = require("../../util/clone");
-const Color = require("../../util/color");
-const formatMessage = require("format-message");
-const MathUtil = require("../../util/math-util");
-const log = require("../../util/log");
-const StageLayering = require("../../engine/stage-layering");
+const ArgumentType = require('../../extension-support/argument-type');
+const BlockType = require('../../extension-support/block-type');
+const TargetType = require('../../extension-support/target-type');
+const Cast = require('../../util/cast');
+const Clone = require('../../util/clone');
+const Color = require('../../util/color');
+const formatMessage = require('format-message');
+const MathUtil = require('../../util/math-util');
+const log = require('../../util/log');
+const StageLayering = require('../../engine/stage-layering');
 
 /**
  * Icon svg to be displayed at the left edge of each extension block, encoded as a data URI.
@@ -15,7 +15,7 @@ const StageLayering = require("../../engine/stage-layering");
  */
 // eslint-disable-next-line max-len
 const blockIconURI =
-    "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+cGVuLWljb248L3RpdGxlPjxnIHN0cm9rZT0iIzU3NUU3NSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik04Ljc1MyAzNC42MDJsLTQuMjUgMS43OCAxLjc4My00LjIzN2MxLjIxOC0yLjg5MiAyLjkwNy01LjQyMyA1LjAzLTcuNTM4TDMxLjA2NiA0LjkzYy44NDYtLjg0MiAyLjY1LS40MSA0LjAzMi45NjcgMS4zOCAxLjM3NSAxLjgxNiAzLjE3My45NyA0LjAxNUwxNi4zMTggMjkuNTljLTIuMTIzIDIuMTE2LTQuNjY0IDMuOC03LjU2NSA1LjAxMiIgZmlsbD0iI0ZGRiIvPjxwYXRoIGQ9Ik0yOS40MSA2LjExcy00LjQ1LTIuMzc4LTguMjAyIDUuNzcyYy0xLjczNCAzLjc2Ni00LjM1IDEuNTQ2LTQuMzUgMS41NDYiLz48cGF0aCBkPSJNMzYuNDIgOC44MjVjMCAuNDYzLS4xNC44NzMtLjQzMiAxLjE2NGwtOS4zMzUgOS4zYy4yODItLjI5LjQxLS42NjguNDEtMS4xMiAwLS44NzQtLjUwNy0xLjk2My0xLjQwNi0yLjg2OC0xLjM2Mi0xLjM1OC0zLjE0Ny0xLjgtNC4wMDItLjk5TDMwLjk5IDUuMDFjLjg0NC0uODQgMi42NS0uNDEgNC4wMzUuOTYuODk4LjkwNCAxLjM5NiAxLjk4MiAxLjM5NiAyLjg1NU0xMC41MTUgMzMuNzc0Yy0uNTczLjMwMi0xLjE1Ny41Ny0xLjc2NC44M0w0LjUgMzYuMzgybDEuNzg2LTQuMjM1Yy4yNTgtLjYwNC41My0xLjE4Ni44MzMtMS43NTcuNjkuMTgzIDEuNDQ4LjYyNSAyLjEwOCAxLjI4Mi42Ni42NTggMS4xMDIgMS40MTIgMS4yODcgMi4xMDIiIGZpbGw9IiM0Qzk3RkYiLz48cGF0aCBkPSJNMzYuNDk4IDguNzQ4YzAgLjQ2NC0uMTQuODc0LS40MzMgMS4xNjVsLTE5Ljc0MiAxOS42OGMtMi4xMyAyLjExLTQuNjczIDMuNzkzLTcuNTcyIDUuMDFMNC41IDM2LjM4bC45NzQtMi4zMTYgMS45MjUtLjgwOGMyLjg5OC0xLjIxOCA1LjQ0LTIuOSA3LjU3LTUuMDFsMTkuNzQzLTE5LjY4Yy4yOTItLjI5Mi40MzItLjcwMi40MzItMS4xNjUgMC0uNjQ2LS4yNy0xLjQtLjc4LTIuMTIyLjI1LjE3Mi41LjM3Ny43MzcuNjE0Ljg5OC45MDUgMS4zOTYgMS45ODMgMS4zOTYgMi44NTYiIGZpbGw9IiM1NzVFNzUiIG9wYWNpdHk9Ii4xNSIvPjxwYXRoIGQ9Ik0xOC40NSAxMi44M2MwIC41LS40MDQuOTA1LS45MDQuOTA1cy0uOTA1LS40MDUtLjkwNS0uOTA0YzAtLjUuNDA3LS45MDMuOTA2LS45MDMuNSAwIC45MDQuNDA0LjkwNC45MDR6IiBmaWxsPSIjNTc1RTc1Ii8+PC9nPjwvc3ZnPg==";
+    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGU+cGVuLWljb248L3RpdGxlPjxnIHN0cm9rZT0iIzU3NUU3NSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Ik04Ljc1MyAzNC42MDJsLTQuMjUgMS43OCAxLjc4My00LjIzN2MxLjIxOC0yLjg5MiAyLjkwNy01LjQyMyA1LjAzLTcuNTM4TDMxLjA2NiA0LjkzYy44NDYtLjg0MiAyLjY1LS40MSA0LjAzMi45NjcgMS4zOCAxLjM3NSAxLjgxNiAzLjE3My45NyA0LjAxNUwxNi4zMTggMjkuNTljLTIuMTIzIDIuMTE2LTQuNjY0IDMuOC03LjU2NSA1LjAxMiIgZmlsbD0iI0ZGRiIvPjxwYXRoIGQ9Ik0yOS40MSA2LjExcy00LjQ1LTIuMzc4LTguMjAyIDUuNzcyYy0xLjczNCAzLjc2Ni00LjM1IDEuNTQ2LTQuMzUgMS41NDYiLz48cGF0aCBkPSJNMzYuNDIgOC44MjVjMCAuNDYzLS4xNC44NzMtLjQzMiAxLjE2NGwtOS4zMzUgOS4zYy4yODItLjI5LjQxLS42NjguNDEtMS4xMiAwLS44NzQtLjUwNy0xLjk2My0xLjQwNi0yLjg2OC0xLjM2Mi0xLjM1OC0zLjE0Ny0xLjgtNC4wMDItLjk5TDMwLjk5IDUuMDFjLjg0NC0uODQgMi42NS0uNDEgNC4wMzUuOTYuODk4LjkwNCAxLjM5NiAxLjk4MiAxLjM5NiAyLjg1NU0xMC41MTUgMzMuNzc0Yy0uNTczLjMwMi0xLjE1Ny41Ny0xLjc2NC44M0w0LjUgMzYuMzgybDEuNzg2LTQuMjM1Yy4yNTgtLjYwNC41My0xLjE4Ni44MzMtMS43NTcuNjkuMTgzIDEuNDQ4LjYyNSAyLjEwOCAxLjI4Mi42Ni42NTggMS4xMDIgMS40MTIgMS4yODcgMi4xMDIiIGZpbGw9IiM0Qzk3RkYiLz48cGF0aCBkPSJNMzYuNDk4IDguNzQ4YzAgLjQ2NC0uMTQuODc0LS40MzMgMS4xNjVsLTE5Ljc0MiAxOS42OGMtMi4xMyAyLjExLTQuNjczIDMuNzkzLTcuNTcyIDUuMDFMNC41IDM2LjM4bC45NzQtMi4zMTYgMS45MjUtLjgwOGMyLjg5OC0xLjIxOCA1LjQ0LTIuOSA3LjU3LTUuMDFsMTkuNzQzLTE5LjY4Yy4yOTItLjI5Mi40MzItLjcwMi40MzItMS4xNjUgMC0uNjQ2LS4yNy0xLjQtLjc4LTIuMTIyLjI1LjE3Mi41LjM3Ny43MzcuNjE0Ljg5OC45MDUgMS4zOTYgMS45ODMgMS4zOTYgMi44NTYiIGZpbGw9IiM1NzVFNzUiIG9wYWNpdHk9Ii4xNSIvPjxwYXRoIGQ9Ik0xOC40NSAxMi44M2MwIC41LS40MDQuOTA1LS45MDQuOTA1cy0uOTA1LS40MDUtLjkwNS0uOTA0YzAtLjUuNDA3LS45MDMuOTA2LS45MDMuNSAwIC45MDQuNDA0LjkwNC45MDR6IiBmaWxsPSIjNTc1RTc1Ii8+PC9nPjwvc3ZnPg==';
 
 /**
  * Enum for pen color parameter values.
@@ -23,10 +23,10 @@ const blockIconURI =
  * @enum {string}
  */
 const ColorParam = {
-    COLOR: "color",
-    SATURATION: "saturation",
-    BRIGHTNESS: "brightness",
-    TRANSPARENCY: "transparency",
+    COLOR: 'color',
+    SATURATION: 'saturation',
+    BRIGHTNESS: 'brightness',
+    TRANSPARENCY: 'transparency'
 };
 
 /**
@@ -67,8 +67,8 @@ class Scratch3PenBlocks {
         this._onTargetCreated = this._onTargetCreated.bind(this);
         this._onTargetMoved = this._onTargetMoved.bind(this);
 
-        runtime.on("targetWasCreated", this._onTargetCreated);
-        runtime.on("RUNTIME_DISPOSED", this.clear.bind(this));
+        runtime.on('targetWasCreated', this._onTargetCreated);
+        runtime.on('RUNTIME_DISPOSED', this.clear.bind(this));
     }
 
     /**
@@ -85,8 +85,8 @@ class Scratch3PenBlocks {
             _shade: 50, // Used only for legacy `change shade by` blocks
             penAttributes: {
                 color4f: [0, 0, 1, 1],
-                diameter: 1,
-            },
+                diameter: 1
+            }
         };
     }
 
@@ -97,7 +97,7 @@ class Scratch3PenBlocks {
      * @type {{min: number, max: number}}
      */
     static get PEN_SIZE_RANGE() {
-        return { min: 1, max: 1200 };
+        return {min: 1, max: 1200};
     }
 
     /**
@@ -107,7 +107,7 @@ class Scratch3PenBlocks {
     static get STATE_KEY() {
         // tw: We've hardcoded this value in various places for slight performance gains
         // Make sure to update those if this changes.
-        return "Scratch.pen";
+        return 'Scratch.pen';
     }
 
     /**
@@ -118,8 +118,7 @@ class Scratch3PenBlocks {
      */
     _clampPenSize(requestedSize) {
         if (
-            (this.runtime.renderer &&
-                this.runtime.renderer.useHighQualityRender) ||
+            (this.runtime.renderer && this.runtime.renderer.useHighQualityRender) ||
             !this.runtime.runtimeOptions.miscLimits
         ) {
             return Math.max(0, requestedSize);
@@ -141,9 +140,7 @@ class Scratch3PenBlocks {
         const renderer = this.runtime.renderer;
         if (this._penSkinId < 0 && renderer) {
             this._penSkinId = renderer.createPenSkin();
-            this._penDrawableId = renderer.createDrawable(
-                StageLayering.PEN_LAYER
-            );
+            this._penDrawableId = renderer.createDrawable(StageLayering.PEN_LAYER);
             if (renderer.markDrawableAsNoninteractive) {
                 renderer.markDrawableAsNoninteractive(this._penDrawableId);
             }
@@ -158,7 +155,7 @@ class Scratch3PenBlocks {
      * @private
      */
     _getPenState(target) {
-        let penState = target._customState["Scratch.pen"];
+        let penState = target._customState['Scratch.pen'];
         if (!penState) {
             penState = Clone.simple(Scratch3PenBlocks.DEFAULT_PEN_STATE);
             target.setCustomState(Scratch3PenBlocks.STATE_KEY, penState);
@@ -175,14 +172,9 @@ class Scratch3PenBlocks {
      */
     _onTargetCreated(newTarget, sourceTarget) {
         if (sourceTarget) {
-            const penState = sourceTarget.getCustomState(
-                Scratch3PenBlocks.STATE_KEY
-            );
+            const penState = sourceTarget.getCustomState(Scratch3PenBlocks.STATE_KEY);
             if (penState) {
-                newTarget.setCustomState(
-                    Scratch3PenBlocks.STATE_KEY,
-                    Clone.simple(penState)
-                );
+                newTarget.setCustomState(Scratch3PenBlocks.STATE_KEY, Clone.simple(penState));
                 if (penState.penDown) {
                     newTarget.onTargetMoved = this._onTargetMoved;
                 }
@@ -204,14 +196,7 @@ class Scratch3PenBlocks {
             const penSkinId = this._getPenLayerID();
             if (penSkinId >= 0) {
                 const penState = this._getPenState(target);
-                this.runtime.renderer.penLine(
-                    penSkinId,
-                    penState.penAttributes,
-                    oldX,
-                    oldY,
-                    target.x,
-                    target.y
-                );
+                this.runtime.renderer.penLine(penSkinId, penState.penAttributes, oldX, oldY, target.x, target.y);
                 this.runtime.requestRedraw();
             }
         }
@@ -236,40 +221,36 @@ class Scratch3PenBlocks {
         return [
             {
                 text: formatMessage({
-                    id: "pen.colorMenu.color",
-                    default: "color",
-                    description:
-                        "label for color element in color picker for pen extension",
+                    id: 'pen.colorMenu.color',
+                    default: 'color',
+                    description: 'label for color element in color picker for pen extension'
                 }),
-                value: ColorParam.COLOR,
+                value: ColorParam.COLOR
             },
             {
                 text: formatMessage({
-                    id: "pen.colorMenu.saturation",
-                    default: "saturation",
-                    description:
-                        "label for saturation element in color picker for pen extension",
+                    id: 'pen.colorMenu.saturation',
+                    default: 'saturation',
+                    description: 'label for saturation element in color picker for pen extension'
                 }),
-                value: ColorParam.SATURATION,
+                value: ColorParam.SATURATION
             },
             {
                 text: formatMessage({
-                    id: "pen.colorMenu.brightness",
-                    default: "brightness",
-                    description:
-                        "label for brightness element in color picker for pen extension",
+                    id: 'pen.colorMenu.brightness',
+                    default: 'brightness',
+                    description: 'label for brightness element in color picker for pen extension'
                 }),
-                value: ColorParam.BRIGHTNESS,
+                value: ColorParam.BRIGHTNESS
             },
             {
                 text: formatMessage({
-                    id: "pen.colorMenu.transparency",
-                    default: "transparency",
-                    description:
-                        "label for transparency element in color picker for pen extension",
+                    id: 'pen.colorMenu.transparency',
+                    default: 'transparency',
+                    description: 'label for transparency element in color picker for pen extension'
                 }),
-                value: ColorParam.TRANSPARENCY,
-            },
+                value: ColorParam.TRANSPARENCY
+            }
         ];
     }
 
@@ -312,11 +293,11 @@ class Scratch3PenBlocks {
      */
     getInfo() {
         return {
-            id: "pen",
+            id: 'pen',
             name: formatMessage({
-                id: "pen.categoryName",
-                default: "Pen",
-                description: "Label for the pen extension category",
+                id: 'pen.categoryName',
+                default: 'Pen',
+                description: 'Label for the pen extension category'
             }),
             // blockIconURI: blockIconURI,
             blocks: [
@@ -324,264 +305,254 @@ class Scratch3PenBlocks {
                 {
                     blockType: BlockType.LABEL,
                     text: formatMessage({
-                        id: "tw.pen.stageSelected",
-                        default: "Stage selected: less pen blocks",
-                        description:
-                            "Label that appears in the Pen category when the stage is selected",
+                        id: 'tw.pen.stageSelected',
+                        default: 'Stage selected: less pen blocks',
+                        description: 'Label that appears in the Pen category when the stage is selected'
                     }),
-                    filter: [TargetType.STAGE],
+                    filter: [TargetType.STAGE]
                 },
                 {
-                    opcode: "clear",
+                    opcode: 'clear',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.clear",
-                        default: "erase all",
-                        description: "erase all pen trails and stamps",
-                    }),
+                        id: 'pen.clear',
+                        default: 'erase all',
+                        description: 'erase all pen trails and stamps'
+                    })
                 },
-                "---",
+                '---',
                 {
-                    opcode: "stamp",
+                    opcode: 'stamp',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.stamp",
-                        default: "stamp",
-                        description: "render current costume on the background",
+                        id: 'pen.stamp',
+                        default: 'stamp',
+                        description: 'render current costume on the background'
                     }),
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
                 {
-                    opcode: "penDown",
+                    opcode: 'penDown',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.penDown",
-                        default: "pen down",
-                        description:
-                            "start leaving a trail when the sprite moves",
+                        id: 'pen.penDown',
+                        default: 'pen down',
+                        description: 'start leaving a trail when the sprite moves'
                     }),
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
                 {
-                    opcode: "penUp",
+                    opcode: 'penUp',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.penUp",
-                        default: "pen up",
-                        description: "stop leaving a trail behind the sprite",
+                        id: 'pen.penUp',
+                        default: 'pen up',
+                        description: 'stop leaving a trail behind the sprite'
                     }),
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
                 {
-                    opcode: "isPenDown",
+                    opcode: 'isPenDown',
                     blockType: BlockType.BOOLEAN,
                     text: formatMessage({
-                        id: "pen.isPenDown",
-                        default: "pen down?",
-                        description:
-                            "is the sprite leaving a trail when it moves?",
+                        id: 'pen.isPenDown',
+                        default: 'pen down?',
+                        description: 'is the sprite leaving a trail when it moves?'
                     }),
                     disableMonitor: true,
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
-                "---",
+                '---',
                 {
-                    opcode: "setPenColorToColor",
+                    opcode: 'setPenColorToColor',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.setColor",
-                        default: "set pen color to [COLOR]",
-                        description:
-                            "set the pen color to a particular (RGB) value",
+                        id: 'pen.setColor',
+                        default: 'set pen color to [COLOR]',
+                        description: 'set the pen color to a particular (RGB) value'
                     }),
                     arguments: {
                         COLOR: {
-                            type: ArgumentType.COLOR,
-                        },
+                            type: ArgumentType.COLOR
+                        }
                     },
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
-                "---",
+                '---',
                 {
-                    opcode: "changePenColorParamBy",
+                    opcode: 'changePenColorParamBy',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.changeColorParam",
-                        default: "change pen [COLOR_PARAM] by [VALUE]",
-                        description:
-                            "change the state of a pen color parameter",
+                        id: 'pen.changeColorParam',
+                        default: 'change pen [COLOR_PARAM] by [VALUE]',
+                        description: 'change the state of a pen color parameter'
                     }),
                     arguments: {
                         COLOR_PARAM: {
                             type: ArgumentType.STRING,
-                            menu: "colorParam",
-                            defaultValue: ColorParam.COLOR,
+                            menu: 'colorParam',
+                            defaultValue: ColorParam.COLOR
                         },
                         VALUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 10,
-                        },
+                            defaultValue: 10
+                        }
                     },
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
                 {
-                    opcode: "setPenColorParamTo",
+                    opcode: 'setPenColorParamTo',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.setColorParam",
-                        default: "set pen [COLOR_PARAM] to [VALUE]",
-                        description:
-                            "set the state for a pen color parameter e.g. saturation",
+                        id: 'pen.setColorParam',
+                        default: 'set pen [COLOR_PARAM] to [VALUE]',
+                        description: 'set the state for a pen color parameter e.g. saturation'
                     }),
                     arguments: {
                         COLOR_PARAM: {
                             type: ArgumentType.STRING,
-                            menu: "colorParam",
-                            defaultValue: ColorParam.COLOR,
+                            menu: 'colorParam',
+                            defaultValue: ColorParam.COLOR
                         },
                         VALUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50,
-                        },
+                            defaultValue: 50
+                        }
                     },
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
                 {
-                    opcode: "getPenColorParam",
+                    opcode: 'getPenColorParam',
                     blockType: BlockType.REPORTER,
                     text: formatMessage({
-                        id: "pen.getColorParam",
-                        default: "pen [COLOR_PARAM]",
-                        description:
-                            "get the state for a pen color parameter e.g. saturation",
+                        id: 'pen.getColorParam',
+                        default: 'pen [COLOR_PARAM]',
+                        description: 'get the state for a pen color parameter e.g. saturation'
                     }),
                     arguments: {
                         COLOR_PARAM: {
                             type: ArgumentType.STRING,
-                            menu: "colorParam",
-                            defaultValue: ColorParam.COLOR,
-                        },
+                            menu: 'colorParam',
+                            defaultValue: ColorParam.COLOR
+                        }
                     },
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
-                "---",
+                '---',
                 {
-                    opcode: "changePenSizeBy",
+                    opcode: 'changePenSizeBy',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.changeSize",
-                        default: "change pen size by [SIZE]",
-                        description:
-                            "change the diameter of the trail left by a sprite",
+                        id: 'pen.changeSize',
+                        default: 'change pen size by [SIZE]',
+                        description: 'change the diameter of the trail left by a sprite'
                     }),
                     arguments: {
                         SIZE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
+                            defaultValue: 1
+                        }
                     },
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
                 {
-                    opcode: "setPenSizeTo",
+                    opcode: 'setPenSizeTo',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.setSize",
-                        default: "set pen size to [SIZE]",
-                        description:
-                            "set the diameter of a trail left by a sprite",
+                        id: 'pen.setSize',
+                        default: 'set pen size to [SIZE]',
+                        description: 'set the diameter of a trail left by a sprite'
                     }),
                     arguments: {
                         SIZE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
+                            defaultValue: 1
+                        }
                     },
-                    filter: [TargetType.SPRITE],
+                    filter: [TargetType.SPRITE]
                 },
                 {
-                    opcode: "getPenSize",
+                    opcode: 'getPenSize',
                     blockType: BlockType.REPORTER,
                     text: formatMessage({
-                        id: "pen.getSize",
-                        default: "pen size",
-                        description: "get the size of the pen",
+                        id: 'pen.getSize',
+                        default: 'pen size',
+                        description: 'get the size of the pen'
                     }),
                     filter: [TargetType.SPRITE],
-                    disableMonitor: true,
+                    disableMonitor: true
                 } /* Legacy blocks, should not be shown in flyout */,
                 {
-                    opcode: "setPenShadeToNumber",
+                    opcode: 'setPenShadeToNumber',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.setShade",
-                        default: "set pen shade to [SHADE]",
-                        description: "legacy pen blocks - set pen shade",
+                        id: 'pen.setShade',
+                        default: 'set pen shade to [SHADE]',
+                        description: 'legacy pen blocks - set pen shade'
                     }),
                     arguments: {
                         SHADE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
+                            defaultValue: 1
+                        }
                     },
-                    hideFromPalette: true,
+                    hideFromPalette: true
                 },
                 {
-                    opcode: "changePenShadeBy",
+                    opcode: 'changePenShadeBy',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.changeShade",
-                        default: "change pen shade by [SHADE]",
-                        description: "legacy pen blocks - change pen shade",
+                        id: 'pen.changeShade',
+                        default: 'change pen shade by [SHADE]',
+                        description: 'legacy pen blocks - change pen shade'
                     }),
                     arguments: {
                         SHADE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
+                            defaultValue: 1
+                        }
                     },
-                    hideFromPalette: true,
+                    hideFromPalette: true
                 },
                 {
-                    opcode: "setPenHueToNumber",
+                    opcode: 'setPenHueToNumber',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.setHue",
-                        default: "set pen color to [HUE]",
-                        description:
-                            "legacy pen blocks - set pen color to number",
+                        id: 'pen.setHue',
+                        default: 'set pen color to [HUE]',
+                        description: 'legacy pen blocks - set pen color to number'
                     }),
                     arguments: {
                         HUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
+                            defaultValue: 1
+                        }
                     },
-                    hideFromPalette: true,
+                    hideFromPalette: true
                 },
                 {
-                    opcode: "changePenHueBy",
+                    opcode: 'changePenHueBy',
                     blockType: BlockType.COMMAND,
                     text: formatMessage({
-                        id: "pen.changeHue",
-                        default: "change pen color by [HUE]",
-                        description: "legacy pen blocks - change pen color",
+                        id: 'pen.changeHue',
+                        default: 'change pen color by [HUE]',
+                        description: 'legacy pen blocks - change pen color'
                     }),
                     arguments: {
                         HUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
+                            defaultValue: 1
+                        }
                     },
-                    hideFromPalette: true,
-                },
+                    hideFromPalette: true
+                }
             ],
             menus: {
                 colorParam: {
                     acceptReporters: true,
-                    items: this._initColorParam(),
-                },
-            },
+                    items: this._initColorParam()
+                }
+            }
         };
     }
 
@@ -633,12 +604,7 @@ class Scratch3PenBlocks {
 
         const penSkinId = this._getPenLayerID();
         if (penSkinId >= 0) {
-            this.runtime.renderer.penPoint(
-                penSkinId,
-                penState.penAttributes,
-                target.x,
-                target.y
-            );
+            this.runtime.renderer.penPoint(penSkinId, penState.penAttributes, target.x, target.y);
             this.runtime.requestRedraw();
         }
     }
@@ -683,7 +649,7 @@ class Scratch3PenBlocks {
         penState.color = (hsv.h / 360) * 100;
         penState.saturation = hsv.s * 100;
         penState.brightness = hsv.v * 100;
-        if (Object.prototype.hasOwnProperty.call(rgb, "a")) {
+        if (Object.prototype.hasOwnProperty.call(rgb, 'a')) {
             penState.transparency = 100 * (1 - rgb.a / 255.0);
         } else {
             penState.transparency = 0;
@@ -705,14 +671,12 @@ class Scratch3PenBlocks {
         const rgb = Color.hsvToRgb({
             h: (penState.color * 360) / 100,
             s: penState.saturation / 100,
-            v: penState.brightness / 100,
+            v: penState.brightness / 100
         });
         penState.penAttributes.color4f[0] = rgb.r / 255.0;
         penState.penAttributes.color4f[1] = rgb.g / 255.0;
         penState.penAttributes.color4f[2] = rgb.b / 255.0;
-        penState.penAttributes.color4f[3] = this._transparencyToAlpha(
-            penState.transparency
-        );
+        penState.penAttributes.color4f[3] = this._transparencyToAlpha(penState.transparency);
     }
 
     /**
@@ -727,29 +691,19 @@ class Scratch3PenBlocks {
         // used by compiler
         switch (param) {
             case ColorParam.COLOR:
-                penState.color = this._wrapColor(
-                    value + (change ? penState.color : 0)
-                );
+                penState.color = this._wrapColor(value + (change ? penState.color : 0));
                 break;
             case ColorParam.SATURATION:
-                penState.saturation = this._clampColorParam(
-                    value + (change ? penState.saturation : 0)
-                );
+                penState.saturation = this._clampColorParam(value + (change ? penState.saturation : 0));
                 break;
             case ColorParam.BRIGHTNESS:
-                penState.brightness = this._clampColorParam(
-                    value + (change ? penState.brightness : 0)
-                );
+                penState.brightness = this._clampColorParam(value + (change ? penState.brightness : 0));
                 break;
             case ColorParam.TRANSPARENCY:
-                penState.transparency = this._clampColorParam(
-                    value + (change ? penState.transparency : 0)
-                );
+                penState.transparency = this._clampColorParam(value + (change ? penState.transparency : 0));
                 break;
             default:
-                log.warn(
-                    `Tried to set or change unknown color parameter: ${param}`
-                );
+                log.warn(`Tried to set or change unknown color parameter: ${param}`);
         }
         this._updatePenColor(penState);
     }
@@ -764,12 +718,7 @@ class Scratch3PenBlocks {
      */
     changePenColorParamBy(args, util) {
         const penState = this._getPenState(util.target);
-        this._setOrChangeColorParam(
-            args.COLOR_PARAM,
-            Cast.toNumber(args.VALUE),
-            penState,
-            true
-        );
+        this._setOrChangeColorParam(args.COLOR_PARAM, Cast.toNumber(args.VALUE), penState, true);
     }
 
     /**
@@ -782,12 +731,7 @@ class Scratch3PenBlocks {
      */
     setPenColorParamTo(args, util) {
         const penState = this._getPenState(util.target);
-        this._setOrChangeColorParam(
-            args.COLOR_PARAM,
-            Cast.toNumber(args.VALUE),
-            penState,
-            false
-        );
+        this._setOrChangeColorParam(args.COLOR_PARAM, Cast.toNumber(args.VALUE), penState, false);
     }
 
     getPenColorParam(args, util) {
@@ -820,9 +764,7 @@ class Scratch3PenBlocks {
     _changePenSizeBy(size, target) {
         // used by compiler
         const penAttributes = this._getPenState(target).penAttributes;
-        penAttributes.diameter = this._clampPenSize(
-            penAttributes.diameter + size
-        );
+        penAttributes.diameter = this._clampPenSize(penAttributes.diameter + size);
     }
 
     /**
@@ -857,18 +799,8 @@ class Scratch3PenBlocks {
     _setPenHueToNumber(hueValue, target) {
         const penState = this._getPenState(target);
         const colorValue = hueValue / 2;
-        this._setOrChangeColorParam(
-            ColorParam.COLOR,
-            colorValue,
-            penState,
-            false
-        );
-        this._setOrChangeColorParam(
-            ColorParam.TRANSPARENCY,
-            0,
-            penState,
-            false
-        );
+        this._setOrChangeColorParam(ColorParam.COLOR, colorValue, penState, false);
+        this._setOrChangeColorParam(ColorParam.TRANSPARENCY, 0, penState, false);
         this._legacyUpdatePenColor(penState);
     }
 
@@ -885,12 +817,7 @@ class Scratch3PenBlocks {
         // used by compiler
         const penState = this._getPenState(target);
         const colorChange = hueChange / 2;
-        this._setOrChangeColorParam(
-            ColorParam.COLOR,
-            colorChange,
-            penState,
-            true
-        );
+        this._setOrChangeColorParam(ColorParam.COLOR, colorChange, penState, true);
 
         this._legacyUpdatePenColor(penState);
     }
@@ -947,10 +874,9 @@ class Scratch3PenBlocks {
         let rgb = Color.hsvToRgb({
             h: (penState.color * 360) / 100,
             s: 1,
-            v: 1,
+            v: 1
         });
-        const shade =
-            penState._shade > 100 ? 200 - penState._shade : penState._shade;
+        const shade = penState._shade > 100 ? 200 - penState._shade : penState._shade;
         if (shade < 50) {
             rgb = Color.mixRgb(Color.RGB_BLACK, rgb, (10 + shade) / 60);
         } else {

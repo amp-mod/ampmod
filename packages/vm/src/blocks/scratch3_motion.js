@@ -1,6 +1,6 @@
-const Cast = require("../util/cast");
-const MathUtil = require("../util/math-util");
-const Timer = require("../util/timer");
+const Cast = require('../util/cast');
+const MathUtil = require('../util/math-util');
+const Timer = require('../util/timer');
 
 class Scratch3MotionBlocks {
     constructor(runtime) {
@@ -42,7 +42,7 @@ class Scratch3MotionBlocks {
             motion_scroll_up: () => {},
             motion_align_scene: () => {},
             motion_xscroll: () => {},
-            motion_yscroll: () => {},
+            motion_yscroll: () => {}
         };
     }
 
@@ -50,20 +50,20 @@ class Scratch3MotionBlocks {
         return {
             motion_xposition: {
                 isSpriteSpecific: true,
-                getId: targetId => `${targetId}_xposition`,
+                getId: targetId => `${targetId}_xposition`
             },
             motion_yposition: {
                 isSpriteSpecific: true,
-                getId: targetId => `${targetId}_yposition`,
+                getId: targetId => `${targetId}_yposition`
             },
             motion_direction: {
                 isSpriteSpecific: true,
-                getId: targetId => `${targetId}_direction`,
+                getId: targetId => `${targetId}_direction`
             },
             motion_position: {
                 isSpriteSpecific: true,
-                getId: targetId => `${targetId}_position`,
-            },
+                getId: targetId => `${targetId}_position`
+            }
         };
     }
 
@@ -88,10 +88,10 @@ class Scratch3MotionBlocks {
     getTargetXY(targetName, util) {
         let targetX = 0;
         let targetY = 0;
-        if (targetName === "_mouse_") {
-            targetX = util.ioQuery("mouse", "getScratchX");
-            targetY = util.ioQuery("mouse", "getScratchY");
-        } else if (targetName === "_random_") {
+        if (targetName === '_mouse_') {
+            targetX = util.ioQuery('mouse', 'getScratchX');
+            targetY = util.ioQuery('mouse', 'getScratchY');
+        } else if (targetName === '_random_') {
             const stageWidth = this.runtime.stageWidth;
             const stageHeight = this.runtime.stageHeight;
             targetX = Math.round(stageWidth * (Math.random() - 0.5));
@@ -131,17 +131,15 @@ class Scratch3MotionBlocks {
     pointTowards(args, util) {
         let targetX = 0;
         let targetY = 0;
-        if (args.TOWARDS === "_mouse_") {
-            targetX = util.ioQuery("mouse", "getScratchX");
-            targetY = util.ioQuery("mouse", "getScratchY");
-        } else if (args.TOWARDS === "_random_") {
+        if (args.TOWARDS === '_mouse_') {
+            targetX = util.ioQuery('mouse', 'getScratchX');
+            targetY = util.ioQuery('mouse', 'getScratchY');
+        } else if (args.TOWARDS === '_random_') {
             util.target.setDirection(Math.round(Math.random() * 360) - 180);
             return;
         } else {
             args.TOWARDS = Cast.toString(args.TOWARDS);
-            const pointTarget = this.runtime.getSpriteTargetByName(
-                args.TOWARDS
-            );
+            const pointTarget = this.runtime.getSpriteTargetByName(args.TOWARDS);
             if (!pointTarget) return;
             targetX = pointTarget.x;
             targetY = pointTarget.y;
@@ -159,14 +157,9 @@ class Scratch3MotionBlocks {
             if (timeElapsed < util.stackFrame.duration * 1000) {
                 // In progress: move to intermediate position.
                 const frac = timeElapsed / (util.stackFrame.duration * 1000);
-                const dx =
-                    frac * (util.stackFrame.endX - util.stackFrame.startX);
-                const dy =
-                    frac * (util.stackFrame.endY - util.stackFrame.startY);
-                util.target.setXY(
-                    util.stackFrame.startX + dx,
-                    util.stackFrame.startY + dy
-                );
+                const dx = frac * (util.stackFrame.endX - util.stackFrame.startX);
+                const dy = frac * (util.stackFrame.endY - util.stackFrame.startY);
+                util.target.setXY(util.stackFrame.startX + dx, util.stackFrame.startY + dy);
                 util.yield();
             } else {
                 // Finished: move to final position.
@@ -193,10 +186,7 @@ class Scratch3MotionBlocks {
     glideTo(args, util) {
         const targetXY = this.getTargetXY(args.TO, util);
         if (targetXY) {
-            this.glide(
-                { SECS: args.SECS, X: targetXY[0], Y: targetXY[1] },
-                util
-            );
+            this.glide({SECS: args.SECS, X: targetXY[0], Y: targetXY[1]}, util);
         }
     }
 
@@ -219,23 +209,23 @@ class Scratch3MotionBlocks {
         const distRight = Math.max(0, stageWidth / 2 - bounds.right);
         const distBottom = Math.max(0, stageHeight / 2 + bounds.bottom);
         // Find the nearest edge.
-        let nearestEdge = "";
+        let nearestEdge = '';
         let minDist = Infinity;
         if (distLeft < minDist) {
             minDist = distLeft;
-            nearestEdge = "left";
+            nearestEdge = 'left';
         }
         if (distTop < minDist) {
             minDist = distTop;
-            nearestEdge = "top";
+            nearestEdge = 'top';
         }
         if (distRight < minDist) {
             minDist = distRight;
-            nearestEdge = "right";
+            nearestEdge = 'right';
         }
         if (distBottom < minDist) {
             minDist = distBottom;
-            nearestEdge = "bottom";
+            nearestEdge = 'bottom';
         }
         if (minDist > 0) {
             return; // Not touching any edge.
@@ -244,13 +234,13 @@ class Scratch3MotionBlocks {
         const radians = MathUtil.degToRad(90 - target.direction);
         let dx = Math.cos(radians);
         let dy = -Math.sin(radians);
-        if (nearestEdge === "left") {
+        if (nearestEdge === 'left') {
             dx = Math.max(0.2, Math.abs(dx));
-        } else if (nearestEdge === "top") {
+        } else if (nearestEdge === 'top') {
             dy = Math.max(0.2, Math.abs(dy));
-        } else if (nearestEdge === "right") {
+        } else if (nearestEdge === 'right') {
             dx = 0 - Math.max(0.2, Math.abs(dx));
-        } else if (nearestEdge === "bottom") {
+        } else if (nearestEdge === 'bottom') {
             dy = 0 - Math.max(0.2, Math.abs(dy));
         }
         const newDirection = MathUtil.radToDeg(Math.atan2(dy, dx)) + 90;
@@ -299,10 +289,7 @@ class Scratch3MotionBlocks {
     }
 
     getPosition(args, util) {
-        return [
-            this.limitPrecision(util.target.x),
-            this.limitPrecision(util.target.y),
-        ];
+        return [this.limitPrecision(util.target.x), this.limitPrecision(util.target.y)];
     }
 
     getDirection(args, util) {

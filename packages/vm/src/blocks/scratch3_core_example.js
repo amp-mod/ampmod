@@ -1,5 +1,5 @@
-const BlockType = require("../extension-support/block-type");
-const ArgumentType = require("../extension-support/argument-type");
+const BlockType = require('../extension-support/block-type');
+const ArgumentType = require('../extension-support/argument-type');
 
 /* eslint-disable-next-line max-len */
 const blockIconURI =
@@ -24,31 +24,31 @@ class Scratch3CoreExample {
      */
     getInfo() {
         return {
-            id: "coreExample",
-            name: "CoreEx", // This string does not need to be translated as this extension is only used as an example.
+            id: 'coreExample',
+            name: 'CoreEx', // This string does not need to be translated as this extension is only used as an example.
             blocks: [
                 {
-                    func: "MAKE_A_VARIABLE",
+                    func: 'MAKE_A_VARIABLE',
                     blockType: BlockType.BUTTON,
-                    text: "make a variable (CoreEx)",
+                    text: 'make a variable (CoreEx)'
                 },
                 {
-                    opcode: "exampleOpcode",
+                    opcode: 'exampleOpcode',
                     blockType: BlockType.REPORTER,
-                    text: "example block",
+                    text: 'example block'
                 },
                 {
-                    opcode: "exampleWithInlineImage",
+                    opcode: 'exampleWithInlineImage',
                     blockType: BlockType.COMMAND,
-                    text: "block with image [CLOCKWISE] inline",
+                    text: 'block with image [CLOCKWISE] inline',
                     arguments: {
                         CLOCKWISE: {
                             type: ArgumentType.IMAGE,
-                            dataURI: blockIconURI,
-                        },
-                    },
-                },
-            ],
+                            dataURI: blockIconURI
+                        }
+                    }
+                }
+            ]
         };
     }
 
@@ -58,7 +58,7 @@ class Scratch3CoreExample {
      */
     exampleOpcode() {
         const stage = this.runtime.getTargetForStage();
-        return stage ? stage.getName() : "no stage yet";
+        return stage ? stage.getName() : 'no stage yet';
     }
 
     exampleWithInlineImage() {

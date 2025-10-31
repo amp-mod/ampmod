@@ -1,7 +1,7 @@
 name: Bug report
 description: If you found a bug in AmpMod, use this form to report it.
-title: "Bug: "
-labels: "Kind/Bug"
+title: 'Bug: '
+labels: 'Kind/Bug'
 body:
     - type: markdown
       attributes:
@@ -14,30 +14,30 @@ body:
       id: expected
       attributes:
           label: Expected behaviour
-          description: "Please explain what should be expected when reproducing the bug."
-          placeholder: "X should do Y..."
+          description: 'Please explain what should be expected when reproducing the bug.'
+          placeholder: 'X should do Y...'
       validations:
           required: true
     - type: textarea
       id: actual
       attributes:
           label: Actual behaviour
-          description: "Please explain what actually happens when reproducing the bug."
-          placeholder: "X does Z instead..."
+          description: 'Please explain what actually happens when reproducing the bug.'
+          placeholder: 'X does Z instead...'
       validations:
           required: true
     - type: textarea
       id: reproduce
       attributes:
           label: How to reproduce
-          description: "Please explain how this bug can be triggered by a user."
-          placeholder: "1. Open AmpMod..."
+          description: 'Please explain how this bug can be triggered by a user.'
+          placeholder: '1. Open AmpMod...'
       validations:
           required: true
     - type: dropdown
       id: buildtype
       attributes:
-          label: "AmpMod build type: If the bug occured on AmpMod production or canary, please say so here. If unsure, choose Production."
+          label: 'AmpMod build type: If the bug occured on AmpMod production or canary, please say so here. If unsure, choose Production.'
           options:
               - Production (ampmod.codeberg.page)
               - Canary (ampmod.codeberg.page/canary)

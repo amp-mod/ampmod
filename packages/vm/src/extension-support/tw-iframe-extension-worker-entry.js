@@ -1,6 +1,6 @@
-const context = require("./tw-extension-worker-context");
+const context = require('./tw-extension-worker-context');
 
-const jQuery = require("./tw-jquery-shim");
+const jQuery = require('./tw-jquery-shim');
 global.$ = jQuery;
 global.jQuery = jQuery;
 
@@ -11,22 +11,22 @@ context.centralDispatchService = {
     postMessage(message, transfer) {
         const data = {
             vmIframeId: id,
-            message,
+            message
         };
         if (transfer) {
-            window.parent.postMessage(data, "*", transfer);
+            window.parent.postMessage(data, '*', transfer);
         } else {
-            window.parent.postMessage(data, "*");
+            window.parent.postMessage(data, '*');
         }
-    },
+    }
 };
 
-require("./extension-worker");
+require('./extension-worker');
 
 window.parent.postMessage(
     {
         vmIframeId: id,
-        ready: true,
+        ready: true
     },
-    "*"
+    '*'
 );

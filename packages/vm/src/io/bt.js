@@ -1,4 +1,4 @@
-const JSONRPC = require("../util/jsonrpc");
+const JSONRPC = require('../util/jsonrpc');
 
 class BT extends JSONRPC {
     /**
@@ -11,17 +11,10 @@ class BT extends JSONRPC {
      * @param {object} resetCallback - a callback for resetting extension state.
      * @param {object} messageCallback - a callback for message sending.
      */
-    constructor(
-        runtime,
-        extensionId,
-        peripheralOptions,
-        connectCallback,
-        resetCallback = null,
-        messageCallback
-    ) {
+    constructor(runtime, extensionId, peripheralOptions, connectCallback, resetCallback = null, messageCallback) {
         super();
 
-        this._socket = runtime.getScratchLinkSocket("BT");
+        this._socket = runtime.getScratchLinkSocket('BT');
         this._socket.setOnOpen(this.requestPeripheral.bind(this));
         this._socket.setOnError(this._handleRequestError.bind(this));
         this._socket.setOnClose(this.handleDisconnectError.bind(this));
@@ -52,13 +45,8 @@ class BT extends JSONRPC {
         if (this._discoverTimeoutID) {
             window.clearTimeout(this._discoverTimeoutID);
         }
-        this._discoverTimeoutID = window.setTimeout(
-            this._handleDiscoverTimeout.bind(this),
-            15000
-        );
-        this.sendRemoteRequest("discover", this._peripheralOptions).catch(e =>
-            this._handleRequestError(e)
-        );
+        this._discoverTimeoutID = window.setTimeout(this._handleDiscoverTimeout.bind(this), 15000);
+        this.sendRemoteRequest('discover', this._peripheralOptions).catch(e => this._handleRequestError(e));
     }
 
     /**
@@ -68,16 +56,14 @@ class BT extends JSONRPC {
      * @param {string} pin - an optional pin for pairing
      */
     connectPeripheral(id, pin = null) {
-        const params = { peripheralId: id };
+        const params = {peripheralId: id};
         if (pin) {
             params.pin = pin;
         }
-        this.sendRemoteRequest("connect", params)
+        this.sendRemoteRequest('connect', params)
             .then(() => {
                 this._connected = true;
-                this._runtime.emit(
-                    this._runtime.constructor.PERIPHERAL_CONNECTED
-                );
+                this._runtime.emit(this._runtime.constructor.PERIPHERAL_CONNECTED);
                 this._connectCallback();
             })
             .catch(e => {
@@ -113,7 +99,7 @@ class BT extends JSONRPC {
     }
 
     sendMessage(options) {
-        return this.sendRemoteRequest("send", options).catch(e => {
+        return this.sendRemoteRequest('send', options).catch(e => {
             this.handleDisconnectError(e);
         });
     }
@@ -127,39 +113,31 @@ class BT extends JSONRPC {
     didReceiveCall(method, params) {
         // TODO: Add peripheral 'undiscover' handling
         switch (method) {
-            case "didDiscoverPeripheral":
+            case 'didDiscoverPeripheral':
                 this._availablePeripherals[params.peripheralId] = params;
-                this._runtime.emit(
-                    this._runtime.constructor.PERIPHERAL_LIST_UPDATE,
-                    this._availablePeripherals
-                );
+                this._runtime.emit(this._runtime.constructor.PERIPHERAL_LIST_UPDATE, this._availablePeripherals);
                 if (this._discoverTimeoutID) {
                     window.clearTimeout(this._discoverTimeoutID);
                 }
                 break;
-            case "userDidPickPeripheral":
+            case 'userDidPickPeripheral':
                 this._availablePeripherals[params.peripheralId] = params;
-                this._runtime.emit(
-                    this._runtime.constructor.USER_PICKED_PERIPHERAL,
-                    this._availablePeripherals
-                );
+                this._runtime.emit(this._runtime.constructor.USER_PICKED_PERIPHERAL, this._availablePeripherals);
                 if (this._discoverTimeoutID) {
                     window.clearTimeout(this._discoverTimeoutID);
                 }
                 break;
-            case "userDidNotPickPeripheral":
-                this._runtime.emit(
-                    this._runtime.constructor.PERIPHERAL_SCAN_TIMEOUT
-                );
+            case 'userDidNotPickPeripheral':
+                this._runtime.emit(this._runtime.constructor.PERIPHERAL_SCAN_TIMEOUT);
                 if (this._discoverTimeoutID) {
                     window.clearTimeout(this._discoverTimeoutID);
                 }
                 break;
-            case "didReceiveMessage":
+            case 'didReceiveMessage':
                 this._messageCallback(params); // TODO: refine?
                 break;
             default:
-                return "nah";
+                return 'nah';
         }
     }
 
@@ -185,13 +163,10 @@ class BT extends JSONRPC {
             this._resetCallback();
         }
 
-        this._runtime.emit(
-            this._runtime.constructor.PERIPHERAL_CONNECTION_LOST_ERROR,
-            {
-                message: `Scratch lost connection to`,
-                extensionId: this._extensionId,
-            }
-        );
+        this._runtime.emit(this._runtime.constructor.PERIPHERAL_CONNECTION_LOST_ERROR, {
+            message: `Scratch lost connection to`,
+            extensionId: this._extensionId
+        });
     }
 
     _handleRequestError(/* e */) {
@@ -199,7 +174,7 @@ class BT extends JSONRPC {
 
         this._runtime.emit(this._runtime.constructor.PERIPHERAL_REQUEST_ERROR, {
             message: `Scratch lost connection to`,
-            extensionId: this._extensionId,
+            extensionId: this._extensionId
         });
     }
 

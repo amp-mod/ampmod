@@ -3,8 +3,8 @@
  * Object representing a Scratch variable.
  */
 
-const uid = require("../util/uid");
-const xmlEscape = require("../util/xml-escape");
+const uid = require('../util/uid');
+const xmlEscape = require('../util/xml-escape');
 
 class Variable {
     /**
@@ -49,7 +49,7 @@ class Variable {
      * @const {string}
      */
     static get SCALAR_TYPE() {
-        return ""; // used by compiler
+        return ''; // used by compiler
     }
 
     /**
@@ -57,7 +57,7 @@ class Variable {
      * @const {string}
      */
     static get LIST_TYPE() {
-        return "list"; // used by compiler
+        return 'list'; // used by compiler
     }
 
     /**
@@ -65,7 +65,7 @@ class Variable {
      * @const {string}
      */
     static get BROADCAST_MESSAGE_TYPE() {
-        return "broadcast_msg";
+        return 'broadcast_msg';
     }
 }
 

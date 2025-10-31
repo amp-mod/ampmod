@@ -1,13 +1,13 @@
-const ArgumentType = require("../../extension-support/argument-type");
-const BlockType = require("../../extension-support/block-type");
-const Cast = require("../../util/cast");
-const formatMessage = require("format-message");
-const color = require("../../util/color");
-const BLE = require("../../io/ble");
-const Base64Util = require("../../util/base64-util");
-const MathUtil = require("../../util/math-util");
-const RateLimiter = require("../../util/rateLimiter.js");
-const log = require("../../util/log");
+const ArgumentType = require('../../extension-support/argument-type');
+const BlockType = require('../../extension-support/block-type');
+const Cast = require('../../util/cast');
+const formatMessage = require('format-message');
+const color = require('../../util/color');
+const BLE = require('../../io/ble');
+const Base64Util = require('../../util/base64-util');
+const MathUtil = require('../../util/math-util');
+const RateLimiter = require('../../util/rateLimiter.js');
+const log = require('../../util/log');
 
 /**
  * The LEGO Wireless Protocol documentation used to create this extension can be found at:
@@ -20,17 +20,17 @@ const log = require("../../util/log");
  */
 // eslint-disable-next-line max-len
 const iconURI =
-    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACpQTFRF////fIel5ufolZ62/2YavsPS+YZOkJmy9/j53+Hk6+zs6N/b6dfO////tDhMHAAAAA50Uk5T/////////////////wBFwNzIAAAA6ElEQVR42uzX2w6DIBAEUGDVtlr//3dLaLwgiwUd2z7MJPJg5EQWiGhGcAxBggQJEiT436CIfqXJPTn3MKNYYMSDFpoAmp24OaYgvwKnFgL2zvVTCwHrMoMi+nUQLFthaNCCa0iwclLkDgYVsQp0mzxuqXgK1MRzoCLWgkPXNN2wI/q6Kvt7u/cX0HtejN8x2sXpnpb8J8D3b0Keuhh3X975M+i0xNVbg3s1TIasgK21bQyGO+s2PykaGMYbge8KrNrssvkOWDXkErB8UuBHETjoYLkKBA8ZfuDkbwVBggQJEiR4MC8BBgDTtMZLx2nFCQAAAABJRU5ErkJggg==";
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACpQTFRF////fIel5ufolZ62/2YavsPS+YZOkJmy9/j53+Hk6+zs6N/b6dfO////tDhMHAAAAA50Uk5T/////////////////wBFwNzIAAAA6ElEQVR42uzX2w6DIBAEUGDVtlr//3dLaLwgiwUd2z7MJPJg5EQWiGhGcAxBggQJEiT436CIfqXJPTn3MKNYYMSDFpoAmp24OaYgvwKnFgL2zvVTCwHrMoMi+nUQLFthaNCCa0iwclLkDgYVsQp0mzxuqXgK1MRzoCLWgkPXNN2wI/q6Kvt7u/cX0HtejN8x2sXpnpb8J8D3b0Keuhh3X975M+i0xNVbg3s1TIasgK21bQyGO+s2PykaGMYbge8KrNrssvkOWDXkErB8UuBHETjoYLkKBA8ZfuDkbwVBggQJEiR4MC8BBgDTtMZLx2nFCQAAAABJRU5ErkJggg==';
 
 /**
  * Boost BLE UUIDs.
  * @enum {string}
  */
 const BoostBLE = {
-    service: "00001623-1212-efde-1623-785feabcd123",
-    characteristic: "00001624-1212-efde-1623-785feabcd123",
+    service: '00001623-1212-efde-1623-785feabcd123',
+    characteristic: '00001624-1212-efde-1623-785feabcd123',
     sendInterval: 100,
-    sendRateMax: 20,
+    sendRateMax: 20
 };
 
 /**
@@ -73,7 +73,7 @@ const BoostIO = {
     COLOR: 0x25,
     MOTOREXT: 0x26,
     MOTORINT: 0x27,
-    TILT: 0x28,
+    TILT: 0x28
 };
 
 /**
@@ -86,7 +86,7 @@ const BoostPortFeedback = {
     COMPLETED: 0x02,
     DISCARDED: 0x04,
     IDLE: 0x08,
-    BUSY_OR_FULL: 0x10,
+    BUSY_OR_FULL: 0x10
 };
 
 /**
@@ -99,14 +99,14 @@ const BoostPort10000223OrOlder = {
     A: 55,
     B: 56,
     C: 1,
-    D: 2,
+    D: 2
 };
 
 const BoostPort10000224OrNewer = {
     A: 0,
     B: 1,
     C: 2,
-    D: 3,
+    D: 3
 };
 
 // Set default port mapping to support the newer firmware
@@ -118,14 +118,14 @@ let BoostPort = BoostPort10000224OrNewer;
  * @enum {string}
  */
 const BoostColor = {
-    ANY: "any",
-    NONE: "none",
-    RED: "red",
-    BLUE: "blue",
-    GREEN: "green",
-    YELLOW: "yellow",
-    WHITE: "white",
-    BLACK: "black",
+    ANY: 'any',
+    NONE: 'none',
+    RED: 'red',
+    BLUE: 'blue',
+    GREEN: 'green',
+    YELLOW: 'yellow',
+    WHITE: 'white',
+    BLACK: 'black'
 };
 
 /**
@@ -140,7 +140,7 @@ const BoostColorIndex = {
     [BoostColor.GREEN]: 5,
     [BoostColor.YELLOW]: 7,
     [BoostColor.WHITE]: 10,
-    [BoostColor.BLACK]: 0,
+    [BoostColor.BLACK]: 0
 };
 
 /**
@@ -163,7 +163,7 @@ const BoostMessage = {
     PORT_INPUT_FORMAT: 0x47,
     PORT_INPUT_FORMAT_COMBINED: 0x48,
     OUTPUT: 0x81,
-    PORT_FEEDBACK: 0x82,
+    PORT_FEEDBACK: 0x82
 };
 
 /**
@@ -187,7 +187,7 @@ const BoostHubProperty = {
     HW_NETWORK_ID: 0x0c,
     PRIMARY_MAC: 0x0d,
     SECONDARY_MAC: 0x0e,
-    HW_NETWORK_FAMILY: 0x0f,
+    HW_NETWORK_FAMILY: 0x0f
 };
 
 /**
@@ -202,7 +202,7 @@ const BoostHubPropertyOperation = {
     DISABLE_UPDATES: 0x03,
     RESET: 0x04,
     REQUEST_UPDATE: 0x05,
-    UPDATE: 0x06,
+    UPDATE: 0x06
 };
 
 /**
@@ -224,7 +224,7 @@ const BoostOutputSubCommand = {
     GO_TO_ABS_POSITION: 0x0d,
     GO_TO_ABS_POSITION_PAIR: 0x0e,
     PRESET_ENCODER: 0x14,
-    WRITE_DIRECT_MODE_DATA: 0x51,
+    WRITE_DIRECT_MODE_DATA: 0x51
 };
 
 /**
@@ -239,7 +239,7 @@ const BoostOutputExecution = {
     EXECUTE_IMMEDIATELY: 0x10,
     // Completion information
     NO_ACTION: 0x00,
-    COMMAND_FEEDBACK: 0x01,
+    COMMAND_FEEDBACK: 0x01
 };
 
 /**
@@ -250,7 +250,7 @@ const BoostOutputExecution = {
 const BoostMotorEndState = {
     FLOAT: 0,
     HOLD: 126,
-    BRAKE: 127,
+    BRAKE: 127
 };
 
 /**
@@ -261,7 +261,7 @@ const BoostMotorEndState = {
 const BoostMotorProfile = {
     DO_NOT_USE: 0x00,
     ACCELERATION: 0x01,
-    DECELERATION: 0x02,
+    DECELERATION: 0x02
 };
 
 /**
@@ -272,7 +272,7 @@ const BoostMotorProfile = {
 const BoostIOEvent = {
     ATTACHED: 0x01,
     DETACHED: 0x00,
-    ATTACHED_VIRTUAL: 0x02,
+    ATTACHED_VIRTUAL: 0x02
 };
 
 /**
@@ -284,7 +284,7 @@ const BoostMode = {
     LED: 1, // Set LED to accept RGB values
     COLOR: 0, // Read indexed colors from Vision Sensor
     MOTOR_SENSOR: 2, // Set motors to report their position
-    UNKNOWN: 0, // Anything else will use the default mode (mode 0)
+    UNKNOWN: 0 // Anything else will use the default mode (mode 0)
 };
 
 /**
@@ -295,7 +295,7 @@ const BoostMotorState = {
     OFF: 0,
     ON_FOREVER: 1,
     ON_FOR_TIME: 2,
-    ON_FOR_ROTATION: 3,
+    ON_FOR_ROTATION: 3
 };
 
 /**
@@ -307,12 +307,7 @@ const numberToInt32Array = function (number) {
     const buffer = new ArrayBuffer(4);
     const dataview = new DataView(buffer);
     dataview.setInt32(0, number);
-    return [
-        dataview.getInt8(3),
-        dataview.getInt8(2),
-        dataview.getInt8(1),
-        dataview.getInt8(0),
-    ];
+    return [dataview.getInt8(3), dataview.getInt8(2), dataview.getInt8(1), dataview.getInt8(0)];
 };
 
 /**
@@ -535,7 +530,7 @@ class BoostMotor {
             [
                 this.power * this.direction,
                 MathUtil.clamp(this.power + BoostMotorMaxPowerAdd, 0, 100),
-                BoostMotorProfile.DO_NOT_USE,
+                BoostMotorProfile.DO_NOT_USE
             ]
         );
 
@@ -571,21 +566,19 @@ class BoostMotor {
 
         const cmd = this._parent.generateOutputCommand(
             this._index,
-            BoostOutputExecution.EXECUTE_IMMEDIATELY ^
-                BoostOutputExecution.COMMAND_FEEDBACK,
+            BoostOutputExecution.EXECUTE_IMMEDIATELY ^ BoostOutputExecution.COMMAND_FEEDBACK,
             BoostOutputSubCommand.START_SPEED_FOR_DEGREES,
             [
                 ...numberToInt32Array(degrees),
                 this.power * this.direction * direction,
                 MathUtil.clamp(this.power + BoostMotorMaxPowerAdd, 0, 100),
                 BoostMotorEndState.BRAKE,
-                BoostMotorProfile.DO_NOT_USE,
+                BoostMotorProfile.DO_NOT_USE
             ]
         );
 
         this.status = BoostMotorState.ON_FOR_ROTATION;
-        this._pendingRotationDestination =
-            this.position + degrees * this.direction * direction;
+        this._pendingRotationDestination = this.position + degrees * this.direction * direction;
         this._parent.send(BoostBLE.characteristic, cmd);
     }
 
@@ -664,7 +657,7 @@ class Boost {
          * @private
          */
         this._runtime = runtime;
-        this._runtime.on("PROJECT_STOP_ALL", this.stopAll.bind(this));
+        this._runtime.on('PROJECT_STOP_ALL', this.stopAll.bind(this));
 
         /**
          * The id of the extension this peripheral belongs to.
@@ -694,7 +687,7 @@ class Boost {
             tiltX: 0,
             tiltY: 0,
             color: BoostColor.NONE,
-            previousColor: BoostColor.NONE,
+            previousColor: BoostColor.NONE
         };
 
         /**
@@ -767,9 +760,7 @@ class Boost {
      * @return {BoostColor} the color id for this index.
      */
     boostColorForIndex(index) {
-        const colorForIndex = Object.keys(BoostColorIndex).find(
-            key => BoostColorIndex[key] === index
-        );
+        const colorForIndex = Object.keys(BoostColorIndex).find(key => BoostColorIndex[key] === index);
         return colorForIndex || BoostColor.NONE;
     }
 
@@ -802,16 +793,11 @@ class Boost {
      * @return {Promise} - a promise of the completion of the set led send operation.
      */
     setLED(inputRGB) {
-        const rgb = [
-            (inputRGB >> 16) & 0x000000ff,
-            (inputRGB >> 8) & 0x000000ff,
-            inputRGB & 0x000000ff,
-        ];
+        const rgb = [(inputRGB >> 16) & 0x000000ff, (inputRGB >> 8) & 0x000000ff, inputRGB & 0x000000ff];
 
         const cmd = this.generateOutputCommand(
             this._ports.indexOf(BoostIO.LED),
-            BoostOutputExecution.EXECUTE_IMMEDIATELY ^
-                BoostOutputExecution.COMMAND_FEEDBACK,
+            BoostOutputExecution.EXECUTE_IMMEDIATELY ^ BoostOutputExecution.COMMAND_FEEDBACK,
             BoostOutputSubCommand.WRITE_DIRECT_MODE_DATA,
             [BoostMode.LED, ...rgb]
         );
@@ -824,12 +810,7 @@ class Boost {
      * @return {Promise} - a promise returned by the send operation.
      */
     setLEDMode() {
-        const cmd = this.generateInputCommand(
-            this._ports.indexOf(BoostIO.LED),
-            BoostMode.LED,
-            0,
-            false
-        );
+        const cmd = this.generateInputCommand(this._ports.indexOf(BoostIO.LED), BoostMode.LED, 0, false);
 
         return this.send(BoostBLE.characteristic, cmd);
     }
@@ -859,12 +840,12 @@ class Boost {
                         manufacturerData: {
                             0x0397: {
                                 dataPrefix: [0x00, 0x40],
-                                mask: [0x00, 0xff],
-                            },
-                        },
-                    },
+                                mask: [0x00, 0xff]
+                            }
+                        }
+                    }
                 ],
-                optionalServices: [],
+                optionalServices: []
             },
             this._onConnect,
             this.reset
@@ -902,7 +883,7 @@ class Boost {
             tiltX: 0,
             tiltY: 0,
             color: BoostColor.NONE,
-            previousColor: BoostColor.NONE,
+            previousColor: BoostColor.NONE
         };
 
         if (this._pingDeviceId) {
@@ -937,12 +918,7 @@ class Boost {
             if (!this._rateLimiter.okayToSend()) return Promise.resolve();
         }
 
-        return this._ble.write(
-            BoostBLE.service,
-            uuid,
-            Base64Util.uint8ArrayToBase64(message),
-            "base64"
-        );
+        return this._ble.write(BoostBLE.service, uuid, Base64Util.uint8ArrayToBase64(message), 'base64');
     }
 
     /**
@@ -959,14 +935,7 @@ class Boost {
      */
     generateOutputCommand(portID, execution, subCommand, payload) {
         const hubID = 0x00;
-        const command = [
-            hubID,
-            BoostMessage.OUTPUT,
-            portID,
-            execution,
-            subCommand,
-            ...payload,
-        ];
+        const command = [hubID, BoostMessage.OUTPUT, portID, execution, subCommand, ...payload];
         command.unshift(command.length + 1); // Prepend payload with length byte;
 
         return command;
@@ -991,7 +960,7 @@ class Boost {
             0x00, // Hub ID
             BoostMessage.PORT_INPUT_FORMAT_SETUP_SINGLE,
             portID,
-            mode,
+            mode
         ]
             .concat(numberToInt32Array(delta))
             .concat([enableNotifications]);
@@ -1005,15 +974,8 @@ class Boost {
      * @private
      */
     _onConnect() {
-        this._ble.startNotifications(
-            BoostBLE.service,
-            BoostBLE.characteristic,
-            this._onMessage
-        );
-        this._pingDeviceId = window.setInterval(
-            this._pingDevice,
-            BoostPingInterval
-        );
+        this._ble.startNotifications(BoostBLE.service, BoostBLE.characteristic, this._onMessage);
+        this._pingDeviceId = window.setInterval(this._pingDevice, BoostPingInterval);
 
         // Send a request for firmware version.
         setTimeout(() => {
@@ -1021,7 +983,7 @@ class Boost {
                 0x00, // Hub ID
                 BoostMessage.HUB_PROPERTIES,
                 BoostHubProperty.FW_VERSION,
-                BoostHubPropertyOperation.REQUEST_UPDATE,
+                BoostHubPropertyOperation.REQUEST_UPDATE
             ];
             command.unshift(command.length + 1);
             this.send(BoostBLE.characteristic, command, false);
@@ -1054,16 +1016,12 @@ class Boost {
                 switch (property) {
                     case BoostHubProperty.FW_VERSION: {
                         // Establish firmware version 1.0.00.0224 as a 32-bit signed integer (little endian)
-                        const fwVersion10000224 = int32ArrayToNumber([
-                            0x24, 0x02, 0x00, 0x10,
-                        ]);
-                        const fwHub = int32ArrayToNumber(
-                            data.slice(5, data.length)
-                        );
+                        const fwVersion10000224 = int32ArrayToNumber([0x24, 0x02, 0x00, 0x10]);
+                        const fwHub = int32ArrayToNumber(data.slice(5, data.length));
                         if (fwHub < fwVersion10000224) {
                             BoostPort = BoostPort10000223OrOlder;
                             log.info(
-                                "Move Hub firmware older than version 1.0.00.0224 detected. Using old port mapping."
+                                'Move Hub firmware older than version 1.0.00.0224 detected. Using old port mapping.'
                             );
                         } else {
                             BoostPort = BoostPort10000224OrNewer;
@@ -1102,16 +1060,9 @@ class Boost {
                         this._colorSamples.unshift(data[4]);
                         if (this._colorSamples.length > BoostColorSampleSize) {
                             this._colorSamples.pop();
-                            if (
-                                this._colorSamples.every(
-                                    (v, i, arr) => v === arr[0]
-                                )
-                            ) {
-                                this._sensors.previousColor =
-                                    this._sensors.color;
-                                this._sensors.color = this.boostColorForIndex(
-                                    this._colorSamples[0]
-                                );
+                            if (this._colorSamples.every((v, i, arr) => v === arr[0])) {
+                                this._sensors.previousColor = this._sensors.color;
+                                this._sensors.color = this.boostColorForIndex(this._colorSamples[0]);
                             } else {
                                 this._sensors.color = BoostColor.NONE;
                             }
@@ -1121,9 +1072,7 @@ class Boost {
                         break;
                     case BoostIO.MOTOREXT:
                     case BoostIO.MOTORINT:
-                        this.motor(portID).position = int32ArrayToNumber(
-                            data.slice(4, 8)
-                        );
+                        this.motor(portID).position = int32ArrayToNumber(data.slice(4, 8));
                         break;
                     case BoostIO.CURRENT:
                     case BoostIO.VOLTAGE:
@@ -1140,10 +1089,7 @@ class Boost {
                 if (motor) {
                     // Makes sure that commands resolve both when they actually complete and when they fail
                     const isBusy = feedback & BoostPortFeedback.IN_PROGRESS;
-                    const commandCompleted =
-                        feedback &
-                        (BoostPortFeedback.COMPLETED ^
-                            BoostPortFeedback.DISCARDED);
+                    const commandCompleted = feedback & (BoostPortFeedback.COMPLETED ^ BoostPortFeedback.DISCARDED);
                     if (!isBusy && commandCompleted) {
                         if (motor.status === BoostMotorState.ON_FOR_ROTATION) {
                             motor.status = BoostMotorState.OFF;
@@ -1237,7 +1183,7 @@ class Boost {
         if (type === BoostIO.COLOR) {
             this._sensors.color = BoostColor.NONE;
         }
-        this._ports[portID] = "none";
+        this._ports[portID] = 'none';
         this._motors[portID] = null;
     }
 }
@@ -1248,12 +1194,12 @@ class Boost {
  * @enum {string}
  */
 const BoostMotorLabel = {
-    A: "A",
-    B: "B",
-    C: "C",
-    D: "D",
-    AB: "AB",
-    ALL: "ABCD",
+    A: 'A',
+    B: 'B',
+    C: 'C',
+    D: 'D',
+    AB: 'AB',
+    ALL: 'ABCD'
 };
 
 /**
@@ -1262,9 +1208,9 @@ const BoostMotorLabel = {
  * @enum {string}
  */
 const BoostMotorDirection = {
-    FORWARD: "this way",
-    BACKWARD: "that way",
-    REVERSE: "reverse",
+    FORWARD: 'this way',
+    BACKWARD: 'that way',
+    REVERSE: 'reverse'
 };
 
 /**
@@ -1273,11 +1219,11 @@ const BoostMotorDirection = {
  * @enum {string}
  */
 const BoostTiltDirection = {
-    UP: "up",
-    DOWN: "down",
-    LEFT: "left",
-    RIGHT: "right",
-    ANY: "any",
+    UP: 'up',
+    DOWN: 'down',
+    LEFT: 'left',
+    RIGHT: 'right',
+    ANY: 'any'
 };
 
 /**
@@ -1288,7 +1234,7 @@ class Scratch3BoostBlocks {
      * @return {string} - the ID of this extension.
      */
     static get EXTENSION_ID() {
-        return "boost";
+        return 'boost';
     }
 
     /**
@@ -1310,10 +1256,7 @@ class Scratch3BoostBlocks {
         this.runtime = runtime;
 
         // Create a new Boost peripheral instance
-        this._peripheral = new Boost(
-            this.runtime,
-            Scratch3BoostBlocks.EXTENSION_ID
-        );
+        this._peripheral = new Boost(this.runtime, Scratch3BoostBlocks.EXTENSION_ID);
     }
 
     /**
@@ -1322,453 +1265,443 @@ class Scratch3BoostBlocks {
     getInfo() {
         return {
             id: Scratch3BoostBlocks.EXTENSION_ID,
-            name: "BOOST",
+            name: 'BOOST',
             blockIconURI: iconURI,
             showStatusButton: true,
             blocks: [
                 {
-                    opcode: "motorOnFor",
+                    opcode: 'motorOnFor',
                     text: formatMessage({
-                        id: "boost.motorOnFor",
-                        default: "turn motor [MOTOR_ID] for [DURATION] seconds",
-                        description: "turn a motor on for some time",
+                        id: 'boost.motorOnFor',
+                        default: 'turn motor [MOTOR_ID] for [DURATION] seconds',
+                        description: 'turn a motor on for some time'
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
                         MOTOR_ID: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_ID",
-                            defaultValue: BoostMotorLabel.A,
+                            menu: 'MOTOR_ID',
+                            defaultValue: BoostMotorLabel.A
                         },
                         DURATION: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
-                    },
+                            defaultValue: 1
+                        }
+                    }
                 },
                 {
-                    opcode: "motorOnForRotation",
+                    opcode: 'motorOnForRotation',
                     text: formatMessage({
-                        id: "boost.motorOnForRotation",
-                        default:
-                            "turn motor [MOTOR_ID] for [ROTATION] rotations",
-                        description: "turn a motor on for rotation",
+                        id: 'boost.motorOnForRotation',
+                        default: 'turn motor [MOTOR_ID] for [ROTATION] rotations',
+                        description: 'turn a motor on for rotation'
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
                         MOTOR_ID: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_ID",
-                            defaultValue: BoostMotorLabel.A,
+                            menu: 'MOTOR_ID',
+                            defaultValue: BoostMotorLabel.A
                         },
                         ROTATION: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 1,
-                        },
-                    },
+                            defaultValue: 1
+                        }
+                    }
                 },
                 {
-                    opcode: "motorOn",
+                    opcode: 'motorOn',
                     text: formatMessage({
-                        id: "boost.motorOn",
-                        default: "turn motor [MOTOR_ID] on",
-                        description: "turn a motor on indefinitely",
+                        id: 'boost.motorOn',
+                        default: 'turn motor [MOTOR_ID] on',
+                        description: 'turn a motor on indefinitely'
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
                         MOTOR_ID: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_ID",
-                            defaultValue: BoostMotorLabel.A,
-                        },
-                    },
+                            menu: 'MOTOR_ID',
+                            defaultValue: BoostMotorLabel.A
+                        }
+                    }
                 },
                 {
-                    opcode: "motorOff",
+                    opcode: 'motorOff',
                     text: formatMessage({
-                        id: "boost.motorOff",
-                        default: "turn motor [MOTOR_ID] off",
-                        description: "turn a motor off",
+                        id: 'boost.motorOff',
+                        default: 'turn motor [MOTOR_ID] off',
+                        description: 'turn a motor off'
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
                         MOTOR_ID: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_ID",
-                            defaultValue: BoostMotorLabel.A,
-                        },
-                    },
+                            menu: 'MOTOR_ID',
+                            defaultValue: BoostMotorLabel.A
+                        }
+                    }
                 },
                 {
-                    opcode: "setMotorPower",
+                    opcode: 'setMotorPower',
                     text: formatMessage({
-                        id: "boost.setMotorPower",
-                        default: "set motor [MOTOR_ID] speed to [POWER] %",
-                        description:
-                            "set the motor's speed without turning it on",
+                        id: 'boost.setMotorPower',
+                        default: 'set motor [MOTOR_ID] speed to [POWER] %',
+                        description: "set the motor's speed without turning it on"
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
                         MOTOR_ID: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_ID",
-                            defaultValue: BoostMotorLabel.ALL,
+                            menu: 'MOTOR_ID',
+                            defaultValue: BoostMotorLabel.ALL
                         },
                         POWER: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 100,
-                        },
-                    },
+                            defaultValue: 100
+                        }
+                    }
                 },
                 {
-                    opcode: "setMotorDirection",
+                    opcode: 'setMotorDirection',
                     text: formatMessage({
-                        id: "boost.setMotorDirection",
-                        default:
-                            "set motor [MOTOR_ID] direction [MOTOR_DIRECTION]",
-                        description:
-                            "set the motor's turn direction without turning it on",
+                        id: 'boost.setMotorDirection',
+                        default: 'set motor [MOTOR_ID] direction [MOTOR_DIRECTION]',
+                        description: "set the motor's turn direction without turning it on"
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
                         MOTOR_ID: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_ID",
-                            defaultValue: BoostMotorLabel.A,
+                            menu: 'MOTOR_ID',
+                            defaultValue: BoostMotorLabel.A
                         },
                         MOTOR_DIRECTION: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_DIRECTION",
-                            defaultValue: BoostMotorDirection.FORWARD,
-                        },
-                    },
+                            menu: 'MOTOR_DIRECTION',
+                            defaultValue: BoostMotorDirection.FORWARD
+                        }
+                    }
                 },
                 {
-                    opcode: "getMotorPosition",
+                    opcode: 'getMotorPosition',
                     text: formatMessage({
-                        id: "boost.getMotorPosition",
-                        default: "motor [MOTOR_REPORTER_ID] position",
-                        description: "the position returned by the motor",
+                        id: 'boost.getMotorPosition',
+                        default: 'motor [MOTOR_REPORTER_ID] position',
+                        description: 'the position returned by the motor'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
                         MOTOR_REPORTER_ID: {
                             type: ArgumentType.STRING,
-                            menu: "MOTOR_REPORTER_ID",
-                            defaultValue: BoostMotorLabel.A,
-                        },
-                    },
+                            menu: 'MOTOR_REPORTER_ID',
+                            defaultValue: BoostMotorLabel.A
+                        }
+                    }
                 },
                 {
-                    opcode: "whenColor",
+                    opcode: 'whenColor',
                     text: formatMessage({
-                        id: "boost.whenColor",
-                        default: "when [COLOR] brick seen",
-                        description: "check for when color",
+                        id: 'boost.whenColor',
+                        default: 'when [COLOR] brick seen',
+                        description: 'check for when color'
                     }),
                     blockType: BlockType.HAT,
                     arguments: {
                         COLOR: {
                             type: ArgumentType.STRING,
-                            menu: "COLOR",
-                            defaultValue: BoostColor.ANY,
-                        },
-                    },
+                            menu: 'COLOR',
+                            defaultValue: BoostColor.ANY
+                        }
+                    }
                 },
                 {
-                    opcode: "seeingColor",
+                    opcode: 'seeingColor',
                     text: formatMessage({
-                        id: "boost.seeingColor",
-                        default: "seeing [COLOR] brick?",
-                        description:
-                            "is the color sensor seeing a certain color?",
+                        id: 'boost.seeingColor',
+                        default: 'seeing [COLOR] brick?',
+                        description: 'is the color sensor seeing a certain color?'
                     }),
                     blockType: BlockType.BOOLEAN,
                     arguments: {
                         COLOR: {
                             type: ArgumentType.STRING,
-                            menu: "COLOR",
-                            defaultValue: BoostColor.ANY,
-                        },
-                    },
+                            menu: 'COLOR',
+                            defaultValue: BoostColor.ANY
+                        }
+                    }
                 },
                 {
-                    opcode: "whenTilted",
+                    opcode: 'whenTilted',
                     text: formatMessage({
-                        id: "boost.whenTilted",
-                        default: "when tilted [TILT_DIRECTION_ANY]",
-                        description: "check when tilted in a certain direction",
+                        id: 'boost.whenTilted',
+                        default: 'when tilted [TILT_DIRECTION_ANY]',
+                        description: 'check when tilted in a certain direction'
                     }),
-                    func: "isTilted",
+                    func: 'isTilted',
                     blockType: BlockType.HAT,
                     arguments: {
                         TILT_DIRECTION_ANY: {
                             type: ArgumentType.STRING,
-                            menu: "TILT_DIRECTION_ANY",
-                            defaultValue: BoostTiltDirection.ANY,
-                        },
-                    },
+                            menu: 'TILT_DIRECTION_ANY',
+                            defaultValue: BoostTiltDirection.ANY
+                        }
+                    }
                 },
                 {
-                    opcode: "getTiltAngle",
+                    opcode: 'getTiltAngle',
                     text: formatMessage({
-                        id: "boost.getTiltAngle",
-                        default: "tilt angle [TILT_DIRECTION]",
-                        description: "the angle returned by the tilt sensor",
+                        id: 'boost.getTiltAngle',
+                        default: 'tilt angle [TILT_DIRECTION]',
+                        description: 'the angle returned by the tilt sensor'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
                         TILT_DIRECTION: {
                             type: ArgumentType.STRING,
-                            menu: "TILT_DIRECTION",
-                            defaultValue: BoostTiltDirection.UP,
-                        },
-                    },
+                            menu: 'TILT_DIRECTION',
+                            defaultValue: BoostTiltDirection.UP
+                        }
+                    }
                 },
                 {
-                    opcode: "setLightHue",
+                    opcode: 'setLightHue',
                     text: formatMessage({
-                        id: "boost.setLightHue",
-                        default: "set light color to [HUE]",
-                        description: "set the LED color",
+                        id: 'boost.setLightHue',
+                        default: 'set light color to [HUE]',
+                        description: 'set the LED color'
                     }),
                     blockType: BlockType.COMMAND,
                     arguments: {
                         HUE: {
                             type: ArgumentType.NUMBER,
-                            defaultValue: 50,
-                        },
-                    },
-                },
+                            defaultValue: 50
+                        }
+                    }
+                }
             ],
             menus: {
                 MOTOR_ID: {
                     acceptReporters: true,
                     items: [
                         {
-                            text: "A",
-                            value: BoostMotorLabel.A,
+                            text: 'A',
+                            value: BoostMotorLabel.A
                         },
                         {
-                            text: "B",
-                            value: BoostMotorLabel.B,
+                            text: 'B',
+                            value: BoostMotorLabel.B
                         },
                         {
-                            text: "C",
-                            value: BoostMotorLabel.C,
+                            text: 'C',
+                            value: BoostMotorLabel.C
                         },
                         {
-                            text: "D",
-                            value: BoostMotorLabel.D,
+                            text: 'D',
+                            value: BoostMotorLabel.D
                         },
                         {
-                            text: "AB",
-                            value: BoostMotorLabel.AB,
+                            text: 'AB',
+                            value: BoostMotorLabel.AB
                         },
                         {
-                            text: "ABCD",
-                            value: BoostMotorLabel.ALL,
-                        },
-                    ],
+                            text: 'ABCD',
+                            value: BoostMotorLabel.ALL
+                        }
+                    ]
                 },
                 MOTOR_REPORTER_ID: {
                     acceptReporters: true,
                     items: [
                         {
-                            text: "A",
-                            value: BoostMotorLabel.A,
+                            text: 'A',
+                            value: BoostMotorLabel.A
                         },
                         {
-                            text: "B",
-                            value: BoostMotorLabel.B,
+                            text: 'B',
+                            value: BoostMotorLabel.B
                         },
                         {
-                            text: "C",
-                            value: BoostMotorLabel.C,
+                            text: 'C',
+                            value: BoostMotorLabel.C
                         },
                         {
-                            text: "D",
-                            value: BoostMotorLabel.D,
-                        },
-                    ],
+                            text: 'D',
+                            value: BoostMotorLabel.D
+                        }
+                    ]
                 },
                 MOTOR_DIRECTION: {
                     acceptReporters: true,
                     items: [
                         {
                             text: formatMessage({
-                                id: "boost.motorDirection.forward",
-                                default: "this way",
+                                id: 'boost.motorDirection.forward',
+                                default: 'this way',
                                 description:
-                                    "label for forward element in motor direction menu for LEGO Boost extension",
+                                    'label for forward element in motor direction menu for LEGO Boost extension'
                             }),
-                            value: BoostMotorDirection.FORWARD,
+                            value: BoostMotorDirection.FORWARD
                         },
                         {
                             text: formatMessage({
-                                id: "boost.motorDirection.backward",
-                                default: "that way",
+                                id: 'boost.motorDirection.backward',
+                                default: 'that way',
                                 description:
-                                    "label for backward element in motor direction menu for LEGO Boost extension",
+                                    'label for backward element in motor direction menu for LEGO Boost extension'
                             }),
-                            value: BoostMotorDirection.BACKWARD,
+                            value: BoostMotorDirection.BACKWARD
                         },
                         {
                             text: formatMessage({
-                                id: "boost.motorDirection.reverse",
-                                default: "reverse",
+                                id: 'boost.motorDirection.reverse',
+                                default: 'reverse',
                                 description:
-                                    "label for reverse element in motor direction menu for LEGO Boost extension",
+                                    'label for reverse element in motor direction menu for LEGO Boost extension'
                             }),
-                            value: BoostMotorDirection.REVERSE,
-                        },
-                    ],
+                            value: BoostMotorDirection.REVERSE
+                        }
+                    ]
                 },
                 TILT_DIRECTION: {
                     acceptReporters: true,
                     items: [
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.up",
-                                default: "up",
-                                description:
-                                    "label for up element in tilt direction menu for LEGO Boost extension",
+                                id: 'boost.tiltDirection.up',
+                                default: 'up',
+                                description: 'label for up element in tilt direction menu for LEGO Boost extension'
                             }),
-                            value: BoostTiltDirection.UP,
+                            value: BoostTiltDirection.UP
                         },
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.down",
-                                default: "down",
-                                description:
-                                    "label for down element in tilt direction menu for LEGO Boost extension",
+                                id: 'boost.tiltDirection.down',
+                                default: 'down',
+                                description: 'label for down element in tilt direction menu for LEGO Boost extension'
                             }),
-                            value: BoostTiltDirection.DOWN,
+                            value: BoostTiltDirection.DOWN
                         },
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.left",
-                                default: "left",
-                                description:
-                                    "label for left element in tilt direction menu for LEGO Boost extension",
+                                id: 'boost.tiltDirection.left',
+                                default: 'left',
+                                description: 'label for left element in tilt direction menu for LEGO Boost extension'
                             }),
-                            value: BoostTiltDirection.LEFT,
+                            value: BoostTiltDirection.LEFT
                         },
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.right",
-                                default: "right",
-                                description:
-                                    "label for right element in tilt direction menu for LEGO Boost extension",
+                                id: 'boost.tiltDirection.right',
+                                default: 'right',
+                                description: 'label for right element in tilt direction menu for LEGO Boost extension'
                             }),
-                            value: BoostTiltDirection.RIGHT,
-                        },
-                    ],
+                            value: BoostTiltDirection.RIGHT
+                        }
+                    ]
                 },
                 TILT_DIRECTION_ANY: {
                     acceptReporters: true,
                     items: [
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.up",
-                                default: "up",
+                                id: 'boost.tiltDirection.up',
+                                default: 'up'
                             }),
-                            value: BoostTiltDirection.UP,
+                            value: BoostTiltDirection.UP
                         },
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.down",
-                                default: "down",
+                                id: 'boost.tiltDirection.down',
+                                default: 'down'
                             }),
-                            value: BoostTiltDirection.DOWN,
+                            value: BoostTiltDirection.DOWN
                         },
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.left",
-                                default: "left",
+                                id: 'boost.tiltDirection.left',
+                                default: 'left'
                             }),
-                            value: BoostTiltDirection.LEFT,
+                            value: BoostTiltDirection.LEFT
                         },
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.right",
-                                default: "right",
+                                id: 'boost.tiltDirection.right',
+                                default: 'right'
                             }),
-                            value: BoostTiltDirection.RIGHT,
+                            value: BoostTiltDirection.RIGHT
                         },
                         {
                             text: formatMessage({
-                                id: "boost.tiltDirection.any",
-                                default: "any",
-                                description:
-                                    "label for any element in tilt direction menu for LEGO Boost extension",
+                                id: 'boost.tiltDirection.any',
+                                default: 'any',
+                                description: 'label for any element in tilt direction menu for LEGO Boost extension'
                             }),
-                            value: BoostTiltDirection.ANY,
-                        },
-                    ],
+                            value: BoostTiltDirection.ANY
+                        }
+                    ]
                 },
                 COLOR: {
                     acceptReporters: true,
                     items: [
                         {
                             text: formatMessage({
-                                id: "boost.color.red",
-                                default: "red",
-                                description: "the color red",
+                                id: 'boost.color.red',
+                                default: 'red',
+                                description: 'the color red'
                             }),
-                            value: BoostColor.RED,
+                            value: BoostColor.RED
                         },
                         {
                             text: formatMessage({
-                                id: "boost.color.blue",
-                                default: "blue",
-                                description: "the color blue",
+                                id: 'boost.color.blue',
+                                default: 'blue',
+                                description: 'the color blue'
                             }),
-                            value: BoostColor.BLUE,
+                            value: BoostColor.BLUE
                         },
                         {
                             text: formatMessage({
-                                id: "boost.color.green",
-                                default: "green",
-                                description: "the color green",
+                                id: 'boost.color.green',
+                                default: 'green',
+                                description: 'the color green'
                             }),
-                            value: BoostColor.GREEN,
+                            value: BoostColor.GREEN
                         },
                         {
                             text: formatMessage({
-                                id: "boost.color.yellow",
-                                default: "yellow",
-                                description: "the color yellow",
+                                id: 'boost.color.yellow',
+                                default: 'yellow',
+                                description: 'the color yellow'
                             }),
-                            value: BoostColor.YELLOW,
+                            value: BoostColor.YELLOW
                         },
                         {
                             text: formatMessage({
-                                id: "boost.color.white",
-                                default: "white",
-                                desription: "the color white",
+                                id: 'boost.color.white',
+                                default: 'white',
+                                desription: 'the color white'
                             }),
-                            value: BoostColor.WHITE,
+                            value: BoostColor.WHITE
                         },
                         {
                             text: formatMessage({
-                                id: "boost.color.black",
-                                default: "black",
-                                description: "the color black",
+                                id: 'boost.color.black',
+                                default: 'black',
+                                description: 'the color black'
                             }),
-                            value: BoostColor.BLACK,
+                            value: BoostColor.BLACK
                         },
                         {
                             text: formatMessage({
-                                id: "boost.color.any",
-                                default: "any color",
-                                description: "any color",
+                                id: 'boost.color.any',
+                                default: 'any color',
+                                description: 'any color'
                             }),
-                            value: BoostColor.ANY,
-                        },
-                    ],
-                },
-            },
+                            value: BoostColor.ANY
+                        }
+                    ]
+                }
+            }
         };
     }
 
@@ -1895,9 +1828,7 @@ class Scratch3BoostBlocks {
                         break;
                     case BoostMotorState.ON_FOR_TIME:
                         motor.turnOnFor(
-                            motor.pendingDurationTimeoutStartTime +
-                                motor.pendingDurationTimeoutDelay -
-                                Date.now()
+                            motor.pendingDurationTimeoutStartTime + motor.pendingDurationTimeoutDelay - Date.now()
                         );
                         break;
                 }
@@ -1934,9 +1865,7 @@ class Scratch3BoostBlocks {
                         motor.direction = -motor.direction;
                         break;
                     default:
-                        log.warn(
-                            `Unknown motor direction in setMotorDirection: ${args.DIRECTION}`
-                        );
+                        log.warn(`Unknown motor direction in setMotorDirection: ${args.DIRECTION}`);
                         break;
                 }
                 // keep the motor on if it's running, and update the pending timeout if needed
@@ -1947,9 +1876,7 @@ class Scratch3BoostBlocks {
                             break;
                         case BoostMotorState.ON_FOR_TIME:
                             motor.turnOnFor(
-                                motor.pendingDurationTimeoutStartTime +
-                                    motor.pendingDurationTimeoutDelay -
-                                    Date.now()
+                                motor.pendingDurationTimeoutStartTime + motor.pendingDurationTimeoutDelay - Date.now()
                             );
                             break;
                     }
@@ -1983,7 +1910,7 @@ class Scratch3BoostBlocks {
                 portID = BoostPort.D;
                 break;
             default:
-                log.warn("Asked for a motor position that doesnt exist!");
+                log.warn('Asked for a motor position that doesnt exist!');
                 return false;
         }
         if (portID !== null && this._peripheral.motor(portID)) {
@@ -2075,16 +2002,11 @@ class Scratch3BoostBlocks {
         switch (direction) {
             case BoostTiltDirection.ANY:
                 return (
-                    Math.abs(this._peripheral.tiltX) >=
-                        Scratch3BoostBlocks.TILT_THRESHOLD ||
-                    Math.abs(this._peripheral.tiltY) >=
-                        Scratch3BoostBlocks.TILT_THRESHOLD
+                    Math.abs(this._peripheral.tiltX) >= Scratch3BoostBlocks.TILT_THRESHOLD ||
+                    Math.abs(this._peripheral.tiltY) >= Scratch3BoostBlocks.TILT_THRESHOLD
                 );
             default:
-                return (
-                    this._getTiltAngle(direction) >=
-                    Scratch3BoostBlocks.TILT_THRESHOLD
-                );
+                return this._getTiltAngle(direction) >= Scratch3BoostBlocks.TILT_THRESHOLD;
         }
     }
 
@@ -2097,25 +2019,15 @@ class Scratch3BoostBlocks {
     _getTiltAngle(direction) {
         switch (direction) {
             case BoostTiltDirection.UP:
-                return this._peripheral.tiltY > 90
-                    ? 256 - this._peripheral.tiltY
-                    : -this._peripheral.tiltY;
+                return this._peripheral.tiltY > 90 ? 256 - this._peripheral.tiltY : -this._peripheral.tiltY;
             case BoostTiltDirection.DOWN:
-                return this._peripheral.tiltY > 90
-                    ? this._peripheral.tiltY - 256
-                    : this._peripheral.tiltY;
+                return this._peripheral.tiltY > 90 ? this._peripheral.tiltY - 256 : this._peripheral.tiltY;
             case BoostTiltDirection.LEFT:
-                return this._peripheral.tiltX > 90
-                    ? this._peripheral.tiltX - 256
-                    : this._peripheral.tiltX;
+                return this._peripheral.tiltX > 90 ? this._peripheral.tiltX - 256 : this._peripheral.tiltX;
             case BoostTiltDirection.RIGHT:
-                return this._peripheral.tiltX > 90
-                    ? 256 - this._peripheral.tiltX
-                    : -this._peripheral.tiltX;
+                return this._peripheral.tiltX > 90 ? 256 - this._peripheral.tiltX : -this._peripheral.tiltX;
             default:
-                log.warn(
-                    `Unknown tilt direction in _getTiltAngle: ${direction}`
-                );
+                log.warn(`Unknown tilt direction in _getTiltAngle: ${direction}`);
         }
     }
 
@@ -2132,8 +2044,7 @@ class Scratch3BoostBlocks {
             // allows the hat to trigger when the color changes from one color
             // to another.
             return (
-                this._peripheral.color !== BoostColor.NONE &&
-                this._peripheral.color !== this._peripheral.previousColor
+                this._peripheral.color !== BoostColor.NONE && this._peripheral.color !== this._peripheral.previousColor
             );
         }
 
@@ -2166,7 +2077,7 @@ class Scratch3BoostBlocks {
         inputHue = MathUtil.wrapClamp(inputHue, 0, 100);
         const hue = (inputHue * 360) / 100;
 
-        const rgbObject = color.hsvToRgb({ h: hue, s: 1, v: 1 });
+        const rgbObject = color.hsvToRgb({h: hue, s: 1, v: 1});
 
         const rgbDecimal = color.rgbToDecimal(rgbObject);
 

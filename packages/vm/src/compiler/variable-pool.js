@@ -6,7 +6,7 @@ class VariablePool {
      */
     constructor(prefix) {
         if (prefix.trim().length === 0) {
-            throw new Error("prefix cannot be empty");
+            throw new Error('prefix cannot be empty');
         }
         this.prefix = prefix;
         /**

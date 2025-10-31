@@ -1,4 +1,4 @@
-const Cast = require("../util/cast");
+const Cast = require('../util/cast');
 
 class Scratch3DataBlocks {
     constructor(runtime) {
@@ -31,48 +31,33 @@ class Scratch3DataBlocks {
             data_lengthoflist: this.lengthOfList,
             data_listcontainsitem: this.listContainsItem,
             data_hidelist: this.hideList,
-            data_showlist: this.showList,
+            data_showlist: this.showList
         };
     }
 
     getVariable(args, util) {
-        const variable = util.target.lookupOrCreateVariable(
-            args.VARIABLE.id,
-            args.VARIABLE.name
-        );
+        const variable = util.target.lookupOrCreateVariable(args.VARIABLE.id, args.VARIABLE.name);
         return variable.value;
     }
 
     setVariableTo(args, util) {
-        const variable = util.target.lookupOrCreateVariable(
-            args.VARIABLE.id,
-            args.VARIABLE.name
-        );
+        const variable = util.target.lookupOrCreateVariable(args.VARIABLE.id, args.VARIABLE.name);
         variable.value = args.VALUE;
 
         if (variable.isCloud) {
-            util.ioQuery("cloud", "requestUpdateVariable", [
-                variable.name,
-                args.VALUE,
-            ]);
+            util.ioQuery('cloud', 'requestUpdateVariable', [variable.name, args.VALUE]);
         }
     }
 
     changeVariableBy(args, util) {
-        const variable = util.target.lookupOrCreateVariable(
-            args.VARIABLE.id,
-            args.VARIABLE.name
-        );
+        const variable = util.target.lookupOrCreateVariable(args.VARIABLE.id, args.VARIABLE.name);
         const castedValue = Cast.toNumber(variable.value);
         const dValue = Cast.toNumber(args.VALUE);
         const newValue = castedValue + dValue;
         variable.value = newValue;
 
         if (variable.isCloud) {
-            util.ioQuery("cloud", "requestUpdateVariable", [
-                variable.name,
-                newValue,
-            ]);
+            util.ioQuery('cloud', 'requestUpdateVariable', [variable.name, newValue]);
         }
     }
 
@@ -82,8 +67,8 @@ class Scratch3DataBlocks {
         this.runtime.monitorBlocks.changeBlock(
             {
                 id: id, // Monitor blocks for variables are the variable ID.
-                element: "checkbox", // Mimic checkbox event from flyout.
-                value: visible,
+                element: 'checkbox', // Mimic checkbox event from flyout.
+                value: visible
             },
             this.runtime
         );
@@ -106,10 +91,7 @@ class Scratch3DataBlocks {
     }
 
     getListContents(args, util) {
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
 
         // If block is running for monitors, return copy of list as an array if changed.
         if (util.thread.updateMonitor) {
@@ -127,31 +109,25 @@ class Scratch3DataBlocks {
         let allSingleLetters = true;
         for (let i = 0; i < list.value.length; i++) {
             const listItem = list.value[i];
-            if (!(typeof listItem === "string" && listItem.length === 1)) {
+            if (!(typeof listItem === 'string' && listItem.length === 1)) {
                 allSingleLetters = false;
                 break;
             }
         }
         if (allSingleLetters) {
-            return list.value.join("");
+            return list.value.join('');
         }
-        return list.value.join(" ");
+        return list.value.join(' ');
     }
 
     addToList(args, util) {
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
         list.value.push(args.ITEM);
         list._monitorUpToDate = false;
     }
 
     deleteOfList(args, util) {
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
         const index = Cast.toListIndex(args.INDEX, list.value.length, true);
         if (index === Cast.LIST_INVALID) {
             return;
@@ -164,25 +140,15 @@ class Scratch3DataBlocks {
     }
 
     deleteAllOfList(args, util) {
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
         list.value = [];
         return;
     }
 
     insertAtList(args, util) {
         const item = args.ITEM;
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
-        const index = Cast.toListIndex(
-            args.INDEX,
-            list.value.length + 1,
-            false
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
+        const index = Cast.toListIndex(args.INDEX, list.value.length + 1, false);
         if (index === Cast.LIST_INVALID) {
             return;
         }
@@ -192,10 +158,7 @@ class Scratch3DataBlocks {
 
     replaceItemOfList(args, util) {
         const item = args.ITEM;
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
         const index = Cast.toListIndex(args.INDEX, list.value.length, false);
         if (index === Cast.LIST_INVALID) {
             return;
@@ -205,23 +168,17 @@ class Scratch3DataBlocks {
     }
 
     getItemOfList(args, util) {
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
         const index = Cast.toListIndex(args.INDEX, list.value.length, false);
         if (index === Cast.LIST_INVALID) {
-            return "";
+            return '';
         }
         return list.value[index - 1];
     }
 
     getItemNumOfList(args, util) {
         const item = args.ITEM;
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
 
         // Go through the list items one-by-one using Cast.compare. This is for
         // cases like checking if 123 is contained in a list [4, 7, '123'] --
@@ -247,19 +204,13 @@ class Scratch3DataBlocks {
     }
 
     lengthOfList(args, util) {
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
         return list.value.length;
     }
 
     listContainsItem(args, util) {
         const item = args.ITEM;
-        const list = util.target.lookupOrCreateList(
-            args.LIST.id,
-            args.LIST.name
-        );
+        const list = util.target.lookupOrCreateList(args.LIST.id, args.LIST.name);
         if (list.value.indexOf(item) >= 0) {
             return true;
         }

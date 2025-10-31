@@ -1,5 +1,5 @@
-const Variable = require("../engine/variable");
-const log = require("../util/log");
+const Variable = require('../engine/variable');
+const log = require('../util/log');
 
 class Cloud {
     /**
@@ -143,14 +143,9 @@ class Cloud {
     updateCloudVariable(varUpdate) {
         const varName = varUpdate.name;
 
-        const variable = this.stage.lookupVariableByNameAndType(
-            varName,
-            Variable.SCALAR_TYPE
-        );
+        const variable = this.stage.lookupVariableByNameAndType(varName, Variable.SCALAR_TYPE);
         if (!variable || !variable.isCloud) {
-            log.warn(
-                `Received an update for a cloud variable that does not exist: ${varName}`
-            );
+            log.warn(`Received an update for a cloud variable that does not exist: ${varName}`);
             return;
         }
 

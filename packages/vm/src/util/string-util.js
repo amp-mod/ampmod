@@ -1,9 +1,9 @@
-const log = require("./log");
+const log = require('./log');
 
 class StringUtil {
     static withoutTrailingDigits(s) {
         let i = s.length - 1;
-        while (i >= 0 && "0123456789".indexOf(s.charAt(i)) > -1) i--;
+        while (i >= 0 && '0123456789'.indexOf(s.charAt(i)) > -1) i--;
         return s.slice(0, i + 1);
     }
 
@@ -21,8 +21,7 @@ class StringUtil {
      * @returns {string}
      */
     static caseInsensitiveUnusedName(name, existingNames) {
-        const exists = needle =>
-            existingNames.some(i => i.toLowerCase() === needle.toLowerCase());
+        const exists = needle => existingNames.some(i => i.toLowerCase() === needle.toLowerCase());
         if (!exists(name)) return name;
         name = StringUtil.withoutTrailingDigits(name);
         let i = 2;
@@ -66,10 +65,7 @@ class StringUtil {
      */
     static stringify(obj) {
         return JSON.stringify(obj, (_key, value) => {
-            if (
-                typeof value === "number" &&
-                (value === Infinity || value === -Infinity || isNaN(value))
-            ) {
+            if (typeof value === 'number' && (value === Infinity || value === -Infinity || isNaN(value))) {
                 return 0;
             }
             return value;
@@ -85,28 +81,28 @@ class StringUtil {
      * @return {string} String with control characters replaced.
      */
     static replaceUnsafeChars(unsafe) {
-        if (typeof unsafe !== "string") {
+        if (typeof unsafe !== 'string') {
             if (Array.isArray(unsafe)) {
                 // This happens when we have hacked blocks from 2.0
                 // See #1030
                 unsafe = String(unsafe);
             } else {
-                log.error("Unexpected input recieved in replaceUnsafeChars");
+                log.error('Unexpected input recieved in replaceUnsafeChars');
                 return unsafe;
             }
         }
         return unsafe.replace(/[<>&'"]/g, c => {
             switch (c) {
-                case "<":
-                    return "lt";
-                case ">":
-                    return "gt";
-                case "&":
-                    return "amp";
+                case '<':
+                    return 'lt';
+                case '>':
+                    return 'gt';
+                case '&':
+                    return 'amp';
                 case "'":
-                    return "apos";
+                    return 'apos';
                 case '"':
-                    return "quot";
+                    return 'quot';
             }
         });
     }

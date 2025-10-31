@@ -14,14 +14,14 @@ class MouseWheel {
     postData(data) {
         const matchFields = {};
         if (data.deltaY < 0) {
-            matchFields.KEY_OPTION = "up arrow";
+            matchFields.KEY_OPTION = 'up arrow';
         } else if (data.deltaY > 0) {
-            matchFields.KEY_OPTION = "down arrow";
+            matchFields.KEY_OPTION = 'down arrow';
         } else {
             return;
         }
 
-        this.runtime.startHats("event_whenkeypressed", matchFields);
+        this.runtime.startHats('event_whenkeypressed', matchFields);
     }
 }
 
