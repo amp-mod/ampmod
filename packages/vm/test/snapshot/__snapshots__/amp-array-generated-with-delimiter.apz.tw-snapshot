@@ -1,0 +1,34 @@
+// TW Snapshot
+// Input SHA-256: f8fb4d4c9bb0161a9b8de62887ed7f843fa9ca709e6780099367513c2dad896a
+
+// Sprite1 script
+(function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
+const b0 = stage.variables["}`bFPHvsCQDCVP4Iyq=/"];
+const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
+const b2 = runtime.getOpcodeFunction("arrays_contains");
+const b3 = runtime.getOpcodeFunction("arrays_item_of");
+const b4 = runtime.getOpcodeFunction("arrays_length");
+const b5 = runtime.getOpcodeFunction("arrays_in_front_of");
+const b6 = runtime.getOpcodeFunction("looks_say");
+return function* genXYZ () {
+b0.value = 0;
+b1.value = ("ampmod,turbowarp,scratch".split(","));
+if (toBoolean((yield* executeInCompatibilityLayer({"VALUE":"ampmod","ARRAY":b1.value,}, b2, false, false, "n", null)))) {
+b0.value = (b0.value + 1);
+}
+if ((("" + (yield* executeInCompatibilityLayer({"INDEX":2,"VALUE":b1.value,}, b3, false, false, "j", null))).toLowerCase() === "turbowarp".toLowerCase())) {
+b0.value = (b0.value + 1);
+}
+if (((+(yield* executeInCompatibilityLayer({"VALUE":b1.value,}, b4, false, false, "s", null)) || 0) === 3)) {
+b0.value = (b0.value + 1);
+}
+if (compareEqual((yield* executeInCompatibilityLayer({"ITEM":"logo","ARRAY":b1.value,}, b5, false, false, "u", null)), ("ampmod,turbowarp,scratch,logo".split(",")))) {
+b0.value = (b0.value + 1);
+}
+if ((b0.value === 4)) {
+yield* executeInCompatibilityLayer({"MESSAGE":"PASS",}, b6, false, false, "x", null);
+} else {
+yield* executeInCompatibilityLayer({"MESSAGE":"FAIL",}, b6, false, false, "y", null);
+}
+retire(); return;
+}; })
