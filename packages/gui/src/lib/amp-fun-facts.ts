@@ -19,7 +19,8 @@ export const tips = [
 export const facts = [
     'Fun fact: AmpMod is 100% free and open source software, and you can contribute on Codeberg.',
     'Fun fact: Over 250 people use AmpMod every week, and this number is growing every day.',
-    'Fun fact: AmpMod builds like this one are fully reproducible on your own system.'
+    'Fun fact: AmpMod builds like this one are fully reproducible on your own system.',
+    'Fun fact: AmpMod uses automated tests to help catch bugs in features before they are released.'
 ];
 
 export const jokes = [
