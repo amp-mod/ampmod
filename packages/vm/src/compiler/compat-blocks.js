@@ -42,7 +42,6 @@ const inputs = [
     'arrays_contains',
     'arrays_in_front_of',
     'arrays_item_no_of',
-    'arrays_item_of',
     'arrays_length',
     'arrays_range',
     'control_ternary', // amp: We would make this compile normally but attempts to add it to the compiler failed.

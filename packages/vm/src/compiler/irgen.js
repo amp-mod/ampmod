@@ -295,7 +295,7 @@ class ScriptTreeGenerator {
                 list: this.descendVariable(block, 'LIST', LIST_TYPE)
             });
 
-            // amp: arrays are not in tw
+        // amp: arrays are not in tw
         case 'arrays_empty_array':
             return this.createConstantInput([]);
 
@@ -304,20 +304,77 @@ class ScriptTreeGenerator {
                 text: this.descendInputOfBlock(block, 'TEXT').toType(InputType.STRING),
                 delimiter: this.descendInputOfBlock(block, 'DELIM').toType(InputType.STRING)
             });
-
-            /* case "arrays_range":
-                return new IntermediateInput(
-                    InputOpcode.ARRAYS_RANGE,
-                    InputType.ARRAY,
-                    {
-                        start: this.descendInputOfBlock(block, "START").toType(
-                            InputType.NUMBER_WHOLE
-                        ),
-                        end: this.descendInputOfBlock(block, "END").toType(
-                            InputType.NUMBER_WHOLE
-                        ),
-                    }
-                ); */
+        case "arrays_range":
+            return new IntermediateInput(
+                InputOpcode.ARRAYS_RANGE,
+                InputType.ARRAY,
+                {
+                    start: this.descendInputOfBlock(block, "START").toType(
+                        InputType.NUMBER
+                    ),
+                    end: this.descendInputOfBlock(block, "END").toType(
+                        InputType.NUMBER
+                    ),
+                }
+            );
+        case 'arrays_item_of':
+            return new IntermediateInput(
+                InputOpcode.ARRAYS_INDEX,
+                InputType.ANY,
+                {
+                    index: this.descendInputOfBlock(block, "INDEX").toType(
+                        InputType.NUMBER
+                    ),
+                    array: this.descendInputOfBlock(block, "VALUE").toType(
+                        InputType.ARRAY
+                    ),
+                }
+            );
+        case 'arrays_length':
+            return new IntermediateInput(
+                InputOpcode.ARRAYS_LENGTH,
+                InputType.NUMBER,
+                {
+                    array: this.descendInputOfBlock(block, "VALUE").toType(
+                        InputType.ARRAY
+                    ),
+                }
+            );
+        case 'arrays_contains':
+            return new IntermediateInput(
+                InputOpcode.ARRAYS_CONTAINS,
+                InputType.BOOLEAN,
+                {
+                    array: this.descendInputOfBlock(block, "ARRAY").toType(
+                        InputType.ARRAY
+                    ),
+                    item: this.descendInputOfBlock(block, "VALUE"),
+                }
+            );
+        // the 2 below are swapped between their opcode and actual behaviour
+        // due to a development mistake in the early days of ampmod
+        case 'arrays_in_front_of':
+            return new IntermediateInput(
+                InputOpcode.ARRAYS_BEHIND,
+                InputType.ARRAY,
+                {
+                    array: this.descendInputOfBlock(block, "ARRAY").toType(
+                        InputType.ARRAY
+                    ),
+                    item: this.descendInputOfBlock(block, "ITEM"),
+                }
+            );
+        case 'arrays_behind':
+            return new IntermediateInput(
+                InputOpcode.ARRAYS_IN_FRONT_OF,
+                InputType.ARRAY,
+                {
+                    array: this.descendInputOfBlock(block, "ARRAY").toType(
+                        InputType.ARRAY
+                    ),
+                    item: this.descendInputOfBlock(block, "ITEM"),
+                }
+            );
 
         case 'event_broadcast_menu': {
             const broadcastOption = block.fields.BROADCAST_OPTION;

@@ -145,7 +145,7 @@ class Cast {
             }
         }
 
-        if (!value && value !== 0) {
+        if (!value) {
             return [];
         }
 

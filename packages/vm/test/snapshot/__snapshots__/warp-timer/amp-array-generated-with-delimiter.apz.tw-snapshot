@@ -5,29 +5,25 @@
 (function factoryXYZ(thread) { const target = thread.target; const runtime = target.runtime; const stage = runtime.getTargetForStage();
 const b0 = runtime.getOpcodeFunction("looks_say");
 const b1 = stage.variables["`jEk@4|i[#Fk?(8x)AV.-my variable"];
-const b2 = runtime.getOpcodeFunction("arrays_contains");
-const b3 = runtime.getOpcodeFunction("arrays_item_of");
-const b4 = runtime.getOpcodeFunction("arrays_length");
-const b5 = runtime.getOpcodeFunction("arrays_in_front_of");
 return function* genXYZ () {
 yield* executeInCompatibilityLayer({"MESSAGE":"plan 4",}, b0, false, false, "g", null);
 b1.value = ("ampmod,turbowarp,scratch".split(","));
-if (toBoolean((yield* executeInCompatibilityLayer({"ARRAY":b1.value,"VALUE":"ampmod",}, b2, false, false, "m", null)))) {
+if ((Array.isArray(toList(b1.value)) ? toList(b1.value).some(x => x == "ampmod") : false)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass contains",}, b0, false, false, "n", null);
 } else {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail contains",}, b0, false, false, "o", null);
 }
-if ((("" + (yield* executeInCompatibilityLayer({"INDEX":2,"VALUE":b1.value,}, b3, false, false, "i", null))).toLowerCase() === "turbowarp".toLowerCase())) {
+if ((("" + (toList(b1.value)[Math.max(0, Math.min(toList(b1.value).length - 1, 2 - 1))]) || "").toLowerCase() === "turbowarp".toLowerCase())) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass item",}, b0, false, false, "q", null);
 } else {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail item",}, b0, false, false, "p", null);
 }
-if (((+(yield* executeInCompatibilityLayer({"VALUE":b1.value,}, b4, false, false, "u", null)) || 0) === 3)) {
+if ((toList(b1.value).length === 3)) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass length",}, b0, false, false, "s", null);
 } else {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail length",}, b0, false, false, "t", null);
 }
-if (compareEqual((yield* executeInCompatibilityLayer({"ITEM":"logo","ARRAY":b1.value,}, b5, false, false, "y", null)), ("ampmod,turbowarp,scratch,logo".split(",")))) {
+if (compareEqual([...toList(b1.value), "logo"], ("ampmod,turbowarp,scratch,logo".split(",")))) {
 yield* executeInCompatibilityLayer({"MESSAGE":"pass add",}, b0, false, false, "w", null);
 } else {
 yield* executeInCompatibilityLayer({"MESSAGE":"fail add",}, b0, false, false, "x", null);

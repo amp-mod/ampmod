@@ -156,6 +156,9 @@ class IntermediateInput {
         case InputType.COLOR:
             castOpcode = InputOpcode.CAST_COLOR;
             break;
+        case InputType.ARRAY:
+            castOpcode = InputOpcode.CAST_ARRAY;
+            break;
         default:
             log.warn(`Cannot cast to type: ${targetType}`, this);
             throw new Error(`Cannot cast to type: ${targetType}`);
@@ -199,6 +202,10 @@ class IntermediateInput {
             case InputOpcode.CAST_COLOR:
                 this.inputs.value = Cast.toRgbColorList(this.inputs.value);
                 this.type = InputType.COLOR;
+                break;
+            case InputOpcode.CAST_ARRAY:
+                this.inputs.value = Cast.toList(this.inputs.value);
+                this.type = InputType.ARRAY;
                 break;
             }
             return this;

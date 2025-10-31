@@ -1,5 +1,3 @@
-// @ts-check
-
 const log = require('../util/log');
 const BlockType = require('../extension-support/block-type');
 const VariablePool = require('./variable-pool');
@@ -196,6 +194,18 @@ class JSGenerator {
             return `("" + ${this.descendInput(node.target)})`;
         case InputOpcode.CAST_COLOR:
             return `colorToList(${this.descendInput(node.target)})`;
+        case InputOpcode.CAST_ARRAY: {
+            const target = this.descendInput(node.target);
+            if (Array.isArray(node.target)) {
+                return target;
+            } else if (typeof node.target === "string") {
+                return `(${target} ? [${target}] : [])`;
+            } else if (!node.target) {
+                return `[]`;
+            } else {
+                return `[${target}]`;
+            }
+        }
 
         case InputOpcode.COMPATIBILITY_LAYER:
             // Compatibility layer inputs never use flags.
@@ -584,7 +594,19 @@ class JSGenerator {
         case InputOpcode.ARRAYS_DELIMITED:
             return `(${this.descendInput(node.text)}.split(${this.descendInput(node.delimiter)}))`;
         case InputOpcode.ARRAYS_RANGE:
-            return `Array.from({length: Math.max(0, ${this.descendInput(node.end)} - ${this.descendInput(node.start)} + 1)}, (_, i) => i + ${this.descendInput(node.start)})`;
+            return `((s, e) => [...Array(Math.max(0, e - s + 1))].map((_, i) => s + i))(${this.descendInput(node.start)}, ${this.descendInput(node.end)})`;
+        case InputOpcode.ARRAYS_INDEX:
+            const arrayExpr = this.descendInput(node.array);
+            const indexExpr = this.descendInput(node.index);
+            return `(${arrayExpr}[Math.max(0, Math.min(${arrayExpr}.length - 1, ${indexExpr} - 1))]) || ""`;
+        case InputOpcode.ARRAYS_LENGTH:
+            return `${this.descendInput(node.array)}.length`;
+        case InputOpcode.ARRAYS_IN_FRONT_OF:
+            return `[${this.descendInput(node.item)}, ...${this.descendInput(node.array)}]`;
+        case InputOpcode.ARRAYS_BEHIND:
+            return `[...${this.descendInput(node.array)}, ${this.descendInput(node.item)}]`;
+        case InputOpcode.ARRAYS_CONTAINS:
+            return `(Array.isArray(${this.descendInput(node.array)}) ? ${this.descendInput(node.array)}.some(x => x == ${this.descendInput(node.item)}) : false)`;
 
         default:
             log.warn(`JS: Unknown input: ${block.opcode}`, node);

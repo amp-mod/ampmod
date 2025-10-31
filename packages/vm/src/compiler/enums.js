@@ -90,7 +90,7 @@ const InputType = {
     COLOR: 0x2000,
 
     /** amp: An array. */
-    ARRAY: 0xffff
+    ARRAY: 0x0477
 };
 
 /**
@@ -203,6 +203,7 @@ const InputOpcode = {
     CAST_STRING: 'cast.toString',
     CAST_BOOLEAN: 'cast.toBoolean',
     CAST_COLOR: 'cast.toColor',
+    CAST_ARRAY: 'cast.toArray',
 
     COMPATIBILITY_LAYER: 'compat',
     OLD_COMPILER_COMPATIBILITY_LAYER: 'oldCompiler',
@@ -301,6 +302,11 @@ const InputOpcode = {
 
     ARRAYS_DELIMITED: 'arrays.delimited',
     ARRAYS_RANGE: 'arrays.range',
+    ARRAYS_IN_FRONT_OF: 'arrays.front',
+    ARRAYS_BEHIND: 'arrays.behind',
+    ARRAYS_INDEX: 'arrays.index',
+    ARRAYS_LENGTH: 'arrays.length',
+    ARRAYS_CONTAINS: 'arrays.contains',
 
     TW_KEY_LAST_PRESSED: 'tw.lastKeyPressed'
 };
