@@ -194,18 +194,8 @@ class JSGenerator {
             return `("" + ${this.descendInput(node.target)})`;
         case InputOpcode.CAST_COLOR:
             return `colorToList(${this.descendInput(node.target)})`;
-        case InputOpcode.CAST_ARRAY: {
-            const target = this.descendInput(node.target);
-            if (Array.isArray(node.target)) {
-                return target;
-            } else if (typeof node.target === "string") {
-                return `(${target} ? [${target}] : [])`;
-            } else if (!node.target) {
-                return `[]`;
-            } else {
-                return `[${target}]`;
-            }
-        }
+        case InputOpcode.CAST_ARRAY:
+            return `toList(${this.descendInput(node.target)})`;
 
         case InputOpcode.COMPATIBILITY_LAYER:
             // Compatibility layer inputs never use flags.

@@ -545,6 +545,38 @@ runtimeFunctions.listContents = `const listContents = list => {
 runtimeFunctions.colorToList = `const colorToList = color => globalState.Cast.toRgbColorList(color)`;
 
 /**
+ * Convert to a list
+ * @param {*} value The value to convert
+ * @return {Array.<any>}
+ */
+runtimeFunctions.toList = `
+    const toList = value => {
+        if (Array.isArray(value)) {
+            return value;
+        }
+
+        if (typeof value === 'string') {
+            try {
+                const parsed = JSON.parse(value);
+                if (Array.isArray(parsed)) {
+                    return parsed;
+                }
+                return [parsed];
+            } catch {
+                // not valid JSON
+                return [value];
+            }
+        }
+
+        if (!value) {
+            return [];
+        }
+
+        return [value];
+    }
+`;
+
+/**
  * Implements Scratch modulo (floored division instead of truncated division)
  * @param {number} n Number
  * @param {number} modulus Base
