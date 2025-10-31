@@ -7,6 +7,8 @@ test("the internal object", t => {
     // the idea with this test is to make it harder for forks to screw up modifying the file
     t.type(platform.name, "string");
     t.type(platform.url, "string");
+    t.type(platform.version, "string");
+    t.type(platform.contact, "string");
     t.end();
 });
 
@@ -113,6 +115,8 @@ test("deserialize mismatching platform with 1 listener", t => {
         t.same(pl, {
             name: "aa",
             url: "...",
+            version: "0.3.0",
+            contact: "applecat@example.com",
         });
         t.ok("called PLATFORM_MISMATCH");
         callback();
@@ -121,6 +125,8 @@ test("deserialize mismatching platform with 1 listener", t => {
     project.meta.platform = {
         name: "aa",
         url: "...",
+        version: "0.3.0",
+        contact: "applecat@example.com",
     };
     vm.loadProject(project).then(() => {
         t.end();
