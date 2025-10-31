@@ -156,10 +156,13 @@ const base = {
                     {
                         loader: "css-loader",
                         options: {
-                            modules: true,
+                            modules: {
+                                namedExport: false,
+                                localIdentName:
+                                    "[name]_[local]_[hash:base64:5]",
+                                exportLocalsConvention: "camel-case-only",
+                            },
                             importLoaders: 1,
-                            localIdentName: "[name]_[local]_[hash:base64:5]",
-                            exportLocalsConvention: "camelCase",
                         },
                     },
                     {
