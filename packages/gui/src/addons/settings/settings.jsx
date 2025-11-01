@@ -967,28 +967,30 @@ class AddonSettingsComponent extends React.Component {
                 <div className={styles.header}>
                     <div className={styles.section}>
                         <div className={styles.title}><img src={logo} height={24} /> Addons</div>
-                        <div className={styles.searchContainer}>
-                            <input
-                                className={styles.searchInput}
-                                value={this.state.search}
-                                onChange={this.handleSearch}
-                                placeholder={settingsTranslations.search}
-                                aria-label={settingsTranslations.search}
-                                ref={this.searchRef}
-                                spellCheck="false"
-                            />
-                            <div className={styles.searchButton} onClick={this.handleClickSearchButton} />
+                        <div className={styles.rightSide}>
+                            <div className={styles.searchContainer}>
+                                <input
+                                    className={styles.searchInput}
+                                    value={this.state.search}
+                                    onChange={this.handleSearch}
+                                    placeholder={settingsTranslations.search}
+                                    aria-label={settingsTranslations.search}
+                                    ref={this.searchRef}
+                                    spellCheck="false"
+                                />
+                                <div className={styles.searchButton} onClick={this.handleClickSearchButton} />
+                            </div>
+                            {APP_FORUMS && (
+                                <a
+                                    href={APP_FORUMS}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className={styles.feedbackButtonOuter}
+                                >
+                                    <span className={styles.feedbackButtonInner}>{APP_NAME} Forums</span>
+                                </a>
+                            )}
                         </div>
-                        {APP_FORUMS && (
-                            <a
-                                href={APP_FORUMS}
-                                target="_blank"
-                                rel="noreferrer"
-                                className={styles.feedbackButtonOuter}
-                            >
-                                <span className={styles.feedbackButtonInner}>{APP_NAME} Forums</span>
-                            </a>
-                        )}
                     </div>
                     {this.state.dirty && <Dirty onReloadNow={Channels.reloadChannel ? this.handleReloadNow : null} />}
                 </div>
