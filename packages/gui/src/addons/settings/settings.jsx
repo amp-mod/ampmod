@@ -37,7 +37,6 @@ import styles from './settings.css';
 import {detectTheme} from '../../lib/themes/themePersistance.js';
 import {applyGuiColors} from '../../lib/themes/guiHelpers.js';
 import {APP_FORUMS, APP_NAME} from '@ampmod/branding';
-import '@fontsource-variable/inter';
 import 'modern-normalize';
 import logo from "../../components/menu-bar/addons.svg";
 
