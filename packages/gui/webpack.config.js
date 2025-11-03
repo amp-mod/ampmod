@@ -11,13 +11,6 @@ const {EsbuildPlugin} = require('esbuild-loader');
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
 const {APP_NAME, APP_SLOGAN, APP_DESCRIPTION, APP_SOURCE} = require('@ampmod/branding');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const STATIC_PATH = process.env.STATIC_PATH || "/static";
-const {
-    APP_NAME,
-    APP_SLOGAN,
-    APP_DESCRIPTION,
-    APP_SOURCE,
-} = require("@ampmod/branding");
 
 const root = process.env.ROOT || '';
 if (root.length > 0 && !root.endsWith('/')) {
@@ -154,9 +147,10 @@ const base = {
                         options: {
                             postcssOptions: {
                                 plugins: [
-                                    postcssImport,
-                                    postcssVars,
-                                    autoprefixer,
+                                    require("postcss-import"),
+                                    require("postcss-simple-vars"),
+                                    require("postcss-nesting"),
+                                    require("autoprefixer")
                                 ],
                             },
                         },

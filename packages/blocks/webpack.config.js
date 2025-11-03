@@ -85,33 +85,35 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             hints: false,
         },
         plugins: [
-            new CopyWebpackPlugin([
-                {
-                    from: "blocks_vertical",
-                    to: "playgrounds/blocks_vertical",
-                },
-                {
-                    from: "core",
-                    to: "playgrounds/core",
-                },
-                {
-                    from: "media",
-                    to: "playgrounds/media",
-                },
-                {
-                    from: "msg",
-                    to: "playgrounds/msg",
-                },
-                {
-                    from: "tests",
-                    to: "playgrounds/tests",
-                },
-                {
-                    from: "*.js",
-                    ignore: "webpack.config.js",
-                    to: "playgrounds",
-                },
-            ]),
+            new CopyWebpackPlugin({
+                patterns: [
+                    {
+                        from: "blocks_vertical",
+                        to: "playgrounds/blocks_vertical",
+                    },
+                    {
+                        from: "core",
+                        to: "playgrounds/core",
+                    },
+                    {
+                        from: "media",
+                        to: "playgrounds/media",
+                    },
+                    {
+                        from: "msg",
+                        to: "playgrounds/msg",
+                    },
+                    {
+                        from: "tests",
+                        to: "playgrounds/tests",
+                    },
+                    {
+                        from: "*.js",
+                        globOptions: {ignore: "webpack.config.js"},
+                        to: "playgrounds",
+                    },
+                ]
+            }),
             new CopyWebpackPlugin({
                 patterns: [
                     {
