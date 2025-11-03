@@ -1,9 +1,9 @@
-const ScratchCommon = require("./tw-extension-api-common");
-const createScratchX = require("./tw-scratchx-compatibility-layer");
-const AsyncLimiter = require("../util/async-limiter");
-const createTranslate = require("./tw-l10n");
-const staticFetch = require("../util/tw-static-fetch");
-const AmpModAPI = require("./ampmod-api");
+const ScratchCommon = require('./tw-extension-api-common');
+const createScratchX = require('./tw-scratchx-compatibility-layer');
+const AsyncLimiter = require('../util/async-limiter');
+const createTranslate = require('./tw-l10n');
+const staticFetch = require('../util/tw-static-fetch');
+const AmpModAPI = require('./ampmod-api');
 
 /* eslint-disable require-await */
 
@@ -37,7 +37,7 @@ const setupUnsandboxedExtensionAPI = vm =>
         const Scratch = Object.assign({}, global.Scratch || {}, ScratchCommon);
         Scratch.extensions = {
             unsandboxed: true,
-            register,
+            register
         };
         Scratch.vm = vm;
         Scratch.renderer = vm.runtime.renderer;
@@ -51,12 +51,10 @@ const setupUnsandboxedExtensionAPI = vm =>
                 return false;
             }
             // Always allow protocols that don't involve a remote request.
-            if (parsed.protocol === "blob:" || parsed.protocol === "data:") {
+            if (parsed.protocol === 'blob:' || parsed.protocol === 'data:') {
                 return true;
             }
-            return !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canFetch(parsed.href);
+            return vm.securityManager.canFetch(parsed.href);
         };
 
         Scratch.canOpenWindow = async url => {
@@ -66,12 +64,10 @@ const setupUnsandboxedExtensionAPI = vm =>
             }
             // Always reject protocols that would allow code execution.
             // eslint-disable-next-line no-script-url
-            if (parsed.protocol === "javascript:") {
+            if (parsed.protocol === 'javascript:') {
                 return false;
             }
-            return !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canOpenWindow(parsed.href);
+            return vm.securityManager.canOpenWindow(parsed.href);
         };
 
         Scratch.canRedirect = async url => {
@@ -81,47 +77,28 @@ const setupUnsandboxedExtensionAPI = vm =>
             }
             // Always reject protocols that would allow code execution.
             // eslint-disable-next-line no-script-url
-            if (parsed.protocol === "javascript:") {
+            if (parsed.protocol === 'javascript:') {
                 return false;
             }
-            return !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canRedirect(parsed.href);
+            return vm.securityManager.canRedirect(parsed.href);
         };
 
-        Scratch.canRecordAudio = async () =>
-            !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canRecordAudio();
+        Scratch.canRecordAudio = async () => vm.securityManager.canRecordAudio();
 
-        Scratch.canRecordVideo = async () =>
-            !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canRecordVideo();
+        Scratch.canRecordVideo = async () => vm.securityManager.canRecordVideo();
 
-        Scratch.canReadClipboard = async () =>
-            !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canReadClipboard();
+        Scratch.canReadClipboard = async () => vm.securityManager.canReadClipboard();
 
-        Scratch.canNotify = async () =>
-            !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canNotify();
+        Scratch.canNotify = async () => vm.securityManager.canNotify();
 
-        Scratch.canGeolocate = async () =>
-            !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canGeolocate();
+        Scratch.canGeolocate = async () => vm.securityManager.canGeolocate();
 
         Scratch.canEmbed = async url => {
             const parsed = parseURL(url);
             if (!parsed) {
                 return false;
             }
-            return !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canEmbed(parsed.href);
+            return vm.securityManager.canEmbed(parsed.href);
         };
 
         Scratch.canDownload = async (url, name) => {
@@ -131,12 +108,10 @@ const setupUnsandboxedExtensionAPI = vm =>
             }
             // Always reject protocols that would allow code execution.
             // eslint-disable-next-line no-script-url
-            if (parsed.protocol === "javascript:") {
+            if (parsed.protocol === 'javascript:') {
                 return false;
             }
-            return !vm.runtime.runtimeOptions.secman
-                ? true
-                : vm.securityManager.canDownload(url, name);
+            return vm.securityManager.canDownload(url, name);
         };
 
         Scratch.fetch = async (url, options) => {
@@ -158,9 +133,9 @@ const setupUnsandboxedExtensionAPI = vm =>
                 throw new Error(`Permission to open tab ${url} rejected.`);
             }
             // Use noreferrer to prevent new tab from accessing `window.opener`
-            const baseFeatures = "noreferrer";
+            const baseFeatures = 'noreferrer';
             features = features ? `${baseFeatures},${features}` : baseFeatures;
-            return window.open(url, "_blank", features);
+            return window.open(url, '_blank', features);
         };
 
         Scratch.redirect = async url => {
@@ -174,7 +149,7 @@ const setupUnsandboxedExtensionAPI = vm =>
             if (!(await Scratch.canDownload(url, name))) {
                 throw new Error(`Permission to download ${name} rejected.`);
             }
-            const link = document.createElement("a");
+            const link = document.createElement('a');
             link.href = url;
             link.download = name;
             document.body.appendChild(link);
@@ -188,8 +163,8 @@ const setupUnsandboxedExtensionAPI = vm =>
         global.ScratchExtensions = createScratchX(Scratch);
         global.amp = amp;
 
-        vm.emit("CREATE_UNSANDBOXED_EXTENSION_API", Scratch);
-        vm.emit("CREATE_UNSANDBOXED_EXTENSION_API", amp);
+        vm.emit('CREATE_UNSANDBOXED_EXTENSION_API', Scratch);
+        vm.emit('CREATE_UNSANDBOXED_EXTENSION_API', amp);
     });
 
 /**
@@ -199,7 +174,7 @@ const setupUnsandboxedExtensionAPI = vm =>
 const teardownUnsandboxedExtensionAPI = () => {
     // We can assume global.Scratch already exists.
     global.Scratch.extensions.register = () => {
-        throw new Error("Too late to register new extensions.");
+        throw new Error('Too late to register new extensions.');
     };
 };
 
@@ -213,13 +188,9 @@ const loadUnsandboxedExtension = (extensionURL, vm) =>
     new Promise((resolve, reject) => {
         setupUnsandboxedExtensionAPI(vm).then(resolve);
 
-        const script = document.createElement("script");
+        const script = document.createElement('script');
         script.onerror = () => {
-            reject(
-                new Error(
-                    `Error in unsandboxed script ${extensionURL}. Check the console for more information.`
-                )
-            );
+            reject(new Error(`Error in unsandboxed script ${extensionURL}. Check the console for more information.`));
         };
         script.src = extensionURL;
         document.body.appendChild(script);
@@ -235,5 +206,5 @@ const load = (extensionURL, vm) => limiter.do(extensionURL, vm);
 
 module.exports = {
     setupUnsandboxedExtensionAPI,
-    load,
+    load
 };

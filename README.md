@@ -3,7 +3,7 @@
 This is the source code for the AmpMod editor. AmpMod (formerly UltiBlocks) is a powerful block-based programming language with things like first-class lists,
 making it easier to create larger and more complicated projects.
 
-[![Try AmpMod now!](readme-assets/trynow.png)](https://ampmod.codeberg.page)
+[![Try AmpMod now!](readme-assets/trynow.svg)](https://ampmod.codeberg.page)
 
 Canary (newest commits): https://ampmod.codeberg.page/canary
 
@@ -11,16 +11,15 @@ Canary (newest commits): https://ampmod.codeberg.page/canary
 
 The following packages are included in this monorepo:
 
-| Package        | Description                                                                                     |
-| -------------- | ----------------------------------------------------------------------------------------------- |
-| `gui`          | The user interface used to run/create projects.                                                 |
-| `vm`           | The package that executes projects and loads extensions.                                        |
-| `blocks`       | The package used for the drag-and-drop block interface.                                         |
-| `desktop`      | The desktop app for AmpMod.                                                                     |
-| `paint`        | The paint editor for creating costumes and backdrops.                                           |
-| `render-fonts` | A package that contains fonts used in projects.                                                 |
-| `svg-renderer` | A package for rendering SVG images. Unmodified from TurboWarp; forked due to dependency issues. |
-| `branding`     | Self-explanatory. See [Forking](#forking).                                                      |
+| Package        | Description                                              |
+| -------------- | -------------------------------------------------------- |
+| `gui`          | The user interface used to run/create projects.          |
+| `vm`           | The package that executes projects and loads extensions. |
+| `blocks`       | The package used for the drag-and-drop block interface.  |
+| `desktop`      | The desktop app for AmpMod.                              |
+| `paint`        | The paint editor for creating costumes and backdrops.    |
+| `render-fonts` | A package that contains fonts used in projects.          |
+| `branding`     | Self-explanatory. See [Forking](#forking).               |
 
 Most of these packages have been published to our registry (public):
 https://codeberg.org/ampmod/-/packages

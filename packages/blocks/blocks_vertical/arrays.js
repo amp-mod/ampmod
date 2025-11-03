@@ -5,17 +5,7 @@
  * Copyright 2025 AmpElectrecuted
  * All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * GPL-3.0.
  */
 
 "use strict";
@@ -25,6 +15,18 @@ goog.require("Blockly.Colours");
 goog.require("Blockly.constants");
 goog.require("Blockly.ScratchBlocks.VerticalExtensions");
 
+// Define message keys for localization
+Blockly.Msg.ARRAYS_ITEM_OF = "item %1 of %2";
+Blockly.Msg.ARRAYS_ITEM_NO_OF = "item # of %1 in %2";
+Blockly.Msg.ARRAYS_CONTAINS = "%1 contains %2?";
+Blockly.Msg.ARRAYS_LENGTH = "length of %1";
+Blockly.Msg.ARRAYS_EMPTY_ARRAY = "empty array";
+Blockly.Msg.ARRAYS_DELIMITED_TO_ARRAY = "array from %1 separated by %2";
+Blockly.Msg.ARRAYS_IN_FRONT_OF = "add %1 to %2";
+Blockly.Msg.ARRAYS_BEHIND = "%1 in front of %2";
+Blockly.Msg.ARRAYS_AT = "insert %1 at %2 of %3";
+Blockly.Msg.ARRAYS_RANGE = "list from %1 to %2";
+
 Blockly.Blocks["arrays_item_of"] = {
     /**
      * Block for getting an item from an array.
@@ -32,7 +34,7 @@ Blockly.Blocks["arrays_item_of"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "item %1 of %2",
+            message0: Blockly.Msg.ARRAYS_ITEM_OF,
             args0: [
                 {
                     type: "input_value",
@@ -57,7 +59,7 @@ Blockly.Blocks["arrays_item_no_of"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "item # of %1 in %2",
+            message0: Blockly.Msg.ARRAYS_ITEM_NO_OF,
             args0: [
                 {
                     type: "input_value",
@@ -81,7 +83,7 @@ Blockly.Blocks["arrays_contains"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "%1 contains %2?",
+            message0: Blockly.Msg.ARRAYS_CONTAINS,
             args0: [
                 {
                     type: "input_value",
@@ -105,7 +107,7 @@ Blockly.Blocks["arrays_length"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "length of %1",
+            message0: Blockly.Msg.ARRAYS_LENGTH,
             args0: [
                 {
                     type: "input_value",
@@ -126,7 +128,7 @@ Blockly.Blocks["arrays_empty_array"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "empty array",
+            message0: Blockly.Msg.ARRAYS_EMPTY_ARRAY,
             output: "Array",
             extensions: ["colours_data_lists", "shape_square"],
         });
@@ -140,7 +142,7 @@ Blockly.Blocks["arrays_delimited_to_array"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "array from %1 separated by %2",
+            message0: Blockly.Msg.ARRAYS_DELIMITED_TO_ARRAY,
             args0: [
                 {
                     type: "input_value",
@@ -166,7 +168,7 @@ Blockly.Blocks["arrays_in_front_of"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "add %1 to %2",
+            message0: Blockly.Msg.ARRAYS_BEHIND,
             args0: [
                 {
                     type: "input_value",
@@ -191,7 +193,7 @@ Blockly.Blocks["arrays_behind"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "%1 in front of %2",
+            message0: Blockly.Msg.ARRAYS_IN_FRONT_OF,
             args0: [
                 {
                     type: "input_value",
@@ -216,7 +218,7 @@ Blockly.Blocks["arrays_at"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "insert %1 at %2 of %3",
+            message0: Blockly.Msg.ARRAYS_AT,
             args0: [
                 {
                     type: "input_value",
@@ -245,7 +247,7 @@ Blockly.Blocks["arrays_range"] = {
      */
     init: function () {
         this.jsonInit({
-            message0: "list from %1 to %2",
+            message0: Blockly.Msg.ARRAYS_RANGE,
             args0: [
                 {
                     type: "input_value",

@@ -1,0 +1,42 @@
+@import '../../css/colors.css';
+
+.modal-content {
+    max-width: 700px;
+}
+
+.update-modal-content {
+    background: $ui-modal-background;
+    padding: 1.5rem 2.25rem;
+    min-height: 150px;
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+    display: flex;
+    user-select: text;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.update-modal-content ul {
+    margin: 0;
+    padding-left: 1.2em;
+    max-width: 100%;
+    word-break: break-word;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* the below mimicks the buttons from the home page */
+.button {
+    background-color: $motion-primary;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: $motion-tertiary;
+}

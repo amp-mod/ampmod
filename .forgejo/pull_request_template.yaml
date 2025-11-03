@@ -1,25 +1,25 @@
-name: "PR Template"
-about: "PR Template"
+name: 'PR Template'
+about: 'PR Template'
 body:
     - type: textarea
       id: resolves
       attributes:
           label: Resolves
-          description: "What issue on the issue tracker does this resolve? Please provide a link."
-          placeholder: "Resolves #..."
+          description: 'What issue on the issue tracker does this resolve? Please provide a link.'
+          placeholder: 'Resolves #...'
     - type: textarea
       id: description
       attributes:
           label: Description of changes
-          description: "What changes does this PR make?"
-          placeholder: "This PR adds an Apple Cat logo..."
+          description: 'What changes does this PR make?'
+          placeholder: 'This PR adds an Apple Cat logo...'
       validations:
           required: true
     - type: textarea
       id: reasons
       attributes:
           label: Reasons for changes
-          description: "Please explain why this PR was made."
-          placeholder: "There is no logo in the menu bar..."
+          description: 'Please explain why this PR was made.'
+          placeholder: 'There is no logo in the menu bar...'
       validations:
           required: true

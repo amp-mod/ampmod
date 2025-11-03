@@ -1,7 +1,14 @@
 packages:
-  - packages/*
+    - packages/*
+
+ignoredBuiltDependencies:
+    - core-js
 
 onlyBuiltDependencies:
-  - electron
+    - chromedriver
+    - electron
+    - electron-winstaller
+    - es5-ext
+    - esbuild
 
 shamefullyHoist: true

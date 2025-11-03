@@ -1,40 +1,43 @@
-import bindAll from "lodash.bindall";
-import PropTypes from "prop-types";
-import React from "react";
-import { injectIntl, intlShape, defineMessages } from "react-intl";
+import bindAll from 'lodash.bindall';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {injectIntl, intlShape, defineMessages} from 'react-intl';
 
-import LibraryItemComponent from "../components/library-item/library-item.jsx";
+import LibraryItemComponent from '../components/library-item/library-item.jsx';
 
 const messages = defineMessages({
-    incompatible: {
-        // eslint-disable-next-line max-len
-        defaultMessage:
-            "This extension is incompatible with Scratch. Projects made with it cannot be uploaded to the Scratch website. Are you sure you want to enable it?",
-        description: "Confirm loading Scratch-incompatible extension",
-        id: "tw.confirmIncompatibleExtension",
+    deprecated1: {
+        defaultMessage: 'This extension is deprecated for the following reason:',
+        description: 'Confirm loading deprecated extension',
+        id: 'amp.confirmDeprecated.1'
     },
+    deprecated2: {
+        defaultMessage: 'Are you sure you want to add it?',
+        description: 'Confirm loading deprecated extension',
+        id: 'amp.confirmDeprecated.2'
+    }
 });
 
 class LibraryItem extends React.PureComponent {
     constructor(props) {
         super(props);
         bindAll(this, [
-            "handleBlur",
-            "handleClick",
-            "handleFavorite",
-            "handleFocus",
-            "handleKeyPress",
-            "handleMouseEnter",
-            "handleMouseLeave",
-            "handlePlay",
-            "handleStop",
-            "rotateIcon",
-            "startRotatingIcons",
-            "stopRotatingIcons",
+            'handleBlur',
+            'handleClick',
+            'handleFavorite',
+            'handleFocus',
+            'handleKeyPress',
+            'handleMouseEnter',
+            'handleMouseLeave',
+            'handlePlay',
+            'handleStop',
+            'rotateIcon',
+            'startRotatingIcons',
+            'stopRotatingIcons'
         ]);
         this.state = {
             iconIndex: 0,
-            isRotatingIcon: false,
+            isRotatingIcon: false
         };
     }
     componentWillUnmount() {
@@ -44,7 +47,7 @@ class LibraryItem extends React.PureComponent {
         this.handleMouseLeave(id);
     }
     handleClick(e) {
-        if (e.target.closest("a")) {
+        if (e.target.closest('a')) {
             // Allow clicking on links inside the item
             return;
         }
@@ -52,7 +55,8 @@ class LibraryItem extends React.PureComponent {
         if (this.props.deprecated) {
             if (
                 !window.confirm(
-                    `This extension is deprecated for the following reason:\n\n${this.props.deprecated}\n\nAre you sure you want to enable it?`
+                    // eslint-disable-next-line max-len
+                    `${this.props.intl.formatMessage(messages.deprecated1)}\n\n${this.props.deprecated}\n\n${this.props.intl.formatMessage(messages.deprecated2)}`
                 )
             ) {
                 e.preventDefault();
@@ -79,7 +83,7 @@ class LibraryItem extends React.PureComponent {
         }
     }
     handleKeyPress(e) {
-        if (e.key === " " || e.key === "Enter") {
+        if (e.key === ' ' || e.key === 'Enter') {
             e.preventDefault();
             this.props.onSelect(this.props.id);
         }
@@ -92,7 +96,7 @@ class LibraryItem extends React.PureComponent {
                 this.stopRotatingIcons();
                 this.setState(
                     {
-                        isRotatingIcon: true,
+                        isRotatingIcon: true
                     },
                     this.startRotatingIcons
                 );
@@ -106,7 +110,7 @@ class LibraryItem extends React.PureComponent {
             if (this.props.icons && this.props.icons.length) {
                 this.setState(
                     {
-                        isRotatingIcon: false,
+                        isRotatingIcon: false
                     },
                     this.stopRotatingIcons
                 );
@@ -129,17 +133,12 @@ class LibraryItem extends React.PureComponent {
         }
     }
     rotateIcon() {
-        const nextIconIndex =
-            (this.state.iconIndex + 1) % this.props.icons.length;
-        this.setState({ iconIndex: nextIconIndex });
+        const nextIconIndex = (this.state.iconIndex + 1) % this.props.icons.length;
+        this.setState({iconIndex: nextIconIndex});
     }
     curIconMd5() {
         const iconMd5Prop = this.props.iconMd5;
-        if (
-            this.props.icons &&
-            this.state.isRotatingIcon &&
-            this.state.iconIndex < this.props.icons.length
-        ) {
+        if (this.props.icons && this.state.isRotatingIcon && this.state.iconIndex < this.props.icons.length) {
             const icon = this.props.icons[this.state.iconIndex] || {};
             return (
                 icon.md5ext || // 3.0 library format
@@ -170,9 +169,7 @@ class LibraryItem extends React.PureComponent {
                 id={this.props.id}
                 insetIconURL={this.props.insetIconURL}
                 insetIconBgColor={this.props.insetIconBgColor}
-                internetConnectionRequired={
-                    this.props.internetConnectionRequired
-                }
+                internetConnectionRequired={this.props.internetConnectionRequired}
                 requirements={this.props.requirements}
                 isPlaying={this.props.isPlaying}
                 name={this.props.name}
@@ -211,7 +208,7 @@ LibraryItem.propTypes = {
     icons: PropTypes.arrayOf(
         PropTypes.shape({
             baseLayerMD5: PropTypes.string, // 2.0 library format, TODO GH-5084
-            md5ext: PropTypes.string, // 3.0 library format
+            md5ext: PropTypes.string // 3.0 library format
         })
     ),
     id: PropTypes.number.isRequired,
@@ -220,14 +217,12 @@ LibraryItem.propTypes = {
     internetConnectionRequired: PropTypes.bool,
     isPlaying: PropTypes.bool,
     name: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    credits: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.string, PropTypes.node])
-    ),
+    credits: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.node])),
     docsURI: PropTypes.string,
     samples: PropTypes.arrayOf(
         PropTypes.shape({
             href: PropTypes.string,
-            text: PropTypes.string,
+            text: PropTypes.string
         })
     ),
     favorite: PropTypes.bool,
@@ -235,7 +230,7 @@ LibraryItem.propTypes = {
     onMouseEnter: PropTypes.func.isRequired,
     onMouseLeave: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
-    showPlayButton: PropTypes.bool,
+    showPlayButton: PropTypes.bool
 };
 
 export default injectIntl(LibraryItem);

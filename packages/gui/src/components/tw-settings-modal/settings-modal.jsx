@@ -1,22 +1,17 @@
-import {
-    defineMessages,
-    FormattedMessage,
-    intlShape,
-    injectIntl,
-} from "react-intl";
-import PropTypes from "prop-types";
-import React from "react";
-import classNames from "classnames";
-import bindAll from "lodash.bindall";
-import Box from "../box/box.jsx";
-import Modal from "../../containers/modal.jsx";
-import FancyCheckbox from "../tw-fancy-checkbox/checkbox.jsx";
-import Input from "../forms/input.jsx";
-import BufferedInputHOC from "../forms/buffered-input-hoc.jsx";
-import DocumentationLink from "../tw-documentation-link/documentation-link.jsx";
-import styles from "./settings-modal.css";
-import helpIcon from "./help-icon.svg";
-import { APP_NAME } from "@ampmod/branding";
+import {defineMessages, FormattedMessage, intlShape, injectIntl} from 'react-intl';
+import PropTypes from 'prop-types';
+import React, {useState} from 'react';
+import classNames from 'classnames';
+import bindAll from 'lodash.bindall';
+import Box from '../box/box.jsx';
+import Modal from '../../containers/modal.jsx';
+import FancyCheckbox from '../tw-fancy-checkbox/checkbox.jsx';
+import Input from '../forms/input.jsx';
+import BufferedInputHOC from '../forms/buffered-input-hoc.jsx';
+import DocumentationLink from '../tw-documentation-link/documentation-link.jsx';
+import styles from './settings-modal.css';
+import helpIcon from './help-icon.svg';
+import {APP_NAME} from '@ampmod/branding';
 
 /* eslint-disable react/no-multi-comp */
 
@@ -24,25 +19,22 @@ const BufferedInput = BufferedInputHOC(Input);
 
 const messages = defineMessages({
     title: {
-        defaultMessage: "Advanced Settings",
-        description: "Title of settings modal",
-        id: "tw.settingsModal.title",
+        defaultMessage: 'Program Settings',
+        description: 'Title of settings modal',
+        id: 'amp.settingsModal.title'
     },
     help: {
-        defaultMessage: "Click for help",
-        description: "Hover text of help icon in settings",
-        id: "tw.settingsModal.help",
-    },
+        defaultMessage: 'Click for help',
+        description: 'Hover text of help icon in settings',
+        id: 'tw.settingsModal.help'
+    }
 });
 
 const LearnMore = props => (
     <React.Fragment>
-        {" "}
+        {' '}
         <DocumentationLink {...props}>
-            <FormattedMessage
-                defaultMessage="Learn more."
-                id="gui.alerts.cloudInfoLearnMore"
-            />
+            <FormattedMessage defaultMessage="Learn more." id="gui.alerts.cloudInfoLearnMore" />
         </DocumentationLink>
     </React.Fragment>
 );
@@ -50,29 +42,29 @@ const LearnMore = props => (
 class UnwrappedSetting extends React.Component {
     constructor(props) {
         super(props);
-        bindAll(this, ["handleClickHelp"]);
+        bindAll(this, ['handleClickHelp']);
         this.state = {
-            helpVisible: false,
+            helpVisible: false
         };
     }
     componentDidUpdate(prevProps) {
         if (this.props.active && !prevProps.active) {
             // eslint-disable-next-line react/no-did-update-set-state
             this.setState({
-                helpVisible: true,
+                helpVisible: true
             });
         }
     }
     handleClickHelp() {
         this.setState(prevState => ({
-            helpVisible: !prevState.helpVisible,
+            helpVisible: !prevState.helpVisible
         }));
     }
     render() {
         return (
             <div
                 className={classNames(styles.setting, {
-                    [styles.active]: this.props.active,
+                    [styles.active]: this.props.active
                 })}
             >
                 <div className={styles.label}>
@@ -88,9 +80,7 @@ class UnwrappedSetting extends React.Component {
                 {this.state.helpVisible && (
                     <div className={styles.detail}>
                         {this.props.help}
-                        {this.props.slug && (
-                            <LearnMore slug={this.props.slug} />
-                        )}
+                        {this.props.slug && <LearnMore slug={this.props.slug} />}
                     </div>
                 )}
                 {this.props.secondary}
@@ -104,21 +94,17 @@ UnwrappedSetting.propTypes = {
     help: PropTypes.node,
     primary: PropTypes.node,
     secondary: PropTypes.node,
-    slug: PropTypes.string,
+    slug: PropTypes.string
 };
 const Setting = injectIntl(UnwrappedSetting);
 
-const BooleanSetting = ({ value, onChange, label, ...props }) => (
+const BooleanSetting = ({value, onChange, label, ...props}) => (
     <Setting
         {...props}
         active={value}
         primary={
             <label className={styles.label}>
-                <FancyCheckbox
-                    className={styles.checkbox}
-                    checked={value}
-                    onChange={onChange}
-                />
+                <FancyCheckbox className={styles.checkbox} checked={value} onChange={onChange} />
                 {label}
             </label>
         }
@@ -127,7 +113,7 @@ const BooleanSetting = ({ value, onChange, label, ...props }) => (
 BooleanSetting.propTypes = {
     onChange: PropTypes.func.isRequired,
     value: PropTypes.bool.isRequired,
-    label: PropTypes.node.isRequired,
+    label: PropTypes.node.isRequired
 };
 
 const HighQualityPen = props => (
@@ -153,33 +139,30 @@ const HighQualityPen = props => (
 );
 
 const CustomFPS = props => (
-    <BooleanSetting
-        value={props.framerate !== 30}
-        onChange={props.onChange}
-        label={
-            <FormattedMessage
-                defaultMessage="60 FPS (Custom FPS)"
-                description="FPS setting"
-                id="tw.settingsModal.fps"
-            />
+    <Setting
+        active={props.framerate !== 30}
+        primary={
+            <div className={classNames(styles.label, styles.customStageSize)}>
+                <FormattedMessage
+                    defaultMessage="Custom FPS:"
+                    description="FPS setting"
+                    id="amp.settingsModal.fps"
+                />
+                <BufferedInput
+                    value={props.framerate}
+                    onSubmit={props.onChange}
+                    min="0"
+                    max="250"
+                    type="number"
+                />
+            </div>
         }
         help={
             <FormattedMessage
                 // eslint-disable-next-line max-len
-                defaultMessage="Runs scripts 60 times per second instead of 30. Most vanilla Scratch projects will not handle this properly; you can try Interpolation instead. {customFramerate}."
+                defaultMessage="Runs scripts at a custom amount of times per second instead of 30. 60 is a common option. Use 0 to un-cap the FPS so it runs at the monitor's refresh rate."
                 description="FPS setting help"
-                id="tw.settingsModal.fpsHelp"
-                values={{
-                    customFramerate: (
-                        <a onClick={props.onCustomizeFramerate} tabIndex="0">
-                            <FormattedMessage
-                                defaultMessage="Click to use a framerate other than 30 or 60"
-                                description="FPS settings help"
-                                id="tw.settingsModal.fpsHelp.customFramerate"
-                            />
-                        </a>
-                    ),
-                }}
+                id="amp.settingsModal.fpsHelp"
             />
         }
         slug="custom-fps"
@@ -187,8 +170,14 @@ const CustomFPS = props => (
 );
 CustomFPS.propTypes = {
     framerate: PropTypes.number,
+    onFramerateChange: PropTypes.func
+};
+
+
+CustomFPS.propTypes = {
+    framerate: PropTypes.number,
     onChange: PropTypes.func,
-    onCustomizeFramerate: PropTypes.func,
+    onCustomizeFramerate: PropTypes.func
 };
 
 const Interpolation = props => (
@@ -337,7 +326,7 @@ const DisableCompiler = props => (
                 description="Disable Compiler help"
                 id="tw.settingsModal.disableCompilerHelp"
                 values={{
-                    APP_NAME,
+                    APP_NAME
                 }}
             />
         }
@@ -345,29 +334,38 @@ const DisableCompiler = props => (
     />
 );
 
-const DisableSecurityManager = props => (
-    <BooleanSetting
-        {...props}
-        label={
-            <FormattedMessage
-                defaultMessage="Disable Security Prompts"
-                description="Disable Security Prompts setting"
-                id="amp.settingsModal.disableSecman"
-            />
+export const sizePresets = [
+    {
+        id: 'd',
+        width: 480,
+        height: 360,
+        message: {
+            id: 'amp.settingsModal.presetStageDefault',
+            defaultMessage: 'Default',
+            description: 'Preset label for 4:3 stage size'
         }
-        help={
-            <FormattedMessage
-                // eslint-disable-next-line max-len
-                defaultMessage="Disables security prompts from extensions. You may want to enable this while editing projects or running those from a trusted developer. Otherwise, DO NOT enable this. Review the project's code first."
-                description="Disable Security Prompts help"
-                id="amp.settingsModal.disableSecmanHelp"
-                values={{
-                    APP_NAME,
-                }}
-            />
+    },
+    {
+        id: 'w',
+        width: 640,
+        height: 360,
+        message: {
+            id: 'amp.settingsModal.presetStageWidescreen',
+            defaultMessage: 'Widescreen',
+            description: 'Preset label for 16:9 stage size'
         }
-    />
-);
+    },
+    {
+        id: 's',
+        width: 360,
+        height: 360,
+        message: {
+            id: 'amp.settingsModal.presetStageSquare',
+            defaultMessage: 'Square',
+            description: 'Preset label for 1:1 stage size'
+        }
+    }
+];
 
 const CustomStageSize = ({
     customStageSizeEnabled,
@@ -375,70 +373,108 @@ const CustomStageSize = ({
     onStageWidthChange,
     stageHeight,
     onStageHeightChange,
-}) => (
-    <Setting
-        active={customStageSizeEnabled}
-        primary={
-            <div className={classNames(styles.label, styles.customStageSize)}>
-                <FormattedMessage
-                    defaultMessage="Custom Stage Size:"
-                    description="Custom Stage Size option"
-                    id="tw.settingsModal.customStageSize"
-                />
-                <BufferedInput
-                    value={stageWidth}
-                    onSubmit={onStageWidthChange}
-                    className={styles.customStageSizeInput}
-                    type="number"
-                    min="0"
-                    max="1024"
-                    step="1"
-                />
-                <span>{"×"}</span>
-                <BufferedInput
-                    value={stageHeight}
-                    onSubmit={onStageHeightChange}
-                    className={styles.customStageSizeInput}
-                    type="number"
-                    min="0"
-                    max="1024"
-                    step="1"
-                />
-            </div>
-        }
-        secondary={
-            (stageWidth >= 1000 || stageHeight >= 1000) && (
-                <div className={styles.warning}>
+    onPresetSelected
+}) => {
+    const applyPreset = preset => {
+        onPresetSelected(preset.width, preset.height);
+    };
+
+    const getAspectRatio = (width, height) => {
+        const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+        const divisor = gcd(width, height);
+        return `${width / divisor}:${height / divisor}`;
+    }
+
+    return (
+        <Setting
+            active={customStageSizeEnabled}
+            primary={
+                <div className={classNames(styles.label, styles.customStageSize)}>
                     <FormattedMessage
-                        // eslint-disable-next-line max-len
-                        defaultMessage="Using a custom stage size this large is not recommended! Instead, use a lower size with the same aspect ratio and let fullscreen mode upscale it to match the user's display."
-                        description="Warning about using stages that are too large in settings modal"
-                        id="tw.settingsModal.largeStageWarning"
+                        defaultMessage="Custom Stage Size:"
+                        description="Custom Stage Size option"
+                        id="tw.settingsModal.customStageSize"
                     />
-                    <LearnMore slug="custom-stage-size" />
+                    <BufferedInput
+                        value={stageWidth}
+                        onSubmit={onStageWidthChange}
+                        className={styles.customStageSizeInput}
+                        type="number"
+                        min="0"
+                        max="1024"
+                        step="1"
+                    />
+                    <span>{'×'}</span>
+                    <BufferedInput
+                        value={stageHeight}
+                        onSubmit={onStageHeightChange}
+                        className={styles.customStageSizeInput}
+                        type="number"
+                        min="0"
+                        max="1024"
+                        step="1"
+                    />
                 </div>
-            )
-        }
-        help={
-            <FormattedMessage
-                // eslint-disable-next-line max-len
-                defaultMessage="Changes the size of the stage from 480x360 to something else. Try 640x360 to make the stage widescreen. Very few vanilla Scratch projects will handle this properly."
-                description="Custom Stage Size option"
-                id="tw.settingsModal.customStageSizeHelp"
-            />
-        }
-        slug="custom-stage-size"
-    />
-);
+            }
+            secondary={
+                <>
+                    {(stageWidth >= 1000 || stageHeight >= 1000) && (
+                        <div className={styles.warning}>
+                            <FormattedMessage
+                                defaultMessage="Using a custom stage size this large is not recommended! Instead, use a lower size with the same aspect ratio and let fullscreen mode upscale it to match the user's display."
+                                description="Warning about using stages that are too large in settings modal"
+                                id="tw.settingsModal.largeStageWarning"
+                            />
+                            <LearnMore slug="custom-stage-size" />
+                        </div>
+                    )}
+                    <div className={styles.presetButtons}>
+                        {sizePresets.map(preset => {
+                            const isSelected =
+                                stageWidth === preset.width && stageHeight === preset.height;
+                            return (
+                                <button
+                                    key={preset.id}
+                                    onClick={() => applyPreset(preset)}
+                                    className={classNames(styles.presetButton, {
+                                        [styles.selectedPreset]: isSelected
+                                    })}
+                                    style={{
+                                        height: 135,
+                                        width: (preset.width / preset.height) * 135
+                                    }}
+                                >
+                                    <FormattedMessage {...preset.message} />
+                                    <div style={{ fontSize: 12, marginTop: 4 }}>
+                                        {getAspectRatio(preset.width, preset.height)}
+                                    </div>
+                                </button>
+                            );
+
+                        })}
+                    </div>
+                </>
+            }
+            help={
+                <FormattedMessage
+                    defaultMessage="Changes the size of the stage from 480x360 to something else. Try 640x360 to make the stage widescreen. Very few vanilla Scratch projects will handle this properly."
+                    description="Custom Stage Size option help text"
+                    id="tw.settingsModal.customStageSizeHelp"
+                />
+            }
+            slug="custom-stage-size"
+        />
+    );
+};
 CustomStageSize.propTypes = {
     customStageSizeEnabled: PropTypes.bool,
     stageWidth: PropTypes.number,
     onStageWidthChange: PropTypes.func,
     stageHeight: PropTypes.number,
-    onStageHeightChange: PropTypes.func,
+    onStageHeightChange: PropTypes.func
 };
 
-const StoreProjectOptions = ({ onStoreProjectOptions }) => (
+const StoreProjectOptions = ({onStoreProjectOptions}) => (
     <div className={styles.setting}>
         <div>
             <button onClick={onStoreProjectOptions} className={styles.button}>
@@ -448,20 +484,11 @@ const StoreProjectOptions = ({ onStoreProjectOptions }) => (
                     id="tw.settingsModal.storeProjectOptions"
                 />
             </button>
-            <p>
-                <FormattedMessage
-                    // eslint-disable-next-line max-len
-                    defaultMessage="Warp timer, disable compiler, and disable security prompts will not be stored."
-                    description="Help text for the store settings in project button"
-                    id="amp.settingsModal.storeProjectOptionsHelp"
-                />
-            </p>
         </div>
     </div>
 );
-
 StoreProjectOptions.propTypes = {
-    onStoreProjectOptions: PropTypes.func,
+    onStoreProjectOptions: PropTypes.func
 };
 
 const Header = props => (
@@ -471,8 +498,31 @@ const Header = props => (
     </div>
 );
 Header.propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.node
 };
+
+const CollapsibleSection = ({titleId, children}) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className={styles.collapsibleSection}>
+            <div
+                className={styles.header}
+                onClick={() => setIsOpen(prev => !prev)}
+                style={{cursor: 'pointer'}}
+            >
+                <FormattedMessage {...titleId} />
+                <div className={styles.divider} />
+                <span className={styles.collapseArrow}>{isOpen ? '▲' : '▼'}</span>
+            </div>
+            {isOpen && children}
+        </div>
+    );
+};
+CollapsibleSection.propTypes = {
+    titleId: PropTypes.object,
+    children: PropTypes.node
+}
 
 const SettingsModalComponent = props => (
     <Modal
@@ -484,25 +534,15 @@ const SettingsModalComponent = props => (
         <Box className={styles.body}>
             <Header>
                 <FormattedMessage
-                    defaultMessage="Featured"
+                    defaultMessage="Quality of Life"
                     description="Settings modal section"
-                    id="tw.settingsModal.featured"
+                    id="amp.settingsModal.qol"
                 />
             </Header>
             {!props.isEmbedded && <CustomStageSize {...props} />}
-            <CustomFPS
-                framerate={props.framerate}
-                onChange={props.onFramerateChange}
-                onCustomizeFramerate={props.onCustomizeFramerate}
-            />
-            <HighQualityPen
-                value={props.highQualityPen}
-                onChange={props.onHighQualityPenChange}
-            />
-            <WarpTimer
-                value={props.warpTimer}
-                onChange={props.onWarpTimerChange}
-            />
+            <CustomFPS framerate={props.framerate} onChange={props.onFramerateChange} />
+            <HighQualityPen value={props.highQualityPen} onChange={props.onHighQualityPenChange} />
+            <WarpTimer value={props.warpTimer} onChange={props.onWarpTimerChange} />
             <Header>
                 <FormattedMessage
                     defaultMessage="Remove Limits"
@@ -510,43 +550,21 @@ const SettingsModalComponent = props => (
                     id="tw.settingsModal.removeLimits"
                 />
             </Header>
-            <InfiniteClones
-                value={props.infiniteClones}
-                onChange={props.onInfiniteClonesChange}
-            />
-            <RemoveFencing
-                value={props.removeFencing}
-                onChange={props.onRemoveFencingChange}
-            />
-            <CaseSensitivity
-                value={props.caseSensitivity}
-                onChange={props.onCaseSensitivityChange}
-            />
-            <RemoveMiscLimits
-                value={props.removeLimits}
-                onChange={props.onRemoveLimitsChange}
-            />
-            <Header>
-                <FormattedMessage
-                    defaultMessage="Danger Zone"
-                    description="Settings modal section"
-                    id="tw.settingsModal.dangerZone"
-                />
-            </Header>
-            <Interpolation
-                value={props.interpolation}
-                onChange={props.onInterpolationChange}
-            />
-            <DisableCompiler
-                value={props.disableCompiler}
-                onChange={props.onDisableCompilerChange}
-            />
-            {!props.isEmbedded && (
-                <DisableSecurityManager
-                    value={props.disableSecman}
-                    onChange={props.onDisableSecmanChange}
-                />
-            )}
+            <InfiniteClones value={props.infiniteClones} onChange={props.onInfiniteClonesChange} />
+            <RemoveFencing value={props.removeFencing} onChange={props.onRemoveFencingChange} />
+            <RemoveMiscLimits value={props.removeLimits} onChange={props.onRemoveLimitsChange} />
+            <CollapsibleSection titleId={{defaultMessage: 'Danger Zone', description: 'Settings modal section', id: 'tw.settingsModal.dangerZone'}}>
+                <div className={styles.warning}>
+                    <FormattedMessage
+                        defaultMessage="These options may change behaviour of certain blocks, and will often break your project."
+                        description="Danger zone warning"
+                        id="amp.settingsModal.dangerZoneWarning"
+                    />
+                </div>
+                <CaseSensitivity value={props.caseSensitivity} onChange={props.onCaseSensitivityChange} />
+                <Interpolation value={props.interpolation} onChange={props.onInterpolationChange} />
+                <DisableCompiler value={props.disableCompiler} onChange={props.onDisableCompilerChange} />
+            </CollapsibleSection>
         </Box>
     </Modal>
 );
@@ -571,9 +589,7 @@ SettingsModalComponent.propTypes = {
     warpTimer: PropTypes.bool,
     onWarpTimerChange: PropTypes.func,
     disableCompiler: PropTypes.bool,
-    onDisableCompilerChange: PropTypes.func,
-    disableSecman: PropTypes.bool,
-    onDisableSecmanChange: PropTypes.func,
+    onDisableCompilerChange: PropTypes.func
 };
 
 export default injectIntl(SettingsModalComponent);

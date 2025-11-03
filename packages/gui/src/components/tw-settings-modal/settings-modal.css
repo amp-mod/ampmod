@@ -1,6 +1,6 @@
-@import "../../css/colors.css";
-@import "../../css/filters.css";
-@import "../../css/default-colors.css";
+@import '../../css/colors.css';
+@import '../../css/filters.css';
+@import '../../css/default-colors.css';
 
 .modal-content {
     max-width: 750px;
@@ -102,7 +102,7 @@
 .divider {
     flex-grow: 1;
     margin-left: 1rem;
-    border-top: 1px dashed $ui-tertiary;
+    border-top: 1px dashed $ui-black-transparent;
 }
 
 .button {
@@ -125,8 +125,35 @@
 
 .warning {
     padding: 0.5rem 1rem;
-    margin: 0.25rem 0;
+    border-radius: 0.5rem;
+    background-color: rgba(255, 0, 0, 0.18);
+    border: 2px solid rgba(255, 0, 0, 0.568);
+}
+
+.preset-buttons {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+}
+.preset-button {
+    border: 1px solid $ui-black-transparent;
     border-radius: 4px;
-    background: rgb(233, 233, 53);
-    color: $text-primary-default;
+    transition: box-shadow 0.2s ease;
+    font-size: 1.1em;
+}
+.selected-preset {
+    border-color: $looks-secondary;
+    box-shadow: 0 0 0 3px $looks-transparent;
+}
+
+.collapsible-section .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collapse-arrow {
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
 }
