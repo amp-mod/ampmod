@@ -120,42 +120,34 @@ const base = {
                 }
             },
             {
-                // CSS loader
-                test: /\.css$/,
+                test: /\.css$/i,
                 use: [
-                    {
-                        loader: 'style-loader'
-                    },
+                    'style-loader',
                     {
                         loader: 'css-loader',
                         options: {
                             modules: {
                                 namedExport: false,
-                                localIdentName:
-                                    "[name]_[local]_[hash:base64:5]",
-                                exportLocalsConvention: "camel-case-only",
+                                localIdentName: '[name]_[local]_[hash:base64:5]',
+                                exportLocalsConvention: 'camelCaseOnly'
                             },
-                            importLoaders: 1,
-                        },
+                            importLoaders: 1
+                        }
                     },
                     {
-                        loader: "esbuild-loader",
-                        options: { target: "es2019" },
-                    },
-                    {
-                        loader: "postcss-loader",
+                        loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
-                                plugins: [
-                                    require("postcss-import"),
-                                    require("postcss-simple-vars"),
-                                    require("postcss-nesting"),
-                                    require("autoprefixer")
-                                ],
-                            },
-                        },
-                    },
-                ],
+                            plugins: [
+                                require('postcss-import'),
+                                require('postcss-simple-vars'),
+                                require('postcss-nesting'),
+                                require('autoprefixer')
+                            ]
+                            }
+                        }
+                    }
+                ]
             },
             {
                 // Static assets
