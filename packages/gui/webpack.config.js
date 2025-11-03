@@ -19,7 +19,7 @@ if (root.length > 0 && !root.endsWith('/')) {
 
 if (process.env.ENABLE_SERVICE_WORKER) {
     console.warn(
-        'amp: ENABLE_SERVICE_WORKER is deprecated as the service worker is now enabled by default. To disable the service worker, use DISABLE_SERVICE_WORKER instead.'
+        'amp: ENABLE_SERVICE_    is deprecated as the service worker is now enabled by default. To disable the service worker, use DISABLE_SERVICE_WORKER instead.'
     );
 }
 
@@ -440,15 +440,17 @@ module.exports = [
 ].concat(
     process.env.NODE_ENV === 'production' || process.env.BUILD_MODE === 'dist'
         ? // export as library
+          // amp: We modify this heavily for aw3 to play well and to remove stuff only vanilla uses.
           defaultsDeep({}, base, {
               target: 'web',
               entry: {
-                  'scratch-gui': './src/index.js'
+                  'ampmod-for-aw3': ['./src/playground/editor.jsx'],
+                  'ampmod-addon-settings-for-aw3': ['./src/playground/addon-settings.jsx'],
               },
               output: {
                   libraryTarget: 'umd',
-                  filename: 'js/[name].js',
-                  chunkFilename: 'js/[name].js',
+                  filename: '[name].js',
+                  chunkFilename: '[name].js',
                   path: path.resolve('dist'),
                   publicPath: `${STATIC_PATH}/`
               },
@@ -458,35 +460,11 @@ module.exports = [
                           test: /\.(svg|png|wav|mp3|gif|jpg|woff2|hex)$/,
                           loader: 'url-loader',
                           options: {
-                              limit: 2048,
-                              outputPath: 'static/assets/',
-                              publicPath: `${STATIC_PATH}/assets/`,
                               esModule: false
                           }
                       }
                   ])
               },
-              plugins: base.plugins.concat([
-                  new CopyWebpackPlugin({
-                      patterns: [
-                          {
-                              from: 'extension-worker.{js,js.map}',
-                              context: 'node_modules/scratch-vm/dist/web',
-                              noErrorOnMissing: true
-                          }
-                      ]
-                  }),
-                  // Include library JSON files for scratch-desktop to use for downloading
-                  new CopyWebpackPlugin({
-                      patterns: [
-                          {
-                              from: 'src/lib/libraries/*.json',
-                              to: 'libraries',
-                              flatten: true
-                          }
-                      ]
-                  })
-              ])
           })
         : []
 );
