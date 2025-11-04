@@ -7,7 +7,7 @@ const monorepoPackageJson = require('../../package.json');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {EsbuildPlugin} = require('esbuild-loader');
-const HtmlInlineScriptWebpackPlugin = require('html-inline-script-webpack-plugin');
+const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
 const {APP_NAME, APP_SLOGAN, APP_DESCRIPTION, APP_SOURCE} = require('@ampmod/branding');
@@ -489,7 +489,7 @@ module.exports = [
                       base.module.rules[1],
                       {
                           test: /\.(svg|png|wav|mp3|gif|jpg|woff2?)$/,
-                          loader: 'asset/inline',
+                          type: 'asset/inline',
                       },
                       base.module.rules[3],
                       base.module.rules[4],
@@ -508,8 +508,10 @@ module.exports = [
                       inject: 'body',
                       ...htmlWebpackPluginCommon
                   }),
-                  new HtmlInlineScriptWebpackPlugin([/./]),
-              ])
+                new HtmlInlineScriptPlugin({
+                    scriptMatchPattern: [/./],
+                }),
+            ])
           })
         : []
 );

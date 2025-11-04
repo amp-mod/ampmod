@@ -11,8 +11,8 @@
     },
     "main": "./dist/scratch-gui.js",
     "scripts": {
-        "build": "pnpm run clean && webpack --colors --bail",
-        "ci-build": "webpack --colors --bail",
+        "build": "pnpm run clean && webpack --bail",
+        "ci-build": "webpack --bail",
         "clean": "rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist",
         "prepare": "node scripts/prepublish.mjs",
         "i18n:push": "wlc push --project ampmod --component ampmod-editor-interface --file translations/en.json",
