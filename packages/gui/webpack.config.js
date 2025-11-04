@@ -120,7 +120,7 @@ const base = {
                 options: {
                     loader: 'tsx',
                     jsx: 'automatic',
-                    target: 'es2019'
+                    target: 'es2022'
                 }
             },
             {
@@ -318,7 +318,7 @@ module.exports = [
                     }
                 }
             },
-            minimizer: [new EsbuildPlugin({target: 'es2019'})]
+            minimizer: [new EsbuildPlugin({target: 'es2022'})]
         },
         stats:
             process.env.NODE_ENV === 'production'
@@ -480,7 +480,7 @@ module.exports = [
                   sideEffects: true,
                   concatenateModules: true,
                   minimize: true,
-                  minimizer: [new EsbuildPlugin({target: 'es2019', minify: true, css: true})]
+                  minimizer: [new EsbuildPlugin({target: 'es2022', minify: true, css: true})]
               },
               module: {
                   rules: [
