@@ -480,7 +480,6 @@ module.exports = [
                   sideEffects: true,
                   concatenateModules: true,
                   minimize: true,
-                  minimizer: [new EsbuildPlugin({target: 'es2022', minify: true, css: true})]
               },
               module: {
                   rules: [
