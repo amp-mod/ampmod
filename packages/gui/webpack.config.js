@@ -6,7 +6,7 @@ const monorepoPackageJson = require('../../package.json');
 // Plugins
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const {EsbuildPlugin} = require('esbuild-loader');
+const { SwcMinifyWebpackPlugin } = require('swc-minify-webpack-plugin');
 const HtmlInlineScriptPlugin = require('html-inline-script-webpack-plugin');
 
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
@@ -113,14 +113,33 @@ const base = {
     module: {
         rules: [
             {
-                // JS/TSX loader
                 test: /\.[jt]sx?$/,
-                loader: 'esbuild-loader',
-                include: [path.resolve(__dirname, 'src'), /node_modules[\\/]scratch-[^\\/]+[\\/]src/],
+                loader: 'swc-loader',
+                include: [
+                    path.resolve(__dirname, 'src'),
+                    /node_modules[\\/]scratch-[^\\/]+[\\/]src/
+                ],
                 options: {
-                    loader: 'tsx',
-                    jsx: 'automatic',
-                    target: 'es2022'
+                    jsc: {
+                        parser: {
+                            syntax: 'typescript',
+                            tsx: true,
+                            decorators: false,
+                            dynamicImport: true
+                        },
+                        target: 'es2022',
+                        transform: {
+                            react: {
+                                runtime: 'automatic',
+                                pragma: 'React.createElement',
+                                pragmaFrag: 'React.Fragment',
+                                throwIfNamespace: true,
+                                development: process.env.NODE_ENV !== 'production',
+                                useBuiltins: true
+                            }
+                        }
+                    },
+                    sourceMaps: process.env.NODE_ENV !== 'production'
                 }
             },
             {
@@ -318,7 +337,7 @@ module.exports = [
                     }
                 }
             },
-            minimizer: [new EsbuildPlugin({target: 'es2022'})]
+            minimizer: [new SwcMinifyWebpackPlugin({compress: true, mangle: true, format: {comments: "some"}})]
         },
         stats:
             process.env.NODE_ENV === 'production'

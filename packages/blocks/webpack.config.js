@@ -6,7 +6,7 @@ gracefulFs.gracefulify(realFs);
 
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
-const { EsbuildPlugin } = require("esbuild-loader");
+const { SwcMinifyWebpackPlugin } = require('swc-minify-webpack-plugin');
 
 module.exports = [
     {
@@ -64,7 +64,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
             filename: "[name].js",
         },
         optimization: {
-            minimizer: [new EsbuildPlugin({ target: "es2022" })],
+            minimizer: [new SwcMinifyWebpackPlugin({ compress: true, mangle: true })],
         },
         plugins: [],
     },
