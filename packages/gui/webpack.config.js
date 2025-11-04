@@ -7,6 +7,7 @@ const monorepoPackageJson = require('../../package.json');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {EsbuildPlugin} = require('esbuild-loader');
+const HtmlInlineScriptWebpackPlugin = require('html-inline-script-webpack-plugin');
 
 const STATIC_PATH = process.env.STATIC_PATH || '/static';
 const {APP_NAME, APP_SLOGAN, APP_DESCRIPTION, APP_SOURCE} = require('@ampmod/branding');
@@ -444,4 +445,58 @@ module.exports = [
             }),
         ]),
     }),
-];
+].concat(
+    process.env.BUILD_MODE === 'standalone'
+        ? defaultsDeep({}, base, {
+              target: 'web',
+              mode: "production",
+              devtool: false,
+              entry: {
+                  'standalone': [
+                      './src/playground/amp-standalone-handler.jsx',
+                  ]
+              },
+              output: {
+                  library: 'AmpModStandalone',
+                  libraryTarget: 'umd',
+                  filename: '[name].js', 
+                  chunkFilename: '[name].js',
+                  path: path.resolve('standalone'),
+                  publicPath: `${STATIC_PATH}/`
+              },
+              optimization: {
+                  splitChunks: false,
+                  runtimeChunk: false,
+                  usedExports: true,
+                  sideEffects: true,
+                  concatenateModules: true,
+                  minimizer: [new EsbuildPlugin({target: 'es2019', minify: true, css: true})]
+              },
+              module: {
+                  rules: [
+                      base.module.rules[0],
+                      base.module.rules[1],
+                      {
+                          test: /\.(svg|png|wav|mp3|gif|jpg|woff2?)$/,
+                          loader: 'asset/inline',
+                      }
+                  ]
+              },
+              plugins: base.plugins.concat([
+                  new webpack.optimize.LimitChunkCountPlugin({
+                      maxChunks: 1
+                  }),
+                  new HtmlWebpackPlugin({
+                      chunks: ['standalone'],
+                      template: 'src/playground/index.ejs',
+                      filename: `AmpMod-Standalone-${monorepoPackageJson.version}-EXPERIMENTAL.html`,
+                      title: `${APP_NAME} - ${APP_SLOGAN}`,
+                      isEditor: true,
+                      inject: 'body',
+                      ...htmlWebpackPluginCommon
+                  }),
+                  new HtmlInlineScriptWebpackPlugin([/./]),
+              ])
+          })
+        : []
+);
