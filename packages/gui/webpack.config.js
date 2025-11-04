@@ -460,17 +460,15 @@ module.exports = [
     process.env.BUILD_MODE === 'standalone'
         ? defaultsDeep({}, base, {
               target: 'web',
-              mode: "production",
+              mode: 'production',
               devtool: false,
               entry: {
-                  'standalone': [
-                      './src/playground/amp-standalone-handler.jsx',
-                  ]
+                  'standalone': ['./src/playground/amp-standalone-handler.jsx']
               },
               output: {
                   library: 'AmpModStandalone',
                   libraryTarget: 'umd',
-                  filename: '[name].js', 
+                  filename: '[name].js',
                   chunkFilename: '[name].js',
                   path: path.resolve('standalone'),
                   publicPath: `${STATIC_PATH}/`
@@ -481,6 +479,7 @@ module.exports = [
                   usedExports: true,
                   sideEffects: true,
                   concatenateModules: true,
+                  minimize: true,
                   minimizer: [new EsbuildPlugin({target: 'es2019', minify: true, css: true})]
               },
               module: {
@@ -496,22 +495,18 @@ module.exports = [
                   ]
               },
               plugins: base.plugins.concat([
-                  new webpack.optimize.LimitChunkCountPlugin({
-                      maxChunks: 1
-                  }),
+                  new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
                   new HtmlWebpackPlugin({
                       chunks: ['standalone'],
-                      template: 'src/playground/index.ejs',
+                      template: 'src/playground/simple.ejs',
                       filename: `AmpMod-Standalone-${monorepoPackageJson.version}-EXPERIMENTAL.html`,
                       title: `${APP_NAME} - ${APP_SLOGAN}`,
                       isEditor: true,
                       inject: 'body',
                       ...htmlWebpackPluginCommon
                   }),
-                new HtmlInlineScriptPlugin({
-                    scriptMatchPattern: [/./],
-                }),
-            ])
+                  new HtmlInlineScriptPlugin({ scriptMatchPattern: [/./] })
+              ])
           })
         : []
 );
