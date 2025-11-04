@@ -157,7 +157,15 @@ const base = {
                 parser: { dataUrlCondition: { maxSize: 8 * 1024 } },
                 generator: { filename: "static/assets/[name][hash][ext]" },
             },
-        ],
+            {
+                resourceQuery: /raw/,
+                type: 'asset/source',
+            },
+            {
+                resourceQuery: /bytes/,
+                type: 'asset/bytes',
+            }
+        ]
     },
     optimization: {
         moduleIds: "deterministic",
@@ -479,7 +487,9 @@ module.exports = [
                       {
                           test: /\.(svg|png|wav|mp3|gif|jpg|woff2?)$/,
                           loader: 'asset/inline',
-                      }
+                      },
+                      base.module.rules[3],
+                      base.module.rules[4],
                   ]
               },
               plugins: base.plugins.concat([
