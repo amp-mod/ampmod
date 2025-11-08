@@ -73,7 +73,7 @@ steps:
       image: node:alpine
       commands:
           - corepack enable
-          - NODE_ENV=production IS_CBP_BUILD=true ESBUILD_WORKERS=8 pnpm run ci-build
+          - NODE_ENV=production IS_CBP_BUILD=true ESBUILD_WORKERS=8 pnpm run build
           # - cp domains build/.domains
 
     - name: push

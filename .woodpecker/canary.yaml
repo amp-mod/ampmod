@@ -60,7 +60,7 @@ steps:
       commands:
           - corepack enable
           # Don't specify CBP build mode since redirects aren't properly implemented in canary
-          - NODE_ENV=production BUILD_MODE=canary ESBUILD_WORKERS=8 pnpm run ci-build
+          - NODE_ENV=production BUILD_MODE=canary ESBUILD_WORKERS=8 pnpm run build
           # Only needed for custom domains
           # - cp domains build/.domains
     - name: push
