@@ -1,6 +1,5 @@
 import importPlugin from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
-import prettierPlugin from 'eslint-plugin-prettier';
 
 export default [
     // Ignore paths
@@ -24,7 +23,6 @@ export default [
         plugins: {
             import: importPlugin,
             react: reactPlugin,
-            prettier: prettierPlugin
         },
         languageOptions: {
             parserOptions: {
@@ -47,10 +45,7 @@ export default [
             'react/jsx-no-literals': 'off',
 
             // Code style / readability
-            'no-warning-comments': 'off',
-
-            // Prettier
-            'prettier/prettier': 'error'
+            'no-warning-comments': 'off'
         },
         settings: {
             react: {version: 19}
