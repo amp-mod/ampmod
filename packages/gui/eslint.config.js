@@ -8,6 +8,7 @@ export default [
             'node_modules/**',
             'build/**',
             'dist/**',
+            'standalone/**',
             'test/**',
             'src/examples/**',
             'src/addons/addons/**',
