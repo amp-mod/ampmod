@@ -247,7 +247,7 @@ const GUIComponent = props => {
                     >
                         <>
                             {alwaysEnabledModals}
-                            {welcomeModalVisible && <Welcome isRtl={isRtl} onContinue={onRequestCloseWelcomeModal} />}
+                            {welcomeModalVisible && !loading && <Welcome isRtl={isRtl} onContinue={onRequestCloseWelcomeModal} />}
                             {telemetryModalVisible ? (
                                 <TelemetryModal
                                     isRtl={isRtl}
@@ -265,8 +265,8 @@ const GUIComponent = props => {
                                     intl={intl}
                                 />
                             )}
-                            {loading && !isCreating && !welcomeModalVisible ? <Loader isFullScreen /> : null}
-                            {isCreating && !welcomeModalVisible ? <Loader isFullScreen messageId="gui.loader.creating" /> : null}
+                            {loading && !isCreating ? <Loader isFullScreen /> : null}
+                            {isCreating ? <Loader isFullScreen messageId="gui.loader.creating" /> : null}
                             {tipsLibraryVisible ? <TipsLibrary /> : null}
                             {cardsVisible ? <Cards /> : null}
                             {alertsVisible ? <Alerts className={styles.alertsContainer} /> : null}
