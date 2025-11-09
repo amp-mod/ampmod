@@ -47,7 +47,7 @@ steps:
           - git config --global user.email "no@thankyou.com"
           - git config --global user.name "CI Builder"
           # clone and move the target repo
-          - git clone -b pages --depth=1 https://$CBTOKEN@codeberg.org/ampmod/canary.git amp-build
+          - git clone -b canary --depth=1 https://$CBTOKEN@codeberg.org/ampmod/pages.git amp-build
           - chmod -R a+w amp-build
     - name: install
       image: node:24-alpine
@@ -81,4 +81,4 @@ steps:
           - cp -a ../packages/gui/build/. .
           - git add --all
           - git commit -m "Woodpecker CI Build at $( env TZ=America/Chicago date +'%Y-%m-%d %X %Z' )"
-          - git push -f -u origin pages
+          - git push -f -u origin canary
