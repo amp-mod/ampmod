@@ -1,6 +1,6 @@
 import '../import-first.js';
-import Header from '../components/header/header.jsx';
-import Footer from '../components/footer/footer.jsx';
+import Header from '../components/header/header';
+import Footer from '../components/footer/footer';
 import Privacy from './privacy';
 import NewCompiler from './new-compiler';
 import './minor-pages.css';
