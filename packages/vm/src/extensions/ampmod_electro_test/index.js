@@ -66,9 +66,8 @@ class ElectroTestBlocks {
                 {
                     blockType: BlockType.COMMAND,
                     opcode: 'helpUrlExists',
-                    text: 'I have my own helpURI',
-                    helpURI: 'https://ampmod.miraheze.org/wiki/AmpMod_Wiki:UltiFools/If_()_then_()_else_()',
-                    tooltip: "so when you right click me and click 'Help', I will not go to example.com"
+                    text: 'I have my own tooltip',
+                    tooltip: 'I have proof'
                 },
                 {
                     blockType: BlockType.INLINE,
