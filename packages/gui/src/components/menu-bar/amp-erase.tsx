@@ -3,7 +3,7 @@ import {MenuItem} from '../menu/menu.jsx';
 import errorIcon from './tw-error.svg';
 import styles from './settings-menu.css';
 
-import lsNamespace from '../../lib/amp-localstorage-namespace.js';
+import lsNamespace from '../../lib/amp-localstorage-namespace.ts';
 
 const eraseData = async () => {
     if (

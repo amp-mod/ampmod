@@ -1,7 +1,7 @@
 const BlockType = require('../../extension-support/block-type');
 const ArgumentType = require('../../extension-support/argument-type');
 const AmpMod = require('../../extension-support/ampmod-api');
-const RuntimeType = require('../engine/runtime');
+const RuntimeType = require('../../engine/runtime');
 
 /**
  * Class for Electro Test blocks
