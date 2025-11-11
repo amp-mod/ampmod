@@ -7,3 +7,6 @@ declare module '!arraybuffer-loader!*' {
   const value: () => Promise<ArrayBuffer>;
   export default value;
 }
+
+// sorry
+declare module '*';
