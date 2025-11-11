@@ -3,3 +3,7 @@ declare module '*.css' {
   export default classes;
 }
 declare module '*.svg';
+declare module '!arraybuffer-loader!*' {
+  const value: () => Promise<ArrayBuffer>;
+  export default value;
+}
