@@ -76,7 +76,7 @@ const ExampleModal: React.FC<ExampleModalProps> = (props) => {
                     height="330"
                     allowTransparency
                     allowFullScreen
-                    style={{colorScheme: 'auto', borderRadius: '8px'}}
+                    style={{colorScheme: 'auto', borderRadius: '8px', border: "none"}}
                 />
                 <div>{`Project created by ${props.by || 'AmpMod developers'}.`}</div>
                 <div className={homeStyles.buttonRow}>
