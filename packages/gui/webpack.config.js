@@ -321,7 +321,7 @@ module.exports = [
             'addon-settings': './src/playground/addon-settings.jsx',
             'credits': './src/website/credits/credits.jsx',
             'home': './src/website/home/home.jsx',
-            'notfound': './src/website/not-found.js',
+            'notfound': './src/website/not-found.ts',
             'minorpages': './src/website/minor-pages/render.jsx',
             'faq': './src/website/faq/faq.jsx',
             'examples-landing': './src/website/examples/examples.jsx'
