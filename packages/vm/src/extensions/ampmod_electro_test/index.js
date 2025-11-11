@@ -1,8 +1,6 @@
 const BlockType = require('../../extension-support/block-type');
 const ArgumentType = require('../../extension-support/argument-type');
 const AmpMod = require('../../extension-support/ampmod-api');
-const {TargetType} = require('../../extension-support/tw-extension-api-common');
-const {startHats} = require('../../compiler/compat-block-utility');
 
 /**
  * Class for Electro Test blocks
@@ -130,6 +128,7 @@ class ElectroTestBlocks {
     }
 
     scbb () {
+        // eslint-disable-next-line no-alert
         alert('switch like a snitch');
     }
 
