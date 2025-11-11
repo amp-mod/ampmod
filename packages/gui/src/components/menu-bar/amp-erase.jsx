@@ -10,7 +10,7 @@ import {persistTheme} from '../../lib/themes/themePersistance.js';
 import errorIcon from './tw-error.svg';
 import styles from './settings-menu.css';
 
-import lsNamespace from '../../lib/amp-localstorage-namespace.js';
+import lsNamespace from '../../lib/amp-localstorage-namespace';
 
 const eraseData = async () => {
     if (
