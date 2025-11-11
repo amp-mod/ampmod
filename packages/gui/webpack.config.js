@@ -323,7 +323,7 @@ module.exports = [
             'home': './src/website/home/home.jsx',
             'notfound': './src/website/not-found.ts',
             'minorpages': './src/website/minor-pages/render.tsx',
-            'faq': './src/website/faq/faq.jsx',
+            'faq': './src/website/faq/faq.tsx',
             'examples-landing': './src/website/examples/examples.jsx'
         },
         output: {
