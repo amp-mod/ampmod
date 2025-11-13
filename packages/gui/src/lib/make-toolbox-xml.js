@@ -676,17 +676,17 @@ const strings = function (isInitialSetup, isStage, targetId, colors) {
         <block type="operator_substring">
             <value name="START">
                 <shadow type="math_whole_number">
-                    <field name="NUM">1</field>
+                    <field name="NUM">${apple.length + 2}</field>
                 </shadow>
             </value>
             <value name="END">
                 <shadow type="math_whole_number">
-                    <field name="NUM">${apple.length}</field>
+                    <field name="NUM">${apple.length + 1 + banana.length}</field>
                 </shadow>
             </value>
             <value name="STRING">
                 <shadow type="text">
-                    <field name="TEXT">${apple}</field>
+                    <field name="TEXT">${apple} ${banana}</field>
                 </shadow>
             </value>
         </block>
