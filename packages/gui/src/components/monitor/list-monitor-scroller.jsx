@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import styles from './monitor.css';
 import { Virtuoso } from 'react-virtuoso';
+import { darken } from 'polished';
 
 class ListMonitorScroller extends React.Component {
     handleEventFactory = (index) => () => {
@@ -50,7 +51,7 @@ class ListMonitorScroller extends React.Component {
                                 style={{ height: '100%' }}
                                 totalCount={value.length}
                                 itemContent={(i) => (
-                                    <div className={styles.listValue}>
+                                    <div className={styles.listValue} style={{ background: darken(0.1, categoryColor.background), color: categoryColor.text }}>
                                         <div className={styles.valueInner}>{value[i]}</div>
                                     </div>
                                 )}
