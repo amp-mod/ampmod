@@ -13,4 +13,4 @@ steps:
     commands:
       - corepack enable
       - pnpm i --filter scratch-vm
-      - pnpm run tap --filter scratch-vm
+      - pnpm --filter scratch-vm exec tap packages/vm/test
