@@ -26,13 +26,10 @@
 #
 
 when:
-    branch: [develop]
-    event: [push, manual]
-    paths:
-        - event: tag
-          ref: refs/tags/**
-        - event: manual
-          ref: refs/tags/**
+  - event: tag
+    ref: refs/tags/**
+  - event: manual
+    ref: refs/tags/**
 
 steps:
     - name: clone-pages
