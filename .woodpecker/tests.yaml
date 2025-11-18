@@ -1,0 +1,16 @@
+when:
+  - event: push
+  - event: manual
+
+steps:
+  - name: vm-integration
+    image: node:24-alpine
+    when:
+      - event: manual
+      - event: push
+        paths:
+          - packages/vm/**
+    commands:
+      - corepack enable
+      - pnpm i --filter scratch-vm
+      - pnpm run tap --filter scratch-vm
