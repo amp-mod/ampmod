@@ -1,0 +1,81 @@
+# Based on https://codeberg.org/Codeberg-CI/examples/src/branch/main/NodeJS/.woodpecker.yaml
+# and https://codeberg.org/LibreKitten/LibreKitten-gui/src/branch/develop/.woodpecker.yaml
+# The original license:
+# Copyright (C) YEAR by AUTHOR EMAIL
+
+# Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted.
+
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+# https://cjerrington.codeberg.page/eleventy-base-blog-site/blog/codebergpagesbuild/
+#
+# This file would typically be .woodpecker.yml in the root of your repository.
+#
+#
+# SECRETS
+# https://woodpecker-ci.org/docs/usage/secrets
+# CBTOKEN needs a codeberg access token as secret in woodpecker config
+# CBMAIL with email address for git config
+# SOURCEREPO must be replaced with the source repo
+# DESTREPO must be replaced with the target codeberg pages repo
+# CBUSERNAME must be replaced with the user/org
+#
+#
+# We also assume a domains file in the source repo that gets copied to
+# .domains in the target repo so codeberg pages works for custom domains
+#
+
+when:
+    branch: [develop]
+    event: [push, manual]
+    paths:
+        - .woodpecker/*.yaml
+        - packages/**
+
+steps:
+    - name: clone-pages
+      environment:
+          # secrets must be set in Woodpecker configuration
+          CBTOKEN:
+              from_secret: cbtoken
+      image: alpine/git
+      commands:
+          # Avoid permission denied errors
+          - chmod -R a+w .
+          # Set up git in a working way
+          - git config --global --add safe.directory /woodpecker/src/codeberg.org/ampmod/ampmod/amp-build
+          - git config --global user.email "no@thankyou.com"
+          - git config --global user.name "CI Builder"
+          # clone and move the target repo
+          - git clone -b aw3 --depth=1 https://$CBTOKEN@codeberg.org/ampmod/pages.git amp-build
+          - chmod -R a+w amp-build
+    - name: install
+      image: node:24-alpine
+      commands:
+          - apk add --no-cache openjdk21-jre python3
+          - corepack enable
+          - pnpm --filter !turbowarp-desktop i --frozen-lockfile
+    - name: build-monorepo
+      image: node:24-alpine
+      commands:
+          - corepack enable
+          - NODE_ENV=production AW3=true ESBUILD_WORKERS=8 pnpm run build
+    - name: push
+      image: alpine/git
+      environment:
+          # secrets must be set in Woodpecker configuration
+          CBTOKEN:
+              from_secret: cbtoken
+      commands:
+          # Set up git in a working way
+          - git config --global --add safe.directory /woodpecker/src/codeberg.org/ampmod/ampmod/amp-build
+          - git config --global user.email "no@thankyou.com"
+          - git config --global user.name "CI Builder"
+          # Navigate to the build directory
+          - cd ./amp-build
+          # Remove all previous files, then copy in the new build
+          - git rm -rf ./*
+          - cp -a ../packages/gui/build/. .
+          - git add --all
+          - git commit -m "Woodpecker CI Build at $( env TZ=America/Chicago date +'%Y-%m-%d %X %Z' )"
+          - git push -f -u origin aw3
