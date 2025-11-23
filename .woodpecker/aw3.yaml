@@ -59,7 +59,7 @@ steps:
       image: node:24-alpine
       commands:
           - corepack enable
-          - NODE_ENV=production AW3=true ESBUILD_WORKERS=8 pnpm run build
+          - NODE_ENV=production AW3=true ROOT=/ampmod/ ESBUILD_WORKERS=8 pnpm run build
     - name: push
       image: alpine/git
       environment:
