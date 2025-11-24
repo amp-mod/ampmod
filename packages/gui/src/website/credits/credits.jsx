@@ -49,7 +49,7 @@ UserList.propTypes = {
     users: PropTypes.arrayOf(PropTypes.object)
 };
 
-const Credits = () => (
+export const Credits = () => (
     <>
         <Header />
         <header className={styles.headerContainer}>
@@ -180,4 +180,4 @@ const Credits = () => (
     </>
 );
 
-render(<Credits />);
+if (!process.env.SPA) { render(<Credits />); }

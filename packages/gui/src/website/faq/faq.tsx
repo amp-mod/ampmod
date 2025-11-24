@@ -15,7 +15,7 @@ import Localise, {setHtmlLang} from '../components/localise/localise.jsx';
 applyGuiColors(detectTheme());
 setHtmlLang();
 
-const Credits = () => (
+export const FAQ = () => (
     <>
         <Header />
         <header className={styles.headerContainer}>
@@ -98,4 +98,4 @@ const Credits = () => (
     </>
 );
 
-render(<Credits />);
+if (!process.env.SPA) { render(<FAQ />); }

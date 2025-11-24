@@ -96,9 +96,9 @@ class Interface extends React.Component {
 
     handleUpdateProjectTitle(title, isDefault) {
         if (isDefault || !title) {
-            document.title = `${APP_NAME} - ${APP_SLOGAN}`;
+            document.title = `${APP_NAME} Editor`;
         } else {
-            document.title = `${title} - ${APP_NAME}`;
+            document.title = `${title} on ${APP_NAME}`;
         }
     }
 

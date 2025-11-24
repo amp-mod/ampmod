@@ -60,7 +60,7 @@ steps:
       commands:
           - corepack enable
           # Don't specify CBP build mode since redirects aren't properly implemented in canary
-          - NODE_ENV=production BUILD_MODE=canary ESBUILD_WORKERS=8 pnpm run build
+          - NODE_ENV=production BUILD_MODE=canary SPA=true pnpm run build
           # Only needed for custom domains
           # - cp domains build/.domains
     - name: push
@@ -76,6 +76,7 @@ steps:
           - git config --global user.name "CI Builder"
           # Navigate to the canary build directory
           - cd ./amp-build
+          - cp .redirects ./_redirects
           # Remove all previous files, then copy in the new build
           - git rm -rf ./*
           - cp -a ../packages/gui/build/. .

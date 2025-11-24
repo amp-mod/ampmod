@@ -1,0 +1,27 @@
+/* This runs before the actual GUI is loaded so don't use colors.css here */
+
+.launching {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--loader-accent);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    vertical-align: center;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter Variable", sans-serif;
+    line-height: 1.2em;
+}
+
+.launching a {
+    color: inherit;
+}
+
+[data-theme="light"] .launching {
+  background: white;
+  color: black;
+}
