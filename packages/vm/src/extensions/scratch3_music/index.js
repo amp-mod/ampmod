@@ -5,16 +5,8 @@ import Cast from '../../util/cast.js';
 import * as formatMessage from 'format-message';
 import MathUtil from '../../util/math-util.js';
 import Timer from '../../util/timer.js';
-/**
- * The instrument and drum sounds, loaded as static assets.
- * @type {object}
- */
-let assetData = {};
-try {
-    assetData = require('./manifest');
-} catch (e) {
-    // Non-webpack environment, don't worry about assets.
-}
+import assetData from './manifest.js';
+
 /**
  * Icon svg to be displayed at the left edge of each extension block, encoded as a data URI.
  * @type {string}

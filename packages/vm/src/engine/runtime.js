@@ -38,7 +38,7 @@ import scratch3Motion from '../blocks/scratch3_motion.js';
 import scratch3Operators from '../blocks/scratch3_operators.js';
 import scratch3Sound from '../blocks/scratch3_sound.js';
 import scratch3Sensing from '../blocks/scratch3_sensing.js';
-import ampmodArrays from '../blocks/ampmod_arrays.js';
+import ampmodArrays from '../blocks/ampmod_arrays.ts';
 import scratch3Data from '../blocks/scratch3_data.js';
 import scratch3Procedures from '../blocks/scratch3_procedures.js';
 import interpolate from './tw-interpolate.js';
@@ -402,6 +402,7 @@ class Runtime extends EventEmitter {
         this.platform = Object.assign({}, platform);
         /**
          * amp: A boolean indicating whether the project can step or not.
+         * @type {boolean}
          */
         this.isPaused = false;
         this._pauseTasksDone = false;
@@ -3237,4 +3238,5 @@ class Runtime extends EventEmitter {
         return callback().then(onSuccess, onError);
     }
 }
+
 export default Runtime;
