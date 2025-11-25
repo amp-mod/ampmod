@@ -49,8 +49,8 @@ UserList.propTypes = {
     users: PropTypes.arrayOf(PropTypes.object)
 };
 
-export const Credits = () => (
-    <>
+export default function Credits() {
+    return <>
         <Header />
         <header className={styles.headerContainer}>
             <h1 className={styles.headerText}>
@@ -178,6 +178,6 @@ export const Credits = () => (
             <Footer />
         </main>
     </>
-);
+};
 
 if (!process.env.SPA) { render(<Credits />); }

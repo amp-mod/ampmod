@@ -12,6 +12,7 @@ import ErrorBoundary from '../containers/error-boundary';
 const Interface = lazy(() => import(/* webpackChunkName: "interface" */ './render-interface'));
 const Embed = lazy(() => import(/* webpackChunkName: "embed" */ './embed'));
 const Home = lazy(() => import(/* webpackChunkName: "home" */ '../website/home/home'));
+const Credits = lazy(() => import(/* webpackChunkName: "home" */ '../website/credits/credits'));
 const Examples = lazy(() => import(/* webpackChunkName: "examples-landing" */ '../website/examples/examples'));
 const AddonSettings = lazy(() => import(/* webpackChunkName: "addon-settings" */ './addon-settings'));
 
@@ -49,6 +50,7 @@ render(
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/examples" element={<Examples />} />
+          <Route path="/credits" element={<Credits />} />
           <Route path="/editor" element={<Interface />} />
           <Route path="/player" element={<RedirectWithParams to="/editor" />} />
           <Route path="/fullscreen" element={<Interface isFullScreen />} />
@@ -56,6 +58,7 @@ render(
           <Route path="/embed" element={<Embed />} />
           <Route path="/index.html" element={<RedirectWithParams to="/" />} />
           <Route path="/examples.html" element={<RedirectWithParams to="/examples" />} />
+          <Route path="/credits.html" element={<RedirectWithParams to="/credits" />} />
           <Route path="/editor.html" element={<RedirectWithParams to="/editor" />} />
           <Route path="/player.html" element={<RedirectWithParams to="/editor" />} />
           <Route path="/fullscreen.html" element={<RedirectWithParams to="/fullscreen" />} />
