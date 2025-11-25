@@ -213,7 +213,7 @@ const base = {
         chunkIds: "deterministic",
         runtimeChunk: "single",
         splitChunks: {
-            chunks: "all",
+            chunks: process.env.SPA ? "async" : "all",
             minSize: 10000,
             minChunks: 1,
             maxInitialRequests: 3,
