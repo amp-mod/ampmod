@@ -36,6 +36,7 @@ const Header = () => {
                         to="/"
                         className={classNames(styles.headerItem, styles.ampmodLogo)}
                         aria-label={logoAlt}
+                        onMouseEnter={() => process.env.SPA && import(/* webpackChunkName: "home" */ '../../home/home')}
                     >
                         <img height={26} src={logoSrc} alt={logoAlt} />
                     </SmartLink>
@@ -50,6 +51,7 @@ const Header = () => {
                     <SmartLink
                         to="/examples"
                         className={classNames(styles.headerItem, styles.hoverable)}
+                        onMouseEnter={() => process.env.SPA && import(/* webpackChunkName: "examples-landing" */ '../../examples/examples')}
                     >
                         <Localise id="examples.title" />
                     </SmartLink>
