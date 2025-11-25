@@ -15,6 +15,7 @@ const Interface = lazy(() => import(/* webpackChunkName: "interface" */ './rende
 const Embed = lazy(() => import(/* webpackChunkName: "embed" */ './embed'));
 const Home = lazy(() => import(/* webpackChunkName: "home" */ '../website/home/home'));
 const Examples = lazy(() => import(/* webpackChunkName: "examples-landing" */ '../website/examples/examples'));
+const AddonSettings = lazy(() => import(/* webpackChunkName: "addon-settings" */ './addon-settings'));
 
 applyGuiColors(detectTheme());
 
@@ -76,12 +77,14 @@ render(
         <Route path="/editor" element={<Interface />} />
         <Route path="/player" element={<RedirectWithParams to="/editor" />} />
         <Route path="/fullscreen" element={<Interface isFullScreen />} />
+        <Route path="/addons" element={<AddonSettings />} />
         <Route path="/embed" element={<Embed />} />
         <Route path="/index.html" element={<RedirectWithParams to="/" />} />
         <Route path="/examples.html" element={<RedirectWithParams to="/examples" />} />
         <Route path="/editor.html" element={<RedirectWithParams to="/editor" />} />
         <Route path="/player.html" element={<RedirectWithParams to="/editor" />} />
         <Route path="/fullscreen.html" element={<RedirectWithParams to="/fullscreen" />} />
+        <Route path="/addons.html" element={<RedirectWithParams to="/addons" />} />
         <Route path="/embed.html" element={<RedirectWithParams to="/embed" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

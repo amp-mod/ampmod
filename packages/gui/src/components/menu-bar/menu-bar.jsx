@@ -543,6 +543,7 @@ class MenuBar extends React.Component {
                                 onClickDesktopSettings={
                                     this.props.onClickDesktopSettings && this.handleClickDesktopSettings
                                 }
+                                onClickAddonSettings={this.props.onClickAddonSettings}
                                 onOpenCustomSettings={
                                     this.props.onClickAddonSettings &&
                                     this.props.onClickAddonSettings.bind(null, 'editor-theme3')

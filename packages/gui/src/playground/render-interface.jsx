@@ -69,7 +69,7 @@ const handleClickAddonSettings = addonId => {
         return;
     }
     // addonId might be a string of the addon to focus on, undefined, or an event (treat like undefined)
-    const path = process.env.ROUTING_STYLE === 'wildcard' ? 'addons' : 'addons.html';
+    const path = process.env.ROUTING_STYLE === 'wildcard' || process.env.SPA ? 'addons' : 'addons.html';
     const url = `${process.env.ROOT}${path}${typeof addonId === 'string' ? `#${addonId}` : ''}`;
     window.open(url);
 };
