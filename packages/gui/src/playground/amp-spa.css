@@ -1,4 +1,4 @@
-/* This runs before the actual GUI is loaded so don't use colors.css here */
+@import "../css/colors.css";
 
 .launching {
     position: fixed;
@@ -6,8 +6,9 @@
     top: 0;
     width: 100vw;
     height: 100vh;
-    background: var(--loader-accent);
-    color: white;
+    background: $menu-bar-background;
+    background-image: $menu-bar-background-image;
+    color: $menu-bar-foreground;
     display: flex;
     flex-direction: column;
     vertical-align: center;
@@ -19,9 +20,4 @@
 
 .launching a {
     color: inherit;
-}
-
-[data-theme="light"] .launching {
-  background: white;
-  color: black;
 }

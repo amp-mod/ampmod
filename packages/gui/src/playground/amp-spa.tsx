@@ -8,11 +8,15 @@ import Footer from "../website/components/footer/footer";
 import "./import-first";
 import "../lib/themes/fonts/inter";
 import { APP_NAME } from "@ampmod/branding";
+import { applyGuiColors } from '../lib/themes/guiHelpers';
+import { detectTheme } from '../lib/themes/themePersistance';
 
 const Interface = lazy(() => import(/* webpackChunkName: "interface" */ './render-interface'));
 const Embed = lazy(() => import(/* webpackChunkName: "embed" */ './embed'));
 const Home = lazy(() => import(/* webpackChunkName: "home" */ '../website/home/home'));
 const Examples = lazy(() => import(/* webpackChunkName: "examples-landing" */ '../website/examples/examples'));
+
+applyGuiColors(detectTheme());
 
 const NotFound: React.FC = () => {
   React.useEffect(() => {
@@ -64,7 +68,7 @@ const RedirectWithParams: React.FC<{ to: string }> = ({ to }) => {
 render(
   <Router basename={process.env.ROOT} future={{ v7_startTransition: true }}>
     <Suspense fallback={
-      <div className={styles.launching} data-theme={theme} ref={el => el?.style.setProperty('--loader-accent', accent)} />
+      <div className={styles.launching} />
     }>
       <Routes>
         <Route path="/" element={<Home />} />
