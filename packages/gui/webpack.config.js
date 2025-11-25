@@ -214,7 +214,7 @@ const base = {
         runtimeChunk: "single",
         splitChunks: {
             chunks: process.env.SPA ? "async" : "all",
-            minSize: 10000,
+            minSize: 20000,
             minChunks: 1,
             maxInitialRequests: 3,
             cacheGroups: {
@@ -331,31 +331,9 @@ module.exports = [
             splitChunks: {
                 chunks: 'all',
                 minChunks: 1,
-                minSize: 10000,
-                maxSize: 2000000,
+                minSize: 50000,
+                maxSize: 8000000,
                 maxInitialRequests: 8,
-                cacheGroups: {
-                    reactVendor: {
-                        test: /node_modules[\\/](react|react-dom|react-modal|react-intl)/,
-                        name: 'react-libs',
-                        chunks: 'all',
-                        priority: 20
-                    },
-                    examples: {
-                        test: /[\\/]src[\\/]lib[\\/]examples[\\/]/,
-                        name: 'examples',
-                        priority: 50,
-                        reuseExistingChunk: true
-                    },
-                    sharedEditor: {
-                        test: /[\\/]src[\\/]playground[\\/]/,
-                        name: 'ampmod-ide',
-                        chunks: chunk => ['editor','fullscreen','embed'].includes(chunk.name),
-                        minChunks: 2,
-                        priority: 35,
-                        reuseExistingChunk: true
-                    },
-                }
             },
             minimizer: [new SwcMinifyWebpackPlugin({compress: true, mangle: true, format: {comments: "some"}})]
         },
