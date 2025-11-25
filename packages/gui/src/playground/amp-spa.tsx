@@ -2,9 +2,6 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import render from "./app-target";
 import styles from "./amp-spa.css";
-import lsNamespace from '../lib/amp-localstorage-namespace';
-import Header from "../website/components/header/header";
-import Footer from "../website/components/footer/footer";
 import "./import-first";
 import "../lib/themes/fonts/inter";
 import { APP_NAME } from "@ampmod/branding";
@@ -37,30 +34,6 @@ const NotFound: React.FC = () => {
     </div>
   );
 };
-let accent = process.env.ampmod_mode === 'canary' ? '#FF4C4C' : '#4fa55c';
-let theme = '';
-
-const themeSetting = localStorage.getItem(`${lsNamespace}theme`);
-try {
-  const parsed = JSON.parse(themeSetting);
-  theme = parsed.gui;
-  if (parsed.accent) {
-    const accentMap: Record<string, string> = {
-      'purple': '#855cd6',
-      'blue': '#4c97ff',
-      'green': '#4fa55c',
-      'green-old': '#59c059',
-      'grey': '#333',
-      'red': '#FF4C4C',
-      'rainbow': '#4fa55c',
-    };
-    accent = accentMap[parsed.accent] || accent;
-  }
-} catch (e) { /* ignore */ }
-
-if (!theme) {
-  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
 
 const RedirectWithParams: React.FC<{ to: string }> = ({ to }) => {
   const location = useLocation();
