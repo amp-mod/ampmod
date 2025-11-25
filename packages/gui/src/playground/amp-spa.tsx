@@ -23,7 +23,7 @@ const NotFound: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.launching} data-theme={theme} ref={el => el?.style.setProperty('--loader-accent', accent)}>
+    <div className={styles.launching}>
       <h1>That page doesn't exist. :(</h1>
       <br />
       <div>
