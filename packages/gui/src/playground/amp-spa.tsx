@@ -10,6 +10,7 @@ import "../lib/themes/fonts/inter";
 import { APP_NAME } from "@ampmod/branding";
 import { applyGuiColors } from '../lib/themes/guiHelpers';
 import { detectTheme } from '../lib/themes/themePersistance';
+import ErrorBoundary from '../containers/error-boundary';
 
 const Interface = lazy(() => import(/* webpackChunkName: "interface" */ './render-interface'));
 const Embed = lazy(() => import(/* webpackChunkName: "embed" */ './embed'));
@@ -67,27 +68,29 @@ const RedirectWithParams: React.FC<{ to: string }> = ({ to }) => {
 };
 
 render(
-  <Router basename={process.env.ROOT} future={{ v7_startTransition: true }}>
-    <Suspense fallback={
-      <div className={styles.launching} />
-    }>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/examples" element={<Examples />} />
-        <Route path="/editor" element={<Interface />} />
-        <Route path="/player" element={<RedirectWithParams to="/editor" />} />
-        <Route path="/fullscreen" element={<Interface isFullScreen />} />
-        <Route path="/addons" element={<AddonSettings />} />
-        <Route path="/embed" element={<Embed />} />
-        <Route path="/index.html" element={<RedirectWithParams to="/" />} />
-        <Route path="/examples.html" element={<RedirectWithParams to="/examples" />} />
-        <Route path="/editor.html" element={<RedirectWithParams to="/editor" />} />
-        <Route path="/player.html" element={<RedirectWithParams to="/editor" />} />
-        <Route path="/fullscreen.html" element={<RedirectWithParams to="/fullscreen" />} />
-        <Route path="/addons.html" element={<RedirectWithParams to="/addons" />} />
-        <Route path="/embed.html" element={<RedirectWithParams to="/embed" />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
-  </Router>
+  <ErrorBoundary>
+    <Router basename={process.env.ROOT} future={{ v7_startTransition: true }}>
+      <Suspense fallback={
+        <div className={styles.launching} />
+      }>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/examples" element={<Examples />} />
+          <Route path="/editor" element={<Interface />} />
+          <Route path="/player" element={<RedirectWithParams to="/editor" />} />
+          <Route path="/fullscreen" element={<Interface isFullScreen />} />
+          <Route path="/addons" element={<AddonSettings />} />
+          <Route path="/embed" element={<Embed />} />
+          <Route path="/index.html" element={<RedirectWithParams to="/" />} />
+          <Route path="/examples.html" element={<RedirectWithParams to="/examples" />} />
+          <Route path="/editor.html" element={<RedirectWithParams to="/editor" />} />
+          <Route path="/player.html" element={<RedirectWithParams to="/editor" />} />
+          <Route path="/fullscreen.html" element={<RedirectWithParams to="/fullscreen" />} />
+          <Route path="/addons.html" element={<RedirectWithParams to="/addons" />} />
+          <Route path="/embed.html" element={<RedirectWithParams to="/embed" />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </Router>
+  </ErrorBoundary>
 );
