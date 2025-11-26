@@ -8,6 +8,8 @@ import { APP_NAME } from "@ampmod/branding";
 import { applyGuiColors } from '../lib/themes/guiHelpers';
 import { detectTheme } from '../lib/themes/themePersistance';
 import ErrorBoundary from '../containers/error-boundary';
+import Header from '../website/components/header/header';
+import Footer from '../website/components/footer/footer';
 
 const Interface = lazy(() => import(/* webpackChunkName: "interface" */ './render-interface'));
 const Embed = lazy(() => import(/* webpackChunkName: "embed" */ './embed'));
@@ -16,6 +18,11 @@ const Credits = lazy(() => import(/* webpackChunkName: "credits" */ '../website/
 const FAQ = lazy(() => import(/* webpackChunkName: "faq" */ '../website/faq/faq'));
 const Examples = lazy(() => import(/* webpackChunkName: "examples-landing" */ '../website/examples/examples'));
 const AddonSettings = lazy(() => import(/* webpackChunkName: "addon-settings" */ './addon-settings'));
+
+const MinorPages = {
+  privacy: lazy(() => import(/* webpackChunkName: "pages-privacy" */ '../website/minor-pages/privacy')),
+  newcompiler: lazy(() => import(/* webpackChunkName: "pages-new-compiler" */ '../website/minor-pages/new-compiler')),
+};
 
 applyGuiColors(detectTheme());
 
@@ -58,6 +65,8 @@ render(
           <Route path="/fullscreen" element={<Interface isFullScreen />} />
           <Route path="/addons" element={<AddonSettings />} />
           <Route path="/embed" element={<Embed />} />
+          <Route path="/new-compiler" element={<><Header /><MinorPages.newcompiler /><Footer /></>} />
+          <Route path="/privacy" element={<><Header /><MinorPages.privacy /><Footer /></>} />
           <Route path="/index.html" element={<RedirectWithParams to="/" />} />
           <Route path="/examples.html" element={<RedirectWithParams to="/examples" />} />
           <Route path="/credits.html" element={<RedirectWithParams to="/credits" />} />
@@ -67,6 +76,8 @@ render(
           <Route path="/fullscreen.html" element={<RedirectWithParams to="/fullscreen" />} />
           <Route path="/addons.html" element={<RedirectWithParams to="/addons" />} />
           <Route path="/embed.html" element={<RedirectWithParams to="/embed" />} />
+          <Route path="/privacy.html" element={<RedirectWithParams to="/privacy" />} />
+          <Route path="/new-compiler.html" element={<RedirectWithParams to="/new-compiler" />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
