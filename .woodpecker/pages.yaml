@@ -74,6 +74,7 @@ steps:
           - git config --global user.name "CI Builder"
           # Navigate to the canary build directory
           - cd ./amp-build
+          - echo "/* index.html 200" > _redirects
           # Remove all previous files, then copy in the new build
           - git rm -rf ./*
           - cp -a ../packages/gui/build/. .
