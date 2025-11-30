@@ -15,19 +15,15 @@ class SpriteInfo extends React.Component {
         ]);
     }
     handleClickVisible(e) {
-        e.preventDefault();
         this.props.onChangeVisibility(true);
     }
     handleClickNotVisible(e) {
-        e.preventDefault();
         this.props.onChangeVisibility(false);
     }
     handleClickDraggable(e) {
-        e.preventDefault();
         this.props.onChangeDraggability(true);
     }
     handleClickNonDraggable(e) {
-        e.preventDefault();
         this.props.onChangeDraggability(false);
     }
     render() {
