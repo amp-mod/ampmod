@@ -27,6 +27,10 @@
     animation: fadeInMenu 0.25s forwards;
 }
 
+[dir=rtl] .context-menu {
+    text-align: right;
+}
+
 .menu-item {
     padding: 8px 12px;
     white-space: nowrap;
