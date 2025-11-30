@@ -66,7 +66,14 @@ const DirectionPicker = props => (
                 </div>
             </Popover.Trigger>
             <Popover.Portal>
-                <Popover.Content className={styles.popoverContent} sideOffset={5} side="top" align="center">
+                <Popover.Content
+                    className={styles.popoverContent}
+                    sideOffset={5}
+                    side="top"
+                    align="center"
+                    onOpenAutoFocus={(event) => event.preventDefault()} 
+                    onCloseAutoFocus={(event) => event.preventDefault()} 
+                >
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                         <Dial direction={props.direction} onChange={props.onChangeDirection} />
                         <ToggleButtons
