@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, {useState, useEffect} from 'react';
 
 import styles from './spinner.css';
+import { AccessibleIcon } from 'radix-ui';
 
 const SpinnerComponent = function (props) {
     const {className, level, small, large} = props;
@@ -21,16 +22,18 @@ const SpinnerComponent = function (props) {
     }, []);
 
     if (isMotionReduced) {
-        return <div className={classNames(className, styles.loadingText)}>loading</div>;
+        return <div className={classNames(className)}>Loading...</div>;
     }
 
     return (
-        <div
-            className={classNames(className, styles.spinner, styles[level], {
-                [styles.small]: small,
-                [styles.large]: large
-            })}
-        />
+        <AccessibleIcon.Root label="Loading...">
+            <div
+                className={classNames(className, styles.spinner, styles[level], {
+                    [styles.small]: small,
+                    [styles.large]: large
+                })}
+            />
+        </AccessibleIcon.Root>
     );
 };
 
