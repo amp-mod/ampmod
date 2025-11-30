@@ -17,6 +17,7 @@
     margin: 2px 0 0;
     font-size: 0.85rem;
     text-align: left;
+    color: $text-primary;
     background-color: $ui-white;
     border: 1px solid $ui-black-transparent;
     border-radius: calc($margin / 2);
