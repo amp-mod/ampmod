@@ -26,6 +26,13 @@ body:
     validations:
       required: true
 
+  - type: markdown
+    attributes:
+      value: |
+          Browser coverage
+          ----------------
+          Please check all the browsers you tested below.
+
   - type: checkboxes
     id: browser-windows
     attributes:
