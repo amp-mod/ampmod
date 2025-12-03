@@ -53,7 +53,6 @@ body:
       options:
         - label: Firefox
         - label: Chrome / Edge
-        - label: Chromium
 
   - type: checkboxes
     id: browser-android-tablet
