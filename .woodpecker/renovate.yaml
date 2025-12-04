@@ -1,0 +1,15 @@
+when:
+  event:
+    - cron
+    - manual
+  cron:
+    - "0 9 * * *"  # Every day at 9 AM UTC
+
+steps:
+  - name: run-renovate
+    image: renovate/renovate:latest
+    environment:
+      RENOVATE_TOKEN:
+        from_secret: cbtoken
+    commands:
+      - renovate
