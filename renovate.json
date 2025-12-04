@@ -7,7 +7,6 @@
       "enabled": true,
       "automerge": true,
       "automergeType": "branch",
-      "schedule": ["before 9am on monday"],
       "matchPackageNames": ["*"]
     }
   ],
