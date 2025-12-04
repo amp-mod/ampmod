@@ -2,8 +2,7 @@ when:
   event:
     - cron
     - manual
-  cron:
-    - "0 9 * * *"  # Every day at 9 AM UTC
+    - push
 
 steps:
   - name: run-renovate
