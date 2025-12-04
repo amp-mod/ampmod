@@ -8,6 +8,10 @@
       "automerge": true,
       "automergeType": "branch",
       "matchPackageNames": ["*"]
+    },
+    {
+      "matchDatasources": ["github-actions"],
+      "enabled": false
     }
   ],
   "prConcurrentLimit": 10,
