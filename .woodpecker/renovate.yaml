@@ -13,4 +13,4 @@ steps:
     commands:
       - pwd
       - git config --global user.email "no@thankyou.com"
-      - RENOVATE_CONFIG_FILE=/woodpecker/src/codeberg.org/ampmod/ampmod/renovate.json RENOVATE_ENDPOINT=https://codeberg.org/api/v1/ RENOVATE_PLATFORM=forgejo LOG_LEVEL=debug renovate
+      - RENOVATE_CONFIG_FILE=/woodpecker/src/codeberg.org/ampmod/ampmod/renovate.json RENOVATE_ENDPOINT=https://codeberg.org/api/v1/ RENOVATE_PLATFORM=forgejo LOG_LEVEL=debug renovate ampmod/ampmod
