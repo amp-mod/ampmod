@@ -6,7 +6,7 @@ when:
 
 steps:
   - name: run-renovate
-    image: renovate/renovate:full
+    image: renovate/renovate:latest
     environment:
       RENOVATE_TOKEN:
         from_secret: cbtoken
