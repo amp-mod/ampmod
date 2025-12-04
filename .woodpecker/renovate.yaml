@@ -12,4 +12,4 @@ steps:
       RENOVATE_TOKEN:
         from_secret: cbtoken
     commands:
-      - renovate
+      - LOG_LEVEL=debug renovate
