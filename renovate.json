@@ -1,7 +1,7 @@
 {
   "platform": "forgejo",
   "endpoint": "https://codeberg.org/api/v1/",
-  "baseBranches": ["implement-renovate"],
+  "baseBranches": ["develop"],
   "hostRules": [
     {
       "hostType": "forgejo",
