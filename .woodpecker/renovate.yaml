@@ -6,11 +6,12 @@ when:
 
 steps:
   - name: run-renovate
-    image: renovate/renovate:latest
+    image: renovate/renovate:full
     environment:
       RENOVATE_TOKEN:
         from_secret: cbtoken
       GITHUB_COM_TOKEN:
         from_secret: ghtoken
     commands:
+      - npm i -g pnpm
       - RENOVATE_CONFIG_FILE=/woodpecker/src/codeberg.org/ampmod/ampmod/renovate.json5 RENOVATE_ENDPOINT=https://codeberg.org/api/v1/ RENOVATE_PLATFORM=forgejo renovate ampmod/ampmod
