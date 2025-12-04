@@ -1,6 +1,7 @@
 {
   "baseBranchPatterns": ["develop"],
   "extends": ["config:recommended"],
+  "gitAuthor": "AmpMod Bot <ampmod-bot@noreply.codeberg.org>",
   "automerge": true,
   "packageRules": [
     {
