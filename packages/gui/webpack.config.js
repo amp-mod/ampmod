@@ -469,15 +469,6 @@ module.exports = [
                     }
                 ]
             }),
-            new CopyWebpackPlugin({
-                patterns: [
-                    {
-                        from: "extensions/**",
-                        to: "static",
-                        context: "src/examples",
-                    },
-                ],
-            }),
         ]),
     }),
 ].concat(
