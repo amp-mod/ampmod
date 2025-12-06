@@ -105,7 +105,7 @@
     font-family: 'Inter Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-@media (prefers-reduced-motion: reduce) {
+:not(:global(.amp-gui-animations-enabled)) {
     .tab {
         transition: none;
     }
