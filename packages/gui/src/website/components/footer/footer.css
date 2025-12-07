@@ -96,6 +96,7 @@
     padding: 0;
     line-height: 1;
     gap: 0;
+    overflow: hidden;
 }
 
 .dropdownItem {
