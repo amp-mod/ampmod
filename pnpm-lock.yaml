@@ -449,8 +449,8 @@ importers:
         specifier: 3.10.0
         version: 3.10.0
       enzyme-adapter-react-16:
-        specifier: 1.15.7
-        version: 1.15.7(enzyme@3.10.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
+        specifier: 1.15.8
+        version: 1.15.8(enzyme@3.10.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
       eslint:
         specifier: 9.39.1
         version: 9.39.1(jiti@2.6.1)
@@ -591,8 +591,8 @@ importers:
         specifier: 3.11.0
         version: 3.11.0
       enzyme-adapter-react-16:
-        specifier: 1.15.6
-        version: 1.15.6(enzyme@3.11.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
+        specifier: 1.15.8
+        version: 1.15.8(enzyme@3.11.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
       eslint:
         specifier: 8.57.1
         version: 8.57.1
@@ -6056,15 +6056,8 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
 
-  enzyme-adapter-react-16@1.15.6:
-    resolution: {integrity: sha512-yFlVJCXh8T+mcQo8M6my9sPgeGzj85HSHi6Apgf1Cvq/7EL/J9+1JoJmJsRxZgyTvPMAqOEpRSu/Ii/ZpyOk0g==}
-    peerDependencies:
-      enzyme: ^3.0.0
-      react: ^16.0.0-0
-      react-dom: ^16.0.0-0
-
-  enzyme-adapter-react-16@1.15.7:
-    resolution: {integrity: sha512-LtjKgvlTc/H7adyQcj+aq0P0H07LDL480WQl1gU512IUyaDo/sbOaNDdZsJXYW2XaoPqrLLE9KbZS+X2z6BASw==}
+  enzyme-adapter-react-16@1.15.8:
+    resolution: {integrity: sha512-uYGC31eGZBp5nGsr4nKhZKvxGQjyHGjS06BJsUlWgE29/hvnpgCsT1BJvnnyny7N3GIIVyxZ4O9GChr6hy2WQA==}
     peerDependencies:
       enzyme: ^3.0.0
       react: ^16.0.0-0
@@ -19162,12 +19155,12 @@ snapshots:
 
   envinfo@7.21.0: {}
 
-  enzyme-adapter-react-16@1.15.6(enzyme@3.11.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
+  enzyme-adapter-react-16@1.15.8(enzyme@3.10.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
     dependencies:
-      enzyme: 3.11.0
+      enzyme: 3.10.0
       enzyme-adapter-utils: 1.14.2(react@16.14.0)
       enzyme-shallow-equal: 1.0.7
-      has: 1.0.4
+      hasown: 2.0.2
       object.assign: 4.1.7
       object.values: 1.2.1
       prop-types: 15.8.1
@@ -19177,12 +19170,12 @@ snapshots:
       react-test-renderer: 16.14.0(react@16.14.0)
       semver: 5.7.2
 
-  enzyme-adapter-react-16@1.15.7(enzyme@3.10.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
+  enzyme-adapter-react-16@1.15.8(enzyme@3.11.0)(react-dom@16.14.0(react@16.14.0))(react@16.14.0):
     dependencies:
-      enzyme: 3.10.0
+      enzyme: 3.11.0
       enzyme-adapter-utils: 1.14.2(react@16.14.0)
       enzyme-shallow-equal: 1.0.7
-      has: 1.0.4
+      hasown: 2.0.2
       object.assign: 4.1.7
       object.values: 1.2.1
       prop-types: 15.8.1
