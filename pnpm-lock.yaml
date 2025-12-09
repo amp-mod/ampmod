@@ -606,8 +606,8 @@ importers:
         specifier: 7.33.2
         version: 7.33.2(eslint@8.57.1)
       html-webpack-plugin:
-        specifier: 5.6.4
-        version: 5.6.4(webpack@5.103.0(@swc/core@1.15.3)(webpack-cli@6.0.1))
+        specifier: 5.6.5
+        version: 5.6.5(webpack@5.103.0(@swc/core@1.15.3)(webpack-cli@6.0.1))
       jest:
         specifier: ^27.5.1
         version: 27.5.1
@@ -7220,18 +7220,6 @@ packages:
     resolution: {integrity: sha512-YXxSlJBZTP7RS3tWnQw74ooKa6L9b9i9QYXY21eUEvhZ3u9XLfv6OnFsQq6RxkhHygsaUMvYsZRV5rU/OVNZxw==}
     engines: {node: '>=12'}
     hasBin: true
-
-  html-webpack-plugin@5.6.4:
-    resolution: {integrity: sha512-V/PZeWsqhfpE27nKeX9EO2sbR+D17A+tLf6qU+ht66jdUsN0QLKJN27Z+1+gHrVMKgndBahes0PU6rRihDgHTw==}
-    engines: {node: '>=10.13.0'}
-    peerDependencies:
-      '@rspack/core': 0.x || 1.x
-      webpack: ^5.20.0
-    peerDependenciesMeta:
-      '@rspack/core':
-        optional: true
-      webpack:
-        optional: true
 
   html-webpack-plugin@5.6.5:
     resolution: {integrity: sha512-4xynFbKNNk+WlzXeQQ+6YYsH2g7mpfPszQZUi3ovKlj+pDmngQ7vRXjrrmGROabmKwyQkcgcX5hqfOwHbFmK5g==}
@@ -20970,16 +20958,6 @@ snapshots:
       param-case: 3.0.4
       relateurl: 0.2.7
       terser: 5.44.1
-
-  html-webpack-plugin@5.6.4(webpack@5.103.0(@swc/core@1.15.3)(webpack-cli@6.0.1)):
-    dependencies:
-      '@types/html-minifier-terser': 6.1.0
-      html-minifier-terser: 6.1.0
-      lodash: 4.17.21
-      pretty-error: 4.0.0
-      tapable: 2.3.0
-    optionalDependencies:
-      webpack: 5.103.0(@swc/core@1.15.3)(webpack-cli@6.0.1)
 
   html-webpack-plugin@5.6.5(webpack@5.103.0(@swc/core@1.15.3)(webpack-cli@6.0.1)):
     dependencies:
