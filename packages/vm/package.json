@@ -72,7 +72,7 @@
         "format-message-cli": "6.2.0",
         "in-publish": "2.0.1",
         "js-md5": "0.7.3",
-        "jsdoc": "3.6.6",
+        "jsdoc": "3.6.11",
         "json": "^9.0.6",
         "lodash.defaultsdeep": "4.6.1",
         "pngjs": "3.3.3",
