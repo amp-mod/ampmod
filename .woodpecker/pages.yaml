@@ -80,4 +80,4 @@ steps:
           - cp -a ../packages/gui/build/. .
           - git add --all
           - git commit -m "Woodpecker CI Build at $( env TZ=America/Chicago date +'%Y-%m-%d %X %Z' )"
-          - git push -f -u origin canary
+          - git push -f -u origin pages
