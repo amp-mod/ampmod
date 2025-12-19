@@ -70,6 +70,7 @@
   "amp.welcome.next": "Next",
   "amp.welcome.ok": "OK",
   "amp.welcome.signingOff": "Signing off! -Apple Cat",
+  "amp.welcome.theme.body": "You can change this later in the Settings menu.",
   "amp.welcome.theme.title": "Choose your theme",
   "amp.welcome.title": "Welcome to {APP_NAME}!"
 }

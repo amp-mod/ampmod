@@ -105,7 +105,13 @@ const Welcome = ({intl, isRtl, onContinue}) => {
                                         description="Welcome modal theme selection title"
                                     />
                                 </h2>
-                                <p>You can change it later in the settings menu.</p>
+                                <p>
+                                    <FormattedMessage
+                                        id="amp.welcome.theme.body"
+                                        defaultMessage="You can change this later in the Settings menu."
+                                        description="Welcome modal theme selection body"
+                                    />
+                                </p>
                                 <ThemeSelector />
                                 <AccentSelector />
                             </div>
