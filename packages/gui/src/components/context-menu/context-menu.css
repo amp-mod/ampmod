@@ -36,6 +36,7 @@
 
 .menu-item-separator {
     border-top: 1px solid $ui-black-transparent;
+    outline: none; /* Firefox visual bug */
 }
 
 .menu-item-danger {
