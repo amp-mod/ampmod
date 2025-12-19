@@ -26,6 +26,7 @@
     opacity: 0;
     z-index: $z-index-context-menu;
     animation: fadeInMenu 0.25s forwards;
+    font-family: 'Inter Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 [dir=rtl] .context-menu {
