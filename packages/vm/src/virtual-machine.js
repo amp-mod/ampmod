@@ -1,9 +1,4 @@
-let _TextEncoder;
-if (typeof TextEncoder === 'undefined') {
-    _TextEncoder = require('text-encoding').TextEncoder;
-} else {
-    _TextEncoder = TextEncoder;
-}
+const _TextEncoder = TextEncoder;
 const EventEmitter = require('events');
 const JSZip = require('@turbowarp/jszip');
 
