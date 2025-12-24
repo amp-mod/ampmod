@@ -862,9 +862,6 @@ importers:
       scratch-parser:
         specifier: github:TurboWarp/scratch-parser#master
         version: https://codeload.github.com/TurboWarp/scratch-parser/tar.gz/5e21d953d58d92672956030b9f93402f11249c96
-      scratch-sb1-converter:
-        specifier: 0.2.7
-        version: 0.2.7
       scratch-translate-extension-languages:
         specifier: 0.0.20191118205314
         version: 0.0.20191118205314
