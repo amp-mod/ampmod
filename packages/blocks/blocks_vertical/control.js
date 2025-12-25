@@ -734,7 +734,8 @@ Blockly.Blocks["control_case"] = {
         });
     },
     onchange: function (event) {
-        if (!this.workspace || this.isInFlyout) return;
+        if (!this.workspace || this.isInFlyout || this.workspace.isDragging()) return;
+        console.log(this.previousConnection);
 
         let parentBlock = this.getSurroundParent();
         let isChildOfSwitch = false;
@@ -744,9 +745,7 @@ Blockly.Blocks["control_case"] = {
         }
 
         if (!isChildOfSwitch) {
-            this.setWarningText(Blockly.Msg.CONTROL_SWITCH_BAD_SYNTAX, this.id);
-        } else {
-            this.setWarningText(null, this.id);
+            this.dispose(true);
         }
     },
 };
