@@ -733,19 +733,4 @@ Blockly.Blocks["control_case"] = {
             extensions: ["colours_control", "shape_switch_case"],
         });
     },
-    onchange: function (event) {
-        if (!this.workspace || this.isInFlyout || this.workspace.isDragging()) return;
-        console.log(this.previousConnection);
-
-        let parentBlock = this.getSurroundParent();
-        let isChildOfSwitch = false;
-
-        if (parentBlock && parentBlock.type === "control_switch") {
-            isChildOfSwitch = true;
-        }
-
-        if (!isChildOfSwitch) {
-            this.dispose(true);
-        }
-    },
 };
