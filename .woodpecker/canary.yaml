@@ -78,7 +78,6 @@ steps:
           - cd ./amp-build
           # Remove all previous files, then copy in the new build
           - git rm -rf ./*
-          - echo "/* index.html 200" > _redirects
           - cp -a ../packages/gui/build/. .
           - git add --all
           - git commit -m "Woodpecker CI Build at $( env TZ=America/Chicago date +'%Y-%m-%d %X %Z' )"
