@@ -76,6 +76,8 @@ class ScriptTreeGenerator {
         this.script = new IntermediateScript();
         this.script.warpTimer = this.target.runtime.compilerOptions.warpTimer;
 
+        this.stackContext = [];
+
         /**
          * Cache of variable ID to variable data object.
          * @type {Object.<string, object>}
@@ -143,6 +145,22 @@ class ScriptTreeGenerator {
             return null;
         }
         return blockInfo;
+    }
+
+    pushContext(type) {
+        if (type) this.stackContext.push(type);
+    }
+
+    popContext(type) {
+        if (type) this.stackContext.pop();
+    }
+
+    isInValidBreakContext() {
+        return this.stackContext.includes('loop') || this.stackContext.includes('switch');
+    }
+
+    isInSwitchContext() {
+        return this.stackContext[this.stackContext.length - 1] === 'switch';
     }
 
     createConstantInput (constant, preserveStrings = false) {
@@ -1266,27 +1284,23 @@ class ScriptTreeGenerator {
      * @returns {IntermediateStack} List of stacked block nodes.
      */
     walkStack (startingBlockId, type) {
+        this.pushContext(type); // Enter new context level
         const result = new IntermediateStack();
         let blockId = startingBlockId;
         const caseBlocks = ['control_case', 'control_default'];
 
         while (blockId !== null) {
             const block = this.getBlockById(blockId);
-            if (!block) {
-                break;
-            }
-            if (block.opcode === 'control_break' && type !== 'switch' && type !== 'loop') {
+            if (!block) break;
+
+            if (block.opcode === 'control_break' && !this.isInValidBreakContext()) {
                 log.warn('stray break block');
                 blockId = block.next;
                 continue;
             }
-            if (caseBlocks.includes(block.opcode) && type !== 'switch') {
+            
+            if (caseBlocks.includes(block.opcode) && !this.isInSwitchContext()) {
                 log.warn('stray case block');
-                blockId = block.next;
-                continue;
-            }
-            if (!caseBlocks.includes(block.opcode) && type === 'switch') {
-                log.warn('a non-case block was found in a switch walk');
                 blockId = block.next;
                 continue;
             }
@@ -1294,10 +1308,10 @@ class ScriptTreeGenerator {
             const node = this.descendStackedBlock(block);
             this.script.yields = this.script.yields || node.yields;
             result.blocks.push(node);
-
             blockId = block.next;
         }
 
+        this.popContext(type);
         return result;
     }
 
