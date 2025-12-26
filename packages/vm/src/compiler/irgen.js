@@ -845,7 +845,7 @@ class ScriptTreeGenerator {
                 StackOpcode.CONTROL_WHILE,
                 {
                     condition: this.createConstantInput(true).toType(InputType.BOOLEAN),
-                    do: this.descendSubstack(block, 'SUBSTACK')
+                    do: this.descendSubstack(block, 'SUBSTACK', 'loop')
                 },
                 this.analyzeLoop()
             );
@@ -855,7 +855,7 @@ class ScriptTreeGenerator {
                 {
                     variable: this.descendVariable(block, 'VARIABLE', SCALAR_TYPE),
                     count: this.descendInputOfBlock(block, 'VALUE').toType(InputType.NUMBER),
-                    do: this.descendSubstack(block, 'SUBSTACK')
+                    do: this.descendSubstack(block, 'SUBSTACK', 'loop')
                 },
                 this.analyzeLoop()
             );
@@ -874,7 +874,7 @@ class ScriptTreeGenerator {
         case 'control_switch':
             return new IntermediateStackBlock(StackOpcode.CONTROL_SWITCH, {
                 value: this.descendInputOfBlock(block, 'VALUE'),
-                cases: this.descendSubstack(block, 'SUBSTACK', true)
+                cases: this.descendSubstack(block, 'SUBSTACK', 'switch')
             });
         case 'control_case':
             return new IntermediateStackBlock(StackOpcode.CONTROL_CASE, {
@@ -890,7 +890,7 @@ class ScriptTreeGenerator {
                 StackOpcode.CONTROL_REPEAT,
                 {
                     times: this.descendInputOfBlock(block, 'TIMES').toType(InputType.NUMBER),
-                    do: this.descendSubstack(block, 'SUBSTACK')
+                    do: this.descendSubstack(block, 'SUBSTACK', 'loop')
                 },
                 this.analyzeLoop()
             );
@@ -906,7 +906,7 @@ class ScriptTreeGenerator {
                     condition: new IntermediateInput(InputOpcode.OP_NOT, InputType.BOOLEAN, {
                         operand: condition
                     }),
-                    do: this.descendSubstack(block, 'SUBSTACK'),
+                    do: this.descendSubstack(block, 'SUBSTACK', 'loop'),
                     warpTimer: needsWarpTimer
                 },
                 this.analyzeLoop() || needsWarpTimer
@@ -944,7 +944,7 @@ class ScriptTreeGenerator {
                 StackOpcode.CONTROL_WHILE,
                 {
                     condition: this.descendInputOfBlock(block, 'CONDITION').toType(InputType.BOOLEAN),
-                    do: this.descendSubstack(block, 'SUBSTACK'),
+                    do: this.descendSubstack(block, 'SUBSTACK', 'loop'),
                     // We should consider analyzing this like we do for control_repeat_until
                     warpTimer: false
                 },
@@ -954,6 +954,8 @@ class ScriptTreeGenerator {
             return new IntermediateStackBlock(StackOpcode.CONTROL_CLEAR_COUNTER);
         case 'control_incr_counter':
             return new IntermediateStackBlock(StackOpcode.CONTORL_INCR_COUNTER);
+        case 'control_break':
+            return new IntermediateStackBlock(StackOpcode.CONTROL_BREAK);
 
         case 'data_addtolist':
             return new IntermediateStackBlock(StackOpcode.LIST_ADD, {
@@ -1248,13 +1250,13 @@ class ScriptTreeGenerator {
      * @private
      * @returns {IntermediateStack} Stacked blocks.
      */
-    descendSubstack (parentBlock, substackName, isSwitch) {
+    descendSubstack (parentBlock, substackName, type) {
         const input = parentBlock.inputs[substackName];
         if (!input) {
             return new IntermediateStack();
         }
         const stackId = input.block;
-        return this.walkStack(stackId, isSwitch);
+        return this.walkStack(stackId, type);
     }
 
     /**
@@ -1263,7 +1265,7 @@ class ScriptTreeGenerator {
      * @private
      * @returns {IntermediateStack} List of stacked block nodes.
      */
-    walkStack (startingBlockId, isSwitch) {
+    walkStack (startingBlockId, type) {
         const result = new IntermediateStack();
         let blockId = startingBlockId;
         const caseBlocks = ['control_case', 'control_default'];
@@ -1273,12 +1275,17 @@ class ScriptTreeGenerator {
             if (!block) {
                 break;
             }
-            if (caseBlocks.includes(block.opcode) && !isSwitch) {
+            if (block.opcode === 'control_break' && type !== 'switch' && type !== 'loop') {
+                log.warn('stray break block');
+                blockId = block.next;
+                continue;
+            }
+            if (caseBlocks.includes(block.opcode) && type !== 'switch') {
                 log.warn('stray case block');
                 blockId = block.next;
                 continue;
             }
-            if (!caseBlocks.includes(block.opcode) && isSwitch) {
+            if (!caseBlocks.includes(block.opcode) && type === 'switch') {
                 log.warn('a non-case block was found in a switch walk');
                 blockId = block.next;
                 continue;
