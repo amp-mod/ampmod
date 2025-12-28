@@ -1207,8 +1207,7 @@ class JSGenerator {
     generateCompatibilityLayerCall (node, setFlags, frameName = null) {
         const opcode = node.opcode;
 
-        let result = 'try {';
-        result += 'yield* executeInCompatibilityLayer({';
+        let result = 'yield* executeInCompatibilityLayer({';
 
         for (const inputName of Object.keys(node.inputs)) {
             const input = node.inputs[inputName];
@@ -1221,7 +1220,6 @@ class JSGenerator {
         }
         const opcodeFunction = this.evaluateOnce(`runtime.getOpcodeFunction("${sanitize(opcode)}")`);
         result += `}, ${opcodeFunction}, ${this.isWarp}, ${setFlags}, "${sanitize(node.id)}", ${frameName})`;
-        result += `} catch(e) { runtime.blockError(target, "${sanitize(this.script.topBlockId)}", e.message); }`;
 
         this.yielded();
 
