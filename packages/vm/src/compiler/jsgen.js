@@ -1045,6 +1045,15 @@ class JSGenerator {
             break;
         }
 
+        case StackOpcode.BLOCK_ERROR: {
+            const value = this.localVariables.next();
+            this.source += `const ${value} = ${this.descendInput(node.input)};`;
+            // blocks like legacy no-ops can return a literal `undefined`
+            this.source += `if (${value} !== undefined) runtime.blockError(target, "${sanitize(this.script.topBlockId)}", ${value});\n`;
+            this.source += `retire();\n`;
+            break;
+        }
+
         default:
             log.warn(`JS: Unknown stacked block: ${block.opcode}`, node);
             throw new Error(`JS: Unknown stacked block: ${block.opcode}`);
@@ -1198,7 +1207,8 @@ class JSGenerator {
     generateCompatibilityLayerCall (node, setFlags, frameName = null) {
         const opcode = node.opcode;
 
-        let result = 'yield* executeInCompatibilityLayer({';
+        let result = 'try {';
+        result += 'yield* executeInCompatibilityLayer({';
 
         for (const inputName of Object.keys(node.inputs)) {
             const input = node.inputs[inputName];
@@ -1211,6 +1221,7 @@ class JSGenerator {
         }
         const opcodeFunction = this.evaluateOnce(`runtime.getOpcodeFunction("${sanitize(opcode)}")`);
         result += `}, ${opcodeFunction}, ${this.isWarp}, ${setFlags}, "${sanitize(node.id)}", ${frameName})`;
+        result += `} catch(e) { runtime.blockError(target, "${sanitize(this.script.topBlockId)}", e.message); }`;
 
         this.yielded();
 
