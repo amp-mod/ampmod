@@ -286,8 +286,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       omggif:
-        specifier: 1.0.9
-        version: 1.0.9
+        specifier: 1.0.10
+        version: 1.0.10
       papaparse:
         specifier: 5.3.0
         version: 5.3.0
@@ -8846,8 +8846,8 @@ packages:
   obuf@1.1.2:
     resolution: {integrity: sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==}
 
-  omggif@1.0.9:
-    resolution: {integrity: sha512-VYAQRSZo7qoBcwB5G29YqVPLnxvDkWulE3x35kwH3bq4GdH/ZkHrcPPhxVfaOGYGZ5KV2/55UpcjcyNIO1qZoQ==}
+  omggif@1.0.10:
+    resolution: {integrity: sha512-LMJTtvgc/nugXj0Vcrrs68Mn2D1r0zf630VNtqtpI1FEO7e+O9FP4gqs9AcnBaSEeoHIPm28u6qgPR0oyEpGSw==}
 
   on-finished@2.4.1:
     resolution: {integrity: sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==}
@@ -22362,7 +22362,7 @@ snapshots:
 
   obuf@1.1.2: {}
 
-  omggif@1.0.9: {}
+  omggif@1.0.10: {}
 
   on-finished@2.4.1:
     dependencies:
