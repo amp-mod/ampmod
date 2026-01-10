@@ -1,6 +1,6 @@
 {
     "name": "ampmod",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "description": "The AmpMod monorepo",
     "private": true,
     "packageManager": "pnpm@10.24.0",
