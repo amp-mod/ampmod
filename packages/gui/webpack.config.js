@@ -362,6 +362,7 @@ module.exports = [
                 './src/website/design.css'
             ],
             'editor': './src/playground/editor.jsx',
+            'player': './src/playground/player.jsx',
             'fullscreen': './src/playground/fullscreen.jsx',
             'embed': './src/playground/embed.jsx',
             'addon-settings': './src/playground/addon-settings.jsx',
@@ -425,7 +426,7 @@ module.exports = [
                         ...htmlWebpackPluginCommon
                     }),
                     new HtmlWebpackPlugin({
-                        chunks: ['editor'],
+                        chunks: ['player'],
                         template: 'src/playground/index.ejs',
                         filename: 'player.html',
                         title: `${APP_NAME} - ${APP_SLOGAN}`,
