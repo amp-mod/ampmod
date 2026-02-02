@@ -173,7 +173,6 @@ class Interface extends React.Component {
                 dir={isRtl ? "rtl" : "ltr"}
             >
                 {isHomepage ? (
-                    <><TWNews />
                     <div className={styles.menu}>
                         <WrappedMenuBar
                             canChangeLanguage
@@ -182,7 +181,7 @@ class Interface extends React.Component {
                             enableSeeInside
                             onClickAddonSettings={handleClickAddonSettings}
                         />
-                    </div></>
+                    </div>
                 ) : null}
                 <div
                     className={styles.center}
@@ -190,12 +189,12 @@ class Interface extends React.Component {
                         isPlayerOnly
                             ? {
                                   // + 2 accounts for 1px border on each side of the stage
-                                  width: `${Math.max(640, props.customStageSize.width) + 2}px`,
+                                  width: `${Math.max(480, props.customStageSize.width) + 2}px`,
                               }
                             : null
                     }
                 >
-                    {isHomepage && projectTitle && <div className={styles.section} style={{display: "flex", justifyContent: "space-between"}}>
+                    {isHomepage && projectTitle && <div className={styles.header}>
                       <h1>{projectTitle}</h1>
                       <WrappedUploadButton />
                     </div>}

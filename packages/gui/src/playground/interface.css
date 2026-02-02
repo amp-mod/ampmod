@@ -132,3 +132,14 @@ a {
 .button:hover {
     background-color: $motion-tertiary;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  h1 {
+    font-size: 1em;
+  }
+    margin: 5px 0 8px 0;
+    align-items: center;
+}
