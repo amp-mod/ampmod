@@ -199,7 +199,7 @@ class Interface extends React.Component {
                       <h1>{projectTitle}</h1>
                       <WrappedUploadButton />
                     </div>}
-                    <div style={isPlayerOnly ? {width: `${Math.max(480, props.customStageSize.width) + 2}px`, margin: "auto"} : null}>
+                    <div style={isPlayerOnly ? {width: `${Math.max(480, props.customStageSize.width) + 2}px`, margin: "auto"} : {height: "100vh"}}>
                         <GUI
                             onUpdateProjectTitle={this.handleUpdateProjectTitle}
                             backpackVisible
