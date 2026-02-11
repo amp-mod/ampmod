@@ -55,7 +55,7 @@ const fetchLibrary = async () => {
         descriptionTranslations: extension.descriptionTranslations || {},
         extensionId: extension.id,
         extensionURL: `https://raw.codeberg.page/ampmod/extensions/@pages/${extension.slug}.js`,
-        iconURL: `https://raw.codeberg.page/ampmod/extensions/@pages/${extension.image || 'images/unknown.svg'}`,
+        iconURL: `https://ampmod.codeberg.page/extensions/${extension.image || 'images/unknown.svg'}`,
         tags: [
             ...(extension.id === 'faceSensing' ? ['scratch'] : extension.isAmpMod ? ['ampmod'] : ['tw']),
             ...(extension.tags || [])
@@ -73,7 +73,7 @@ const fetchLibrary = async () => {
             return credit.name;
         }),
         requirements: extension.requirements,
-        docsURI: extension.docs ? `https://raw.codeberg.page/ampmod/extensions/@pages/${extension.slug}` : null,
+        docsURI: extension.docs ? `https://ampmod.codeberg.page/extensions/${extension.slug}` : null,
         samples: extension.samples
             ? extension.samples.map(sample => ({
                   href: `${process.env.ROOT}editor.html?project_url=https://raw.codeberg.page/ampmod/extensions/@pages/samples/${encodeURIComponent(sample)}`,
