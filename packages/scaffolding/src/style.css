@@ -9,8 +9,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  --sc-accent-color: #ff4c4c;
-  --sc-accent-color-transparent: #ff4c4c59;
+  --sc-accent-color: #4fa55c;
+  --sc-accent-color-transparent: #4fa55c77;
 }
 .sc-layers {
   position: relative;

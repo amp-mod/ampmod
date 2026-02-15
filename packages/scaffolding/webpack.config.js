@@ -20,6 +20,11 @@ const makeScaffolding = ({withMusic}) => ({
     filename: '[name].js',
     path: dist
   },
+  resolve: {
+   fallback: {
+      buffer: require.resolve("buffer/"),
+   },
+  },
   entry: withMusic ? {
     'scaffolding-with-music': './src/index.js'
   } : {
@@ -36,12 +41,19 @@ const makeScaffolding = ({withMusic}) => ({
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
-        options: {
-          babelrc: false,
-          presets: ['@babel/preset-env']
-        }
+            test: /\.[jt]s$/,
+            loader: 'swc-loader',
+            options: {
+               jsc: {
+                  parser: {
+                        syntax: 'typescript',
+                        decorators: false,
+                        dynamicImport: true
+                  },
+                  target: 'es2022'
+               },
+               sourceMaps: process.env.NODE_ENV !== 'production'
+            }
       },
       {
         test: /scratch3_music[/\\]assets[/\\].*\.mp3$/i,
@@ -62,15 +74,18 @@ const makeScaffolding = ({withMusic}) => ({
       'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
     }),
     new webpack.BannerPlugin({
-      banner: `Scaffolding (${withMusic ? 'with music' : 'min'}) | https://github.com/TurboWarp/scaffolding (MPL-2.0) | =^..^=`,
+      banner: `AmpMod Scaffolding (${withMusic ? 'with music' : 'min'}) | https://codeberg.org/ampmod/ampmod (MPL-2.0) | =^..^=`,
       entryOnly: true
     }),
     new EagerImportsPlugin(),
+    new webpack.ProvidePlugin({
+      Buffer: ["buffer", "Buffer"],
+    }),
   ],
   resolveLoader: {
     modules: [
       // Replace worker-loader with our own modified version
-      path.resolve(__dirname, 'src-build', 'inline-worker-loader'),
+      // path.resolve(__dirname, 'src-build', 'inline-worker-loader'),
       'node_modules',
     ],
   },
