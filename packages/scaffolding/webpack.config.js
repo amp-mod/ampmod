@@ -2,6 +2,7 @@ const path = require('node:path');
 const fs = require('node:fs');
 const webpack = require('webpack');
 const EagerImportsPlugin = require('./src-build/eager-imports-plugin/eager-imports-plugin.js');
+const { SwcMinifyWebpackPlugin } = require('swc-minify-webpack-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -37,6 +38,9 @@ const makeScaffolding = ({withMusic}) => ({
       'scratch-translate-extension-languages$': path.resolve(__dirname, 'src-build/scratch-translate-extension-languages/languages.json'),
       'scratch-parser$': path.resolve(__dirname, 'src-build/scratch-parser')
     }
+  },
+  optimization: {
+   minimizer: [new SwcMinifyWebpackPlugin({compress: true, mangle: true, format: {comments: "some"}})]
   },
   module: {
     rules: [
