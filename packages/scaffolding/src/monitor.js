@@ -1,3 +1,5 @@
+// TODO: Add Proper Arrays support. for now it's just stringified.
+
 import ContextMenu from './context-menu.js';
 import DropArea from './drop-area.js';
 import downloadBlob from './download-file.js';
