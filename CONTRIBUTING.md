@@ -29,7 +29,7 @@ We highly discourage using the built-in editor of any code forge as:
 * Many developers typically associate single-file web editors built in to forges with things
   like vibe coding and lack of programming knowledge
 
-Please use an IDE, such as VSCodium or Sublime Text, to contribute if possible.
+Please use an IDE, such as VSCodium, to contribute if possible.
 
 ### Do not modify `develop`
 
